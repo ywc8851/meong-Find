@@ -1,4 +1,4 @@
-@use './../utils' as *;
+@use '../utils' as *;
 
 .body {
   header {
@@ -51,7 +51,7 @@
 
         & + label {
           top: 10%;
-          @include font-12px;
+          // @include font-12px;
         }
       }
 
@@ -80,7 +80,7 @@
     justify-content: space-between;
     margin-top: rem(32px);
     width: 100%;
-    @include font-12px;
+    // @include font-12px;
     align-items: center;
 
     input {
@@ -106,7 +106,7 @@
 
     background-color: rgb(197, 197, 197);
     color: $white;
-    @include font-16px-B;
+    // @include font-16px-B;
     width: 100%;
     border: none;
     border-radius: rem(10px);
@@ -116,7 +116,7 @@
   &-more {
     margin-top: 32px;
     text-align: center;
-    @include font-12px;
+    // @include font-12px;
 
     a {
       color: $black;
