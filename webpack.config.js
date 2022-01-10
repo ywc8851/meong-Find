@@ -11,15 +11,14 @@ module.exports = {
     new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
   ],
-  entry: './src/js/app.js',
+  entry: ['./src/js/app.js', './src/scss/index.scss'],
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: 'main.js',
   },
   module: {
     rules: [
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|svg)$/i,
         type: 'asset/resource',
         generator: {
           filename: 'img/[name][ext]',
@@ -40,6 +39,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: {
+                auto: true,
                 localIdentName: '[local]--[hash:base64:5]',
               },
             },

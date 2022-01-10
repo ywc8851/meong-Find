@@ -1,5 +1,3 @@
-import '../scss/index.scss';
-
 const init = () => {
   console.log('app');
   // do something;
