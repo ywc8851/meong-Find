@@ -57,3 +57,46 @@
 - sass
 - express
 - eslint / prettier
+
+## mock data
+
+```js
+export const users = [
+  {
+    id: 'asdfasdf',
+    email: 'mingmang@google.com',
+    password: '12345678',
+    city: 'seoul',
+    district: 'gangnam-gu',
+    nickname: 'mingmangdi',
+    uncheckedComments: ['asdf', 'asdf'],
+  },
+];
+
+export const posts = [
+  {
+    id: 'asdfdsa',
+    nickname: 'mingmangdi',
+    createdAt: '2021-01-10',
+    images: ['dsfa', 'adsfads'],
+    title: '밍망디 개 찾아요',
+    finding: true,
+    animal: 'dog',
+    type: 'siba',
+    content: '집나간 강아지를 찾습니다',
+    city: 'gyeonggi-do',
+    district: 'namyangjoo',
+    comments: ['afsd', 'sadf'],
+  },
+];
+
+export const comments = [
+  {
+    id: 'asdfasfd',
+    postId: 'dasfas',
+    nickname: 'sianpark',
+    createdAt: '2021-01-10',
+    content: 'hi',
+  },
+];
+```
