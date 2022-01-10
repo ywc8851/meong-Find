@@ -7,6 +7,43 @@
     <title>찾아줄개</title>
   </head>
   <body>
-    <h1 class="title">찾아줄개</h1>
+    <!-- 로그인 -->
+    <section class="sign-in">
+      <h2 class="sign-title">로그인</h2>
+      <form class="sign-in-form">
+        <fieldset>
+          <legend class="sr-only">로그인 폼</legend>
+          <div class="sign-in-form-info sign-in-form-email">
+            <input id="email" type="email" class="sign-in-form-input" />
+            <label for="email" class="sign-in-form-label">이메일</label>
+            <i class="fas fa-check-circle sr-only"></i>
+            <i class="fas fa-times-circle sr-only"></i>
+            <div class="error"></div>
+          </div>
+          <!-- 비밀번호 입력칸 -->
+          <div class="sign-in-form-info sign-in-form-password">
+            <input id="password" minlength="100" type="password" class="sign-in-form-input" />
+            <label for="password" class="sign-in-form-label">비밀번호</label>
+            <i class="fas fa-check-circle sr-only"></i>
+            <i class="fas fa-times-circle sr-only"></i>
+            <div class="error"></div>
+          </div>
+          <!-- 자동로그인 / 계정찾기 -->
+          <div class="sign-in-form-auto-find">
+            <div class="auto-login">
+              <input type="checkbox" id="auto__login" name="login" />
+              <label for="auto__login">자동 로그인</label>
+            </div>
+            <!-- 체크박스 입력시 나올 문구 -->
+            <button href="#"><span>비밀번호 찾기</span></button>
+          </div>
+          <!-- 로그인 버튼 -->
+          <div>
+            <button disabled type="submit" class="sign-in-form-button">로그인</button>
+            <a class="sign-up-btn" href="#">회원가입하러 가기</a>
+          </div>
+        </fieldset>
+      </form>
+    </section>
   </body>
 </html>
