@@ -7,12 +7,14 @@
 이러한 실종된 반려동물을 보고 신고하거나 도움이 필요한 주인들에게 소식을 알려 강아지가 주인의 품으로 돌아갈 수 있도록 만든 서비스입니다.
 
 ## 기술 스택
-<img src="https://img.shields.io/badge/Javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"> 
- <img src="https://img.shields.io/badge/css3-F43059?style=for-the-badge&logo=css3&logoColor=white"> 
-<img src="https://img.shields.io/badge/webpack-8DD6F9?style=for-the-badge&logo=webpack&logoColor=black"> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">  <img src="https://img.shields.io/badge/sass-CC6699?style=for-the-badge&logo=sass&logoColor=black">  <img src="https://img.shields.io/badge/babel-F9DC3E?style=for-the-badge&logo=babel&logoColor=black"> 
+
+<img src="https://img.shields.io/badge/Javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=HTML5&logoColor=white">
+<img src="https://img.shields.io/badge/css3-F43059?style=for-the-badge&logo=css3&logoColor=white">
+<img src="https://img.shields.io/badge/webpack-8DD6F9?style=for-the-badge&logo=webpack&logoColor=black"> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"> <img src="https://img.shields.io/badge/sass-CC6699?style=for-the-badge&logo=sass&logoColor=black"> <img src="https://img.shields.io/badge/babel-F9DC3E?style=for-the-badge&logo=babel&logoColor=black">
+
 ## use-case
 
-![image](https://user-images.githubusercontent.com/53730691/148711070-705da73e-3e07-440b-ab2e-13a28c69114a.png)
+![image](https://user-images.githubusercontent.com/52738906/148763699-f840f47a-99a0-4771-845c-3467a9cc0da5.png)
 
 ## 지원기능
 
@@ -50,7 +52,6 @@
 - 로그인
 
 ![image](https://user-images.githubusercontent.com/53730691/148711370-1db5ed23-e14a-4918-9fc9-a46569e78890.png)
-
 
 ## mock data
 
