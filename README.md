@@ -63,7 +63,6 @@ export const users = [
     city: 'seoul',
     district: 'gangnam-gu',
     nickname: 'mingmangdi',
-    uncheckedComments: ['asdf', 'asdf'],
   },
 ];
 
@@ -72,9 +71,8 @@ export const posts = [
     id: 'asdfdsa',
     userId: 'asdfasdf',
     createdAt: '2021-01-10',
-    images: ['dsfa', 'adsfads'],
+    images: ['url', 'url'],
     title: '밍망디 개 찾아요',
-    finding: true,
     animal: 'dog',
     type: 'siba',
     content: '집나간 강아지를 찾습니다',
@@ -88,7 +86,7 @@ export const comments = [
   {
     id: 'asdfasfd',
     postId: 'dasfas',
-    nickname: 'sianpark',
+    userId: 'fsdfsd',
     createdAt: '2021-01-10',
     content: 'hi',
   },
