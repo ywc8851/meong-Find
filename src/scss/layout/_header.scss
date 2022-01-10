@@ -1,0 +1,60 @@
+@use '../utils' as *;
+
+header {
+  position: relative;
+  @include paddingY(45px);
+  @include paddingX(75px);
+}
+
+a {
+  text-decoration: none;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.login,
+.no-login {
+  position: absolute;
+  display: flex;
+  @include pos($t: rem(55px), $r: rem(40px));
+}
+
+.login__posting-btn {
+  display: none;
+}
+
+.login {
+  // display: none;
+  display: inline-block;
+  margin-right: rem(30px);
+
+  &__msg {
+    display: initial;
+    margin-right: rem(10px);
+    color: #636060;
+  }
+
+  &__mypage-btn {
+    margin-right: rem(10px);
+    color: #42578d;
+  }
+
+  &__logout-btn {
+    border: 0;
+    background: none;
+    color: #42578d;
+  }
+}
+
+.no-login {
+  display: none;
+  // display: inline-block;
+
+  &__login-btn {
+    margin-right: rem(30px);
+    width: rem(38px);
+    height: rem(38px);
+  }
+}
