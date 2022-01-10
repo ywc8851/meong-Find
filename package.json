@@ -25,6 +25,8 @@
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.4.6",
     "nodemon": "^2.0.15",
+    "postcss": "^8.4.5",
+    "postcss-loader": "^6.2.1",
     "prettier": "^2.5.1",
     "sass": "^1.47.0",
     "sass-loader": "^12.4.0",
