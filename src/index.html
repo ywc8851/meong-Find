@@ -5,8 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>찾아줄개</title>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous" />
   </head>
   <body>
-    <h1 class="title">찾아줄개</h1>
+    <h1 class="sr-only">찾아줄개</h1>
+    <header>
+      <a class="logo-container" href="/">
+        <img src="./assets/logo.svg" class="logo" alt="찾아줄개 로고" />
+      </a>
+
+      <div class="login">
+        <a href="#" class="login__posting-btn">글 작성</a>
+        <div class="login__msg">
+          <span>박시안</span>
+          <!-- 동적으로 닉네임 들어가야함-->
+          <span class="bold">님, 반갑습니다!</span>
+        </div>
+        <a href="#" class="login__mypage-btn">
+          <i class="fas fa-user-circle"></i>
+          마이페이지
+        </a>
+        <button class="login__logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+          로그아웃
+        </button>
+      </div>
+
+      <div class="no-login">
+        <a href="#" class="no-login__login-btn">
+          <i class="fas fa-lock"></i>
+          로그인
+        </a>
+        <a href="#" class="no-login__signup-btn">
+          <i class="fas fa-user-plus"></i>
+          회원가입
+        </a>
+      </div>
+    </header>
   </body>
 </html>
