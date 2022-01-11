@@ -75,5 +75,8 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'public'),
     },
+    proxy: {
+      '/': 'http://localhost:9000',
+    },
   },
 };
