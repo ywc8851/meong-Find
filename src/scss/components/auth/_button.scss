@@ -1,5 +1,29 @@
 @use '../../utils' as *;
 
+// 메인페이지
+.main-posts-species {
+  text-align: center;
+  vertical-align: middle;
+  width: rem(105px);
+  height: rem(31px);
+  line-height: rem(31px);
+  color: $white;
+  border-radius: rem(20px);
+  margin-top: rem(5px);
+  margin-bottom: rem(15px);
+}
+.species {
+  &-cat {
+    background-color: #57643c;
+  }
+  &-dog {
+    background: $navy;
+  }
+  &-etc {
+    background-color: #bb89cd;
+  }
+}
+
 // 회원가입 , 로그인 버튼 요소들
 
 .sign-up-btn,
