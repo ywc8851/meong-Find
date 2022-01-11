@@ -4,6 +4,10 @@ export const getSignInTemplate = async () => {
   return await axios.get('/signin');
 };
 
+export const getSignUpForm = async () => {
+  return await axios.get('/signup');
+};
+
 export const getSignUpEmail = async emailValue => {
   return axios.get(`/user/email/${emailValue}`);
 };
@@ -11,12 +15,12 @@ export const getSignUpEmail = async emailValue => {
 export const getSignUpName = async nickname => {
   return axios.get(`/user/name/${nickname}`);
 };
-
-export const getSignup = async (nickname, email, password) => {
-  return axios.post('users/signup', {
-    nickname: nickname,
-    email: email,
-    password: password,
-    passwordHint: password.slice(0, 2) + '*'.repeat(password.length - 2),
+export const getSignup = async (nickname, email, password, city, district) => {
+  return axios.post('/users/signup', {
+    nickname,
+    email,
+    password,
+    city,
+    district,
   });
 };
