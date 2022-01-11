@@ -49,12 +49,11 @@
     </header>
 
     <!-- 회원가입 -->
-    <section class="sign-up">
+    <!-- <section class="sign-up">
       <h2 class="sign-title">회원가입</h2>
       <form class="sign-up-form">
         <fieldset>
           <legend class="sr-only">회원가입 폼</legend>
-          <!-- 닉네임 -->
           <div class="sign-up-form-info sign-up-form-name">
             <label for="nickname" class="sign-up-form-label">닉네임</label>
             <input id="nickname" class="sign-up-form-input" type="text" required />
@@ -68,7 +67,6 @@
             <label for="email" class="sign-up-form-label">이메일</label>
             <input id="email" class="sign-up-form-input" type="email" required />
             <button class="check-duplicated sign-up-form__email-btn" disabled>중복확인</button>
-            <!-- validator 유효하면 disabled 제거 -->
             <i class="fas fa-check-circle"></i>
             <i class="fas fa-times-circle"></i>
             <div class="error"></div>
@@ -85,7 +83,6 @@
           <div class="sign-up-form-info sign-up-form-password">
             <label for="password" class="sign-up-form-label">비밀번호</label>
             <input id="password" class="sign-up-form-input" type="password" required />
-            <!-- validator 유효하면 disabled 제거 -->
             <i class="fas fa-check-circle"></i>
             <i class="fas fa-times-circle"></i>
             <div class="error"></div>
@@ -100,7 +97,7 @@
           <button class="sign-up-btn" disabled>회원가입</button>
         </fieldset>
       </form>
-    </section>
+    </section> -->
 
     <!-- 로그인 -->
     <section class="sign-in">
@@ -111,15 +108,15 @@
           <div class="sign-in-form-info sign-in-form-email">
             <label for="email" class="sign-in-form-label">이메일</label>
             <input id="email" type="email" class="sign-in-form-input" required />
-            <i class="fas fa-check-circle sr-only"></i>
-            <i class="fas fa-times-circle sr-only"></i>
+            <i class="fas fa-check-circle fa-lg"></i>
+            <i class="fas fa-times-circle fa-lg sr-only"></i>
             <div class="error"></div>
           </div>
           <div class="sign-in-form-info sign-in-form-password">
             <label for="password" class="sign-in-form-label">비밀번호</label>
             <input id="password" type="password" class="sign-in-form-input" required />
-            <i class="fas fa-check-circle sr-only"></i>
-            <i class="fas fa-times-circle sr-only"></i>
+            <i class="fas fa-check-circle fa-lg sr-only"></i>
+            <i class="fas fa-times-circle fa-lg sr-only"></i>
             <div class="error"></div>
           </div>
           <div class="sign-in-form-auto-find">
@@ -127,11 +124,11 @@
               <input type="checkbox" id="auto__login" name="login" />
               <label for="auto__login">자동 로그인</label>
             </div>
-            <button>비밀번호 찾기</button>
+            <button class="find-password">비밀번호 찾기</button>
           </div>
-          <div>
+          <div class="sign-in-form-btns">
             <button disabled type="submit" class="sign-in-form-button">로그인</button>
-            <a class="sign-up-btn" href="#">회원가입하러 가기</a>
+            <a class="sign-up-btn" href="#">회원가입으로 이동</a>
           </div>
         </fieldset>
       </form>
