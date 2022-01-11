@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
 const auth = require('./auth.js');
-const { signIn } = require('./templates');
+const { signIn, signUp } = require('./templates');
 let { users } = require('./database');
 
 console.log(users);
@@ -16,8 +16,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/signin', (req, res) => {
-  console.log('signin');
   res.send(signIn);
+});
+
+app.get('/signup', (req, res) => {
+  res.send(signUp);
 });
 
 // 닉네임 중복검사
@@ -35,7 +38,6 @@ app.get('/user/name/:nickname', (req, res) => {
 app.get('/user/email/:email', (req, res) => {
   const { email } = req.params;
   const user = users.find(user => user.email === email);
-  console.log(email);
   const emailDuplicate = !!user;
   res.send({
     emailDuplicate,
@@ -44,8 +46,7 @@ app.get('/user/email/:email', (req, res) => {
 
 // 회원가입
 app.post('/users/signup', (req, res) => {
-  users = [...users, { ...req.body, password: bcrypt.hashSync(req.body.password, 10) }];
-  // console.log(users);
+  users = [...users, { ...req.body }];
   console.log(users);
   res.send(users);
 });

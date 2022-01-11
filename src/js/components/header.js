@@ -6,7 +6,8 @@ const headers = () => {
   });
 
   $('.no-login__signup-btn').addEventListener('click', () => {
-    history.pushState(null, null, '/signup');
+    console.log('clikced');
+    history.pushState(null, '', '/signup');
   });
 };
 

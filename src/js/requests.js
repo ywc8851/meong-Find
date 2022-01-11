@@ -4,6 +4,10 @@ export const getSignInTemplate = async () => {
   return await axios.get('/signin');
 };
 
+export const getSignUpForm = async () => {
+  return await axios.get('/signup');
+};
+
 export const getSignUpEmail = async emailValue => {
   return axios.get(`/user/email/${emailValue}`);
 };
@@ -19,8 +23,4 @@ export const getSignup = async (nickname, email, password, city, district) => {
     city,
     district,
   });
-};
-
-export const getSignUpForm = async () => {
-  return axios.get('/signup');
 };
