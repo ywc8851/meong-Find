@@ -7,7 +7,7 @@
   & > label {
     @include pos($pos: absolute, $t: 0, $l: rem(16px));
     color: $darkgray;
-    font-size: rem(25px);
+    font-size: rem(20px);
     font-weight: bold;
   }
 
@@ -15,7 +15,7 @@
     width: 100%;
     border: none;
     border-bottom: 1px solid $gray;
-    padding: 0 rem(50px) rem(20px) rem(148px);
+    padding: 0 rem(50px) rem(20px) rem(130px);
     margin-bottom: rem(52px);
     font-size: rem(18px);
     font-weight: 400;
