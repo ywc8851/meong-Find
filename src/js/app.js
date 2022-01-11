@@ -1,3 +1,5 @@
+import signup from './pages/signup.js';
+
 const init = () => {
   console.log('app');
   // do something;
