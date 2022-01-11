@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>찾아줄개</title>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous" />
+  </head>
+  <body>
+    <!-- 헤더 -->
+    <h1 class="sr-only">찾아줄개</h1>
+    <header>
+      <a class="logo-container" href="/">
+        <img src="./assets/logo.svg" class="logo" alt="찾아줄개 로고" />
+      </a>
+
+      <div class="login">
+        <a href="#" class="login__posting-btn">글 작성</a>
+        <div class="login__msg">
+          <span>박시안</span>
+          <!-- 동적으로 닉네임 들어가야함-->
+          <span class="bold">님, 반갑습니다!</span>
+        </div>
+        <a href="#" class="login__mypage-btn">
+          <i class="fas fa-user-circle"></i>
+          마이페이지
+        </a>
+        <button class="login__logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+          로그아웃
+        </button>
+      </div>
+
+      <div class="no-login">
+        <a href="#" class="no-login__login-btn">
+          <i class="fas fa-lock"></i>
+          로그인
+        </a>
+        <a href="#" class="no-login__signup-btn">
+          <i class="fas fa-user-plus"></i>
+          회원가입
+        </a>
+      </div>
+    </header>
+
+    <!-- 회원가입 -->
+    <!-- <section class="sign-up">
+      <h2 class="sign-title">회원가입</h2>
+      <form class="sign-up-form">
+        <fieldset>
+          <legend class="sr-only">회원가입 폼</legend>
+          <div class="sign-up-form-info sign-up-form-name">
+            <label for="nickname" class="sign-up-form-label">닉네임</label>
+            <input id="nickname" class="sign-up-form-input" type="text" required />
+            <button class="check-duplicated sign-up-form__nickname-btn" disabled>중복확인</button>
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-times-circle sr-only"></i>
+            <div class="error"></div>
+          </div>
+
+          <div class="sign-up-form-info sign-up-form-email">
+            <label for="email" class="sign-up-form-label">이메일</label>
+            <input id="email" class="sign-up-form-input" type="email" required />
+            <button class="check-duplicated sign-up-form__email-btn" disabled>중복확인</button>
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-times-circle"></i>
+            <div class="error"></div>
+          </div>
+
+          <div class="sign-up-form-info sign-up-form-area">
+            <label for="area">지역</label>
+            <div id="area">
+              <select name="" id=""></select>
+              <select name="" id=""></select>
+            </div>
+          </div>
+
+          <div class="sign-up-form-info sign-up-form-password">
+            <label for="password" class="sign-up-form-label">비밀번호</label>
+            <input id="password" class="sign-up-form-input" type="password" required />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-times-circle"></i>
+            <div class="error"></div>
+          </div>
+          <div class="sign-up-form-info sign-up-form-repassword">
+            <label for="repassword" class="sign-up-form-label">비밀번호 확인</label>
+            <input id="repassword" class="sign-up-form-input" type="password" required />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-times-circle"></i>
+            <div class="error"></div>
+          </div>
+          <button class="sign-up-btn" disabled>회원가입</button>
+        </fieldset>
+      </form>
+    </section> -->
+
+    <!-- 로그인 -->
+    <section class="sign-in">
+      <h2 class="sign-title">로그인</h2>
+      <form class="sign-in-form">
+        <fieldset>
+          <legend class="sr-only">로그인 폼</legend>
+          <div class="sign-in-form-info sign-in-form-email">
+            <label for="email" class="sign-in-form-label">이메일</label>
+            <input id="email" type="email" class="sign-in-form-input" required />
+            <i class="fas fa-check-circle fa-lg"></i>
+            <i class="fas fa-times-circle fa-lg sr-only"></i>
+            <div class="error"></div>
+          </div>
+          <div class="sign-in-form-info sign-in-form-password">
+            <label for="password" class="sign-in-form-label">비밀번호</label>
+            <input id="password" type="password" class="sign-in-form-input" required />
+            <i class="fas fa-check-circle fa-lg sr-only"></i>
+            <i class="fas fa-times-circle fa-lg sr-only"></i>
+            <div class="error"></div>
+          </div>
+          <div class="sign-in-form-auto-find">
+            <div class="auto-login">
+              <input type="checkbox" id="auto__login" name="login" />
+              <label for="auto__login">자동 로그인</label>
+            </div>
+            <button class="find-password">비밀번호 찾기</button>
+          </div>
+          <div class="sign-in-form-btns">
+            <button disabled type="submit" class="sign-in-form-button">로그인</button>
+            <a class="sign-up-btn" href="#">회원가입으로 이동</a>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__info">
+        <span class="footer__contact">
+          contact us | <a href="https://github.com/MeongFind/meong-Find">https://github.com/MeongFind/meong-Find</a>
+        </span>
+        <small class="footer__copyright"> Copyright since &copy; meong-find </small>
+      </div>
+      <ul class="footer__list">
+        <li><a href="https://www.animal.go.kr/front/index.do">동물보호관리 시스템</a></li>
+        <li><a href="http://pawinhand.kr/">포인핸드</a></li>
+        <li><a href="https://dmanimal.co.kr/">도그마루</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>
