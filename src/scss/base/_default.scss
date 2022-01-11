@@ -6,6 +6,20 @@ body {
   font-family: 'Noto Sans', sans-serif;
 }
 
+body,
+body::before,
+body::after,
+body *,
+body *::before,
+body *::after {
+  box-sizing: border-box;
+}
+
 header + section {
   margin-top: rem(62px);
+}
+
+a,
+button {
+  cursor: pointer;
 }
