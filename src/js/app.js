@@ -1,9 +1,8 @@
-import { test } from './pages/signIn';
+import signup from './pages/signup.js';
 
-const init = async () => {
+const init = () => {
   console.log('app');
   // do something;
-  // await test();
 };
 
 window.addEventListener('DOMContentLoaded', init);

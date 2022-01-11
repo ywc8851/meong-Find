@@ -1,6 +1,6 @@
 @use '../utils' as *;
 
-.sign-in {
+.sign-up {
   width: rem(694px);
   height: rem(699px);
   text-align: center;
@@ -11,21 +11,46 @@
     justify-content: space-between;
     color: $darkgray;
     font-size: rem(20px);
-    margin-bottom: rem(70px);
 
     .find-password {
       border: none;
       font-size: rem(20px);
-      background-color: transparent;
-      color: $darkgray;
     }
   }
 
   .sign-in-form-btns {
     button {
       display: block;
-      margin-top: rem(20px);
       @include autoMargin();
     }
+  }
+}
+
+.check-duplicated {
+  position: absolute;
+  right: 10%;
+  top: -5%;
+  cursor: pointer;
+  background-color: rgb(70, 121, 178);
+  opacity: 0.7;
+}
+
+#area {
+  display: inline-block;
+  margin-bottom: rem(30px);
+  margin-right: rem(200px);
+
+  select {
+    display: inline-block;
+  }
+}
+
+.sign-up-btn {
+  margin-top: rem(47px);
+}
+
+.sign-up-form-info {
+  input {
+    padding-left: rem(150px) !important;
   }
 }

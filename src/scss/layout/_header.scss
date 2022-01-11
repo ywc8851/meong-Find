@@ -25,6 +25,11 @@ a {
   display: none;
 }
 
+.login-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .login {
   // display: none;
   display: inline-block;
@@ -33,18 +38,24 @@ a {
   &__msg {
     display: initial;
     margin-right: rem(10px);
-    color: #636060;
+    color: $darkgray;
   }
 
   &__mypage-btn {
     margin-right: rem(10px);
-    color: #42578d;
+    color: $navy;
+    display: flex;
+    align-items: center;
   }
 
   &__logout-btn {
     border: 0;
     background: none;
-    color: #42578d;
+    color: $navy;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    height: rem(36px);
   }
 }
 
@@ -57,4 +68,9 @@ a {
     width: rem(38px);
     height: rem(38px);
   }
+}
+
+.fa-user-circle,
+.fa-sign-out-alt {
+  margin-right: rem(12px);
 }
