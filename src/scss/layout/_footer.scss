@@ -1,0 +1,41 @@
+@use '../utils' as *;
+
+.footer {
+  background-color: #42578d;
+  color: $white;
+  position: relative;
+  width: 100vw;
+  height: rem(145px);
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border: 2px white;
+    padding-top: rem(35px);
+    padding-left: rem(60px);
+    padding-bottom: rem(50px);
+    line-height: rem(30px);
+  }
+
+  &__contact {
+  }
+
+  &__list {
+    display: flex;
+    @include pos($t: rem(24px), $r: rem(10px));
+  }
+
+  a {
+    text-decoration: none;
+    color: $white;
+  }
+
+  li {
+    @include paddingX(15px);
+  }
+
+  li:not(:last-child) {
+    border-right: 2px solid white;
+  }
+}
