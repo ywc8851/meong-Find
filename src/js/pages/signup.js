@@ -1,6 +1,6 @@
 import validate from '../helpers/validate';
 import { $ } from '../helpers/utils';
-import { getSignUpEmail, getSignUpName } from '../requests';
+import { getSignUpEmail, getSignUpName, getSignup } from '../requests';
 
 const $signupButton = $('.sign-up-btn');
 const $emailInput = $('.sign-up-form-email');
@@ -82,6 +82,23 @@ const signUp = () => {
       console.error(error);
     }
   };
+};
+
+$signupButton.onclick = () => {
+  e.preventDefault();
+
+  try {
+    const nickname = $('#nickname').value;
+    const email = $('#email').value;
+    const password = document.querySelector('#password').value;
+
+    getSignup(nickname, email, password);
+
+    alert('회원가입이 완료되었습니다.');
+    window.location.href = '/signin';
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export default signUp;

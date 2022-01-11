@@ -20,6 +20,7 @@ app.get('/signin', (req, res) => {
   res.send(signIn);
 });
 
+// 닉네임 중복검사
 app.get('/user/name/:nickname', (req, res) => {
   const { nickname } = req.params;
   const user = users.find(user => user.nickname === nickname);
@@ -29,6 +30,8 @@ app.get('/user/name/:nickname', (req, res) => {
     nicknameDuplicate,
   });
 });
+
+// 이메일 중복검사
 app.get('/user/email/:email', (req, res) => {
   const { email } = req.params;
   const user = users.find(user => user.email === email);
@@ -37,6 +40,14 @@ app.get('/user/email/:email', (req, res) => {
   res.send({
     emailDuplicate,
   });
+});
+
+// 회원가입
+app.post('/users/signup', (req, res) => {
+  users = [...users, { ...req.body, password: bcrypt.hashSync(req.body.password, 10) }];
+  // console.log(users);
+  console.log(users);
+  res.send(users);
 });
 
 app.listen(PORT, () => {
