@@ -25,7 +25,7 @@ const signIn = `<section class="sign-in">
       <button class="find-password">비밀번호 찾기</button>
     </div>
     <div class="sign-in-form-btns">
-      <button disabled type="submit" class="sign-in-btn">로그인</button>
+      <button type="submit" class="sign-in-btn">로그인</button>
       <button class="sign-up-link">
         <a href="#">회원가입하러 가기</a>
       </button>
