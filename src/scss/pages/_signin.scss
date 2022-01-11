@@ -11,6 +11,7 @@
     justify-content: space-between;
     color: $darkgray;
     font-size: rem(20px);
+    margin-bottom: rem(70px);
 
     .find-password {
       border: none;
@@ -21,6 +22,7 @@
   .sign-in-form-btns {
     button {
       display: block;
+      margin-top: rem(20px);
       @include autoMargin();
     }
   }

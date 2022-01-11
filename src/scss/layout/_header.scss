@@ -49,8 +49,8 @@ a {
 }
 
 .no-login {
-  display: none;
-  // display: inline-block;
+  // display: none;
+  display: inline-block;
 
   &__login-btn {
     margin-right: rem(30px);
