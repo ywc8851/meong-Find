@@ -3,7 +3,8 @@
 // 회원가입 , 로그인 버튼 요소들
 
 .sign-up-btn,
-.sign-in-btn {
+.sign-in-btn,
+.sign-up-link {
   width: rem(401px);
   height: rem(71px);
   border: none;
@@ -19,7 +20,12 @@
     background-color: #d7d7d7;
   }
 }
-
+.sign-up-link {
+  text-align: center;
+  a {
+    color: $white;
+  }
+}
 .check-duplicated {
   background-color: $navy;
   width: rem(85px);
