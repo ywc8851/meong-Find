@@ -1,0 +1,82 @@
+@use '../utils' as *;
+
+.mainpage {
+  width: rem(1188px);
+  //   height: rem(699px);
+  //   text-align: center;
+  @include autoMargin();
+}
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  button {
+    width: rem(89px);
+    height: rem(47px);
+    margin-left: rem(18px);
+    background-color: #d8d8d8;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: rem(20px);
+    color: #ffffff;
+  }
+  &-search {
+    input {
+      width: rem(392px);
+      height: rem(51px);
+      background-color: #f2f2f2;
+      border-radius: 20px;
+      border: none;
+    }
+    input::placeholder {
+      color: #8d8c8c;
+      text-indent: rem(20px);
+    }
+  }
+
+  &-find {
+    select {
+      width: rem(150px);
+      height: rem(35px);
+    }
+  }
+}
+
+.main-posts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: rem(20px);
+  img {
+    width: rem(346px);
+    height: rem(379px);
+  }
+  span {
+    display: block;
+  }
+
+  &-title {
+    font-weight: 600;
+    font-size: rem(25px);
+    line-height: 41px;
+    letter-spacing: rem(-3px);
+    color: #636060;
+  }
+  &-species {
+    text-align: center;
+    vertical-align: middle;
+    width: rem(105px);
+    height: rem(31px);
+    line-height: rem(31px);
+    background: #42578d;
+    color: $white;
+    border-radius: 20px;
+    margin-top: rem(11px);
+    margin-bottom: rem(11px);
+  }
+  &-place {
+    height: rem(27px);
+    font-weight: 500;
+    font-size: rem(15px);
+    color: #636060;
+  }
+}
