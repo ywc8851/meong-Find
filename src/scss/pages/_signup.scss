@@ -38,6 +38,7 @@
 #area {
   display: inline-block;
   margin-bottom: rem(30px);
+  margin-right: rem(200px);
 
   select {
     display: inline-block;
@@ -50,6 +51,6 @@
 
 .sign-up-form-info {
   input {
-    padding-left: rem(200px) !important;
+    padding-left: rem(150px) !important;
   }
 }
