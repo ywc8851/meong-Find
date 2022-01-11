@@ -43,3 +43,43 @@
     background-color: #a1a7b6;
   }
 }
+
+// 마이페이지
+.profile__posting-edit,
+.profile__posting-del {
+  width: rem(90px);
+  height: rem(35px);
+  color: $white;
+  border-radius: rem(30px);
+  font-weight: 600;
+  padding: 0;
+  font-size: rem(18px);
+}
+.profile__posting {
+  &-edit {
+    display: inline-block;
+    background-color: #a1a7b6;
+    line-height: rem(35px);
+    text-align: center;
+  }
+  &-del {
+    background-color: $red;
+    border: none;
+  }
+}
+
+.profile__edit {
+  position: absolute;
+  right: 3%;
+  top: 8%;
+
+  font-size: rem(20px);
+  width: rem(96px);
+  height: rem(40px);
+
+  border: none;
+  background-color: #c1bdbd;
+  border-radius: rem(10px);
+
+  color: $white;
+}

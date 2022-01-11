@@ -51,6 +51,74 @@
     </header>
     <div id="app"></div>
 
+    <!-- profile -->
+    <section class="profile">
+      <h2 class="sr-only">마이페이지</h2>
+      <form action="post" class="profile__form">
+        <button class="profile__edit">수 정</button>
+        <img src="../src/assets/user.svg" class="profile__img" alt="프로필 아이콘" />
+
+        <div class="profile__title-container">
+          <!-- <label for="profile__name" class="sr-only">닉네임</label>
+          <input id="profile__name" class="profile__nickname" type="text" value="박시안" maxlength="10" disabled /> -->
+          <span>박시안</span>
+          <span class="bold">님의 프로필</span>
+        </div>
+        <div class="profile__email-container">
+          <span class="profile__email-title">이메일</span>
+          <span class="profile__email">parsian28@naver.com</span>
+        </div>
+        <div class="profile__city-container">
+          <span class="profile__city-title">지 역</span>
+          <!-- <select name="profile__city" id="profile__city" disabled>
+            <option value="dog">Dog</option>
+            <option value="cat">Cat</option>
+            <option value="hamster">Hamster</option>
+          </select>
+          <select name="profile__district" id="profile__district" disabled>
+            <option value="dog">Dog</option>
+            <option value="cat">Cat</option>
+            <option value="hamster">Hamster</option>
+          </select> -->
+          <span class="profile__city">서울특별시</span>
+          <span class="profile__district">강남구</span>
+        </div>
+      </form>
+
+      <div class="profile__my-posting">
+        <div class="profile__posting-title">
+          <span>내가 작성한 글</span>
+          <i class="fas fa-chevron-right fa-lg"></i>
+        </div>
+        <ul class="profile__posting-container">
+          <li class="profile__posting-list">
+            <span class="profile__posting-num">1</span>
+            <span class="profile__posting-header">나 강아지 잃어버렸다</span>
+            <a href="#" class="profile__posting-edit">
+              <span>수정</span>
+            </a>
+            <button class="profile__posting-del">삭제</button>
+          </li>
+          <li class="profile__posting-list">
+            <span class="profile__posting-num">2</span>
+            <span class="profile__posting-header">밍지</span>
+            <a href="#" class="profile__posting-edit">
+              <span>수정</span>
+            </a>
+            <button class="profile__posting-del">삭제</button>
+          </li>
+          <li class="profile__posting-list">
+            <span class="profile__posting-num">3</span>
+            <span class="profile__posting-header">하 .. 집나간 강아지 찾습니다. by 집사</span>
+            <a href="#" class="profile__posting-edit">
+              <span>수정</span>
+            </a>
+            <button class="profile__posting-del">삭제</button>
+          </li>
+        </ul>
+      </div>
+    </section>
+
     <!-- 회원가입 -->
     <!-- <section class="sign-up">
       <h2 class="sign-title">회원가입</h2>
