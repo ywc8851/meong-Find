@@ -58,10 +58,10 @@
           <legend class="sr-only">회원가입 폼</legend>
           <div class="sign-up-form-info sign-up-form-name">
             <label for="nickname" class="sign-up-form-label">닉네임</label>
-            <input id="nickname" class="sign-up-form-input" type="text" required />
+            <input id="nickname" class="sign-up-form-input" type="text" maxlength="10" required />
             <button class="check-duplicated sign-up-form__nickname-btn" disabled>중복확인</button>
-            <i class="fas fa-check-circle fa-lg hidden"></i>
-            <i class="fas fa-times-circle fa-lg hidden"></i>
+            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
             <div class="error"></div>
           </div>
 
@@ -69,22 +69,22 @@
             <label for="email" class="sign-up-form-label">이메일</label>
             <input id="email" class="sign-up-form-input" type="email" required />
             <button class="check-duplicated sign-up-form__email-btn" disabled>중복확인</button>
-            <i class="fas fa-check-circle fa-lg hidden"></i>
-            <i class="fas fa-times-circle fa-lg hidden"></i>
+            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
             <div class="error"></div>
           </div>
           <div class="sign-up-form-info sign-up-form-password">
             <label for="password" class="sign-up-form-label">비밀번호</label>
             <input id="password" class="sign-up-form-input" type="password" required />
-            <i class="fas fa-check-circle fa-lg hidden"></i>
-            <i class="fas fa-times-circle fa-lg hidden"></i>
+            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
             <div class="error"></div>
           </div>
           <div class="sign-up-form-info sign-up-form-repassword">
             <label for="repassword" class="sign-up-form-label">비밀번호 확인</label>
             <input id="repassword" class="sign-up-form-input" type="password" required />
-            <i class="fas fa-check-circle fa-lg hidden"></i>
-            <i class="fas fa-times-circle fa-lg hidden"></i>
+            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
             <div class="error"></div>
           </div>
           <div class="sign-up-form-info sign-up-form-area">
