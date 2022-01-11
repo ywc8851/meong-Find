@@ -1,0 +1,10 @@
+@use '../../utils/' as *;
+
+.sign-in,
+.sign-up {
+  background-color: #f9f7f7;
+  border-radius: rem(30px);
+  width: rem(1112px);
+  height: auto;
+  padding: rem(30px) rem(209px);
+}
