@@ -7,6 +7,7 @@ const $signupButton = $('.sign-up-btn');
 const $emailInput = $('.sign-up-form-email');
 const $nicknameInput = $('.sign-up-form-name');
 const $duplicateButton = document.querySelectorAll('.check-duplicated');
+
 const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 const regName = /^[^\s]{2,5}$/;
 
@@ -15,10 +16,29 @@ const signUp = () => {
   const $nicknameInput = $('.sign-up-form-name');
   const $duplicateButton = document.querySelectorAll('.check-duplicated');
 
+  $('.sign-up-form').onsubmit = async e => {
+    e.preventDefault();
+
+    try {
+      const [nickname, email, password, city, district] = [
+        $('#nickname').value,
+        $('#email').value,
+        $('#password').value,
+        $('#sign-up-form-city').value,
+        $('#sign-up-form-district').value,
+      ];
+
+      const res = await getSignup(nickname, email, password, city, district);
+      console.log(res);
+      // alert('회원가입이 완료되었습니다.');
+    } catch (error) {
+      console.error(error);
+    }
+  };
   document.querySelector('.sign-up-form').oninput = e => {
     if (e.target.matches('#nickname')) {
       validate.nameValidate(e.target.value, 0, $signupButton);
-      console.log($nicknameInput.querySelector('.icon-success'));
+      // console.log($nicknameInput.querySelector('.icon-success'));
       $nicknameInput.querySelector('.icon-success').classList.add('hidden');
       $nicknameInput.querySelector('.icon-error').classList.remove('hidden');
 
@@ -88,8 +108,15 @@ const signUp = () => {
       console.error(error);
     }
   };
-  $signupButton.onclick = async e => {
-    e.preventDefault();
+  // $signupButton.onclick = async e => {
+  // try {
+  //   const [nickname, email, password, city, district] = [
+  //     $('#nickname').value,
+  //     $('#email').value,
+  //     $('#password').value,
+  //     $('#sign-up-form-city').value,
+  //     $('#sign-up-form-district').value,
+  //   ];
 
     try {
       const [nickname, email, password, city, district] = [
