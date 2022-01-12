@@ -1,6 +1,7 @@
 import validate from '../helpers/validate';
 import { $ } from '../helpers/utils';
 import { getSignUpEmail, getSignUpName, getSignup, getSignUpForm } from '../requests';
+import header from '../components/header';
 
 const $signupButton = $('.sign-up-btn');
 const $emailInput = $('.sign-up-form-email');
@@ -117,13 +118,48 @@ const signUp = () => {
   //     $('#sign-up-form-district').value,
   //   ];
 
-  //   const res = await getSignup(nickname, email, password, city, district);
-  //   console.log(res);
-  //   // alert('회원가입이 완료되었습니다.');
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  // };
+    try {
+      const [nickname, email, password, city, district] = [
+        $('#nickname').value,
+        $('#email').value,
+        $('#password').value,
+        $('#city').value,
+        $('#district').value,
+      ];
+
+      const res = await getSignup(nickname, email, password, city, district);
+      console.log(res);
+      alert('회원가입이 완료되었습니다.');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const $citySelect = $('#sign-up-form-city');
+  $citySelect.onchange = () => {
+    const $districtSelect = $('#sign-up-form-district');
+    let mainOption = $citySelect.options[$citySelect.selectedIndex].innerText;
+    let subOptions = {
+      seoul: ['강남구', '광진구', '서초구'],
+      busan: ['해운대구', '민지구', '시안구'],
+    };
+    let subOption;
+    switch (mainOption) {
+      case '서울특별시':
+        subOption = subOptions.seoul;
+        break;
+      case '부산광역시':
+        subOption = subOptions.busan;
+        break;
+    }
+    $districtSelect.options.length = 0;
+
+    for (let i = 0; i < subOption.length; i++) {
+      let option = document.createElement('option');
+      option.innerText = subOption[i];
+      $districtSelect.append(option);
+    }
+  };
 };
 
 window.addEventListener('DOMContentLoaded', signUp);

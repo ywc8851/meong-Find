@@ -6,24 +6,6 @@
   text-align: center;
   @include autoMargin();
 
-  .sign-in-form-auto-find {
-    display: flex;
-    justify-content: space-between;
-    color: $darkgray;
-    font-size: rem(20px);
-
-    .find-password {
-      border: none;
-      font-size: rem(20px);
-    }
-  }
-
-  .sign-in-form-btns {
-    button {
-      display: block;
-      @include autoMargin();
-    }
-  }
   .error {
     position: absolute;
     top: rem(50px);
@@ -44,10 +26,13 @@
 #area {
   display: inline-block;
   margin-bottom: rem(30px);
-  margin-right: rem(200px);
+  margin-right: rem(150px);
 
   select {
+    margin-left: rem(20px);
     display: inline-block;
+    width: rem(100px);
+    height: rem(30px);
   }
 }
 
