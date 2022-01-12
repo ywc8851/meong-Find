@@ -21,6 +21,8 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
+const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
+
 const urls = ['/signin', '/signup', '/mainpage'];
 
 const devServer = (req, res, next) => {
@@ -43,11 +45,17 @@ app.get(urls, devServer, (req, res) => {
 // 메인페이지
 app.get('/mainpage', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/mainpage.html'));
-  console.log(users);
 });
 
 app.get('/getposts', (req, res) => {
   res.send(posts.get());
+});
+
+app.get('/findposts/:city/:district/:species', (req, res) => {
+  const { city, district, species } = req.params;
+  const filterPosts = posts.filter({ city, district, animal: species });
+  console.log(filterPosts);
+  res.send(filterPosts);
 });
 
 // 닉네임 중복검사
@@ -76,22 +84,37 @@ app.post('/users/signup', (req, res) => {
   res.send(user);
 });
 
+//로그인
+app.post('/user/signin', (req, res) => {
+  const { email, password, autoLogin } = req.body;
+  const [user] = users.filter({ email, password });
+  if (!user) {
+    console.log(user);
+    return res.status(401).send(
+      '등록되지 않은 사용자입니다.'
+      // error: '등록되지 않은 사용자입니다.',
+    );
+  }
+  const accessToken = createToken(email, autoLogin ? '30s' : '10s');
+
+  res.cookie('accessToken', accessToken, {
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
+    httpOnly: true,
+  });
+
+  res.send({
+    id: user.id,
+  });
+});
+
+//로그아웃
+app.get('/user/signout', (req, res) => {
+  res.clearCookie('accessToken').redirect('/mainpage');
+});
+
 app.get('*', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
-
-// app.post('/user/signin', (req, res) => {
-//   const {email, password } = req.body;
-
-//   if(!email) {
-//     res.status(401).send('email이 전달되지 않았습니다.')
-//   }
-
-//   if(!password) {
-//     res.status(401).send('password가 전달되지 않았습니다.')
-//   }
-
-// })
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);

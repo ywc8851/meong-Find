@@ -13,13 +13,16 @@
   button {
     width: rem(75px);
     height: rem(42px);
+    background: $navy;
     margin-left: rem(5px);
-    background-color: #d8d8d8;
     border-radius: rem(20px);
     border: none;
     font-weight: 600;
     font-size: rem(20px);
     color: $white;
+    &:disabled {
+      background-color: #d8d8d8;
+    }
   }
   &-search {
     input {

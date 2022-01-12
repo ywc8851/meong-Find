@@ -2,6 +2,7 @@ import header from '../components/header';
 import { moveToPage, handleHistory } from '../router';
 import { $ } from '../helpers/utils';
 import validate from '../helpers/validate';
+import { postSignIn } from '../requests';
 
 const $signinbtn = $('.sign-in-btn');
 const $emailInput = $('.sign-in-form-email');
@@ -14,7 +15,23 @@ const togglePopup = () => {
 const bindEvents = () => {
   header.bindEvents();
 
-  $('.sign-in-form').onsubmit = async e => {};
+  $('.sign-in-form').addEventListener('submit', async e => {
+    e.preventDefault();
+
+    try {
+      const [email, password, autoLogin] = [$('#email').value, $('#password').value, $('#auto__login').value];
+
+      const user = await postSignIn(email, password, autoLogin);
+
+      if (user) {
+        moveToPage('/mainpage');
+        return;
+      }
+      $('.no-user').classList.remove('hidden');
+    } catch (error) {
+      console.error(error.message);
+    }
+  });
 
   $('.find-password').addEventListener('click', () => {
     togglePopup();

@@ -1,16 +1,36 @@
 import { $ } from '../helpers/utils';
-import { render } from '../router';
+import { moveToPage } from '../router';
+import { getSignOut } from '../requests';
 
 const header = {
   bindEvents() {
     $('.no-login__login-btn').addEventListener('click', async () => {
-      history.pushState({ path: 'signin' }, '', 'signin');
-      await render('signin');
+      try {
+        moveToPage('signin');
+      } catch (error) {
+        console.error(error);
+      }
     });
 
     $('.no-login__signup-btn').addEventListener('click', async () => {
-      history.pushState({ path: 'signup' }, '', 'signup');
-      await render('signup');
+      try {
+        moveToPage('signup');
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+    $('.login__logout-btn').addEventListener('click', async () => {
+      console.log('logout');
+      try {
+        const { status } = await getSignOut();
+        if (status === 200) {
+          alert('로그아웃 되었습니다.');
+        }
+        moveToPage('mainpage');
+      } catch (error) {
+        console.error(error);
+      }
     });
   },
 };
