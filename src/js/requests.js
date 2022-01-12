@@ -13,10 +13,6 @@ export const getSignUpForm = async () => {
   return await axios.get('/signup');
 };
 
-export const getMainPosts = async () => {
-  return await axios.get('/getposts');
-};
-
 export const getSignUpEmail = async emailValue => {
   return await axios.get(`/user/email/${emailValue}`);
 };
@@ -38,4 +34,13 @@ export const getSignup = async (nickname, email, password, city, district) => {
     city,
     district,
   });
+};
+
+// main page posting 관리
+export const getMainPosts = async () => {
+  return await axios.get('/getposts');
+};
+
+export const searchTitile = async title => {
+  return await axios.get(`/findposts/${title}`);
 };

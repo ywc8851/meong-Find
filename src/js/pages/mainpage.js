@@ -1,6 +1,6 @@
 import header from '../components/header';
 import { handleHistory } from '../router';
-import { getMainPosts, findPosts } from '../requests';
+import { getMainPosts, findPosts, searchTitile } from '../requests';
 import { $ } from '../helpers/utils';
 
 const $citySelect = $('#city');
@@ -20,7 +20,6 @@ const render = (() => {
           <span class="main-posts-place">${post.city} ${post.district}</span>
         </div>`;
         });
-        // console.log(postlist);
         $('.main-posts').innerHTML = postlist;
       }
     } catch (e) {
@@ -63,7 +62,29 @@ $citySelect.onchange = () => {
     $districtSelect.append(option);
   }
 };
+const $searchInput = $('.search-input');
+const $navSearchButton = $('.main-nav-search-btn');
+$searchInput.onkeypress = ({ key }) => {
+  if (key !== 'Enter') return;
 
+  const content = $searchInput.value.trim();
+
+  if (key !== 'Enter' || content === '') {
+    $navSearchButton.disabled = false;
+    return;
+  }
+  $navSearchButton.disabled = false;
+
+  $searchInput.value = '';
+  filterTitle(content);
+};
+$navSearchButton.onclick = () => {
+  filterTitle($searchInput.value);
+};
+
+const filterTitle = inputValue => {
+  // 검색하는 filter
+};
 const $findButton = $('.main-nav-find-btn');
 
 $findButton.onclick = async () => {
