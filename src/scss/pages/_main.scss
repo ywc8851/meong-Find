@@ -40,17 +40,17 @@
     }
   }
 
-  &-find {
-    select {
-      width: rem(150px);
-      height: rem(35px);
+  // &-find {
+  //   select {
+  //     width: rem(150px);
+  //     height: rem(35px);
 
-      background-color: $container-gray;
-      border: none;
-      border-radius: rem(10px);
-      text-indent: rem(10px);
-    }
-  }
+  //     background-color: $container-gray;
+  //     border: none;
+  //     border-radius: rem(10px);
+  //     text-indent: rem(10px);
+  //   }
+  // }
 }
 
 .main-posts {

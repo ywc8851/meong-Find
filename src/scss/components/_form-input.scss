@@ -1,4 +1,4 @@
-@use '../../utils/' as *;
+@use '../utils/' as *;
 
 .sign-up-form-info,
 .sign-in-form-info {
@@ -30,5 +30,15 @@
     position: absolute;
     top: rem(5px);
     right: rem(10px);
+  }
+
+  select {
+    width: rem(150px);
+    height: rem(35px);
+
+    background-color: $container-gray;
+    border: none;
+    border-radius: rem(10px);
+    text-indent: rem(10px);
   }
 }
