@@ -45,6 +45,10 @@ app.get('/signup', devServer, (req, res) => {
 // 메인페이지
 app.get('/mainpage', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/mainpage.html'));
+  console.log(users);
+});
+
+app.get('/getposts', (req, res) => {
   console.log(posts);
   res.send(posts);
 });
