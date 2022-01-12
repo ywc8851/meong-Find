@@ -12,6 +12,7 @@
       crossorigin="anonymous" />
   </head>
   <body>
+    <div class="cover hidden"></div>
     <h1 class="sr-only">찾아줄개</h1>
     <header>
       <a class="logo-container" href="/">
@@ -60,15 +61,15 @@
           <div class="sign-in-form-info sign-in-form-email">
             <label for="email" class="sign-in-form-label">이메일</label>
             <input id="email" type="email" class="sign-in-form-input" required />
-            <i class="fas fa-check-circle fa-lg hidden"></i>
-            <i class="fas fa-times-circle fa-lg hidden"></i>
+            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
             <div class="error"></div>
           </div>
           <div class="sign-in-form-info sign-in-form-password">
             <label for="password" class="sign-in-form-label">비밀번호</label>
             <input id="password" type="password" class="sign-in-form-input" required />
-            <i class="fas fa-check-circle fa-lg hidden"></i>
-            <i class="fas fa-times-circle fa-lg hidden"></i>
+            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
             <div class="error"></div>
           </div>
           <div class="sign-in-form-auto-find">
@@ -86,6 +87,18 @@
           </div>
         </fieldset>
       </form>
+      <div class="popup hidden">
+        <h2 class="title sr-only">비밀번호 찾기</h2>
+        <button class="login-exit button__reset"><i class="fas fa-times fa-2x"></i></button>
+        <p>임시 비밀번호를 발급 받을 이메일을 입력하세요.</p>
+        <form class="popup-form">
+          <input type="email" id="check-password" class="popup-find-password" placeholder="이메일을 입력하세요." />
+          <label for="check-password" class="error"></label>
+          <!-- <button type="submit" class="popup-button ok-button">OK</button> -->
+          <div class="find-error"></div>
+          <button type="button" class="popup-button delete-button" disabled>찾기</button>
+        </form>
+      </div>
     </section>
     <footer class="footer">
       <div class="footer__info">
