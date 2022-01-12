@@ -66,7 +66,6 @@ app.get('/user/email/:email', (req, res) => {
 // 회원가입
 app.post('/users/signup', (req, res) => {
   users = [...users, { ...req.body }];
-  console.log(users);
   res.send(users);
 });
 
