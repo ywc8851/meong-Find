@@ -13,6 +13,10 @@ export const getSignUpForm = async () => {
   return await axios.get('/signup');
 };
 
+export const getMainPosts = async () => {
+  return await axios.get('/getposts');
+};
+
 export const getSignUpEmail = async emailValue => {
   return await axios.get(`/user/email/${emailValue}`);
 };

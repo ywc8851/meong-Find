@@ -1,21 +1,3 @@
-const users = [
-  {
-    id: 'ramndomda',
-    email: 'ywc8851@naver.com',
-    password: 'dyddn123',
-    city: 'seoul',
-    distrcit: 'gangnam-gu',
-    nickname: '쪼용웅',
-  },
-  {
-    id: 'asdffffwee',
-    email: 'sian@naver.com',
-    password: 'tldks123',
-    city: 'seoul',
-    distrcit: 'gangnam-gu',
-    nickname: '박샤니',
-  },
-];
 const posts = [
   {
     id: 'post1',
@@ -58,4 +40,4 @@ const posts = [
   },
 ];
 
-module.exports = { users, posts };
+module.exports = posts;

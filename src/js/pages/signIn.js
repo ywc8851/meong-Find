@@ -1,5 +1,5 @@
 import header from '../components/header';
-import { handleHistory } from '../router';
+import { moveToPage, handleHistory } from '../router';
 import { $ } from '../helpers/utils';
 import validate from '../helpers/validate';
 
@@ -20,8 +20,8 @@ const bindEvents = () => {
     togglePopup();
   });
 
-  $('.sign-up-link').addEventListener('click', () => {
-    history.pushState({ path: 'signup' }, '', 'signup');
+  $('.sign-up-link').addEventListener('click', async () => {
+    await moveToPage('signup');
   });
 
   $('.sign-in-form').addEventListener('input', e => {
