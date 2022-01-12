@@ -12,6 +12,8 @@ const togglePopup = () => {
   $('.cover').classList.toggle('hidden');
 };
 
+let checked = false;
+
 const bindEvents = () => {
   header.bindEvents();
 
@@ -19,7 +21,7 @@ const bindEvents = () => {
     e.preventDefault();
 
     try {
-      const [email, password, autoLogin] = [$('#email').value, $('#password').value, $('#auto__login').value];
+      const [email, password, autoLogin] = [$('#email').value, $('#password').value, checked];
 
       const user = await postSignIn(email, password, autoLogin);
 
@@ -39,6 +41,10 @@ const bindEvents = () => {
 
   $('.sign-up-link').addEventListener('click', async () => {
     await moveToPage('signup');
+  });
+
+  $('#auto__login').addEventListener('change', () => {
+    checked = !checked;
   });
 
   $('.sign-in-form').addEventListener('input', e => {
