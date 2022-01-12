@@ -6,7 +6,7 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
 const auth = require('./auth.js');
-const { users } = require('./db');
+const { users, posts } = require('./db');
 
 require('dotenv').config();
 const app = express();
@@ -21,7 +21,7 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
-const urls = ['/signin', '/signup'];
+const urls = ['/signin', '/signup', '/mainpage'];
 
 const devServer = (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
@@ -43,8 +43,11 @@ app.get(urls, devServer, (req, res) => {
 // 메인페이지
 app.get('/mainpage', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/mainpage.html'));
-  console.log(posts);
-  res.send(posts);
+  console.log(users);
+});
+
+app.get('/getposts', (req, res) => {
+  res.send(posts.get());
 });
 
 // 닉네임 중복검사
