@@ -1,7 +1,12 @@
 import axios from 'axios';
 
-export const getSignInTemplate = async () => {
-  return await axios.get('/signin');
+export const fetchHtml = async url => {
+  // console.log(`/${url === '/' ? 'index' : `html/${url}`}.html`);
+  try {
+    return await axios.get(url);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getSignUpEmail = async emailValue => {

@@ -1,23 +1,45 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const path = require('path');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
 
 const auth = require('./auth.js');
-const { signIn } = require('./templates');
 let { users } = require('./database');
 
-console.log(users);
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT;
+
+const config = require('../webpack.config.js');
+const compiler = webpack(config);
+
+app.use(webpackDevMiddleware(compiler));
 
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get('/signin', (req, res) => {
-  console.log('signin');
-  res.send(signIn);
+const devServer = (req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    const file = path.join(config.output.path, `html/${req.url.slice(1)}.html`);
+    compiler.outputFileSystem.readFile(file, (err, result) => {
+      if (err) {
+        res.sendStatus(404);
+        return;
+      }
+      res.set('content-type', 'text/html').end(result);
+    });
+  } else next();
+};
+
+app.get('/signin', devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/html/signin.html'));
+});
+
+app.get('/signup', devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/html/signup.html'));
 });
 
 // 닉네임 중복검사

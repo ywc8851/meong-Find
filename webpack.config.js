@@ -3,17 +3,32 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const urls = ['index', 'signin', 'signup'];
+const htmlWebpackPlugins = () =>
+  urls.map(
+    url =>
+      new HtmlWebpackPlugin({
+        title: '찾아줄개',
+        filename: `${url === 'index' ? '' : 'html/'}${url}.html`,
+        template: `src/${url === 'index' ? 'index' : `html/${url}`}.html`,
+        chunks: [url === 'index' ? 'main' : url],
+      })
+  );
+
 module.exports = {
   plugins: [
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-    }),
-    new MiniCssExtractPlugin(),
+    ...htmlWebpackPlugins(),
+    new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
     new CleanWebpackPlugin(),
   ],
-  entry: ['./src/js/app.js', './src/scss/index.scss'],
+  entry: {
+    main: ['./src/js/main.js', './src/scss/index.scss'],
+    signin: ['./src/js/pages/signIn.js', './src/scss/index.scss'],
+    signup: ['./src/js/pages/signUp.js', './src/scss/index.scss'],
+  },
   output: {
     path: path.resolve(__dirname, 'public'),
+    filename: 'js/[name].js',
   },
   module: {
     rules: [
