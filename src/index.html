@@ -27,25 +27,29 @@
             <!-- 동적으로 닉네임 들어가야함-->
             <span class="bold">님, 반갑습니다!</span>
           </div>
-          <a href="#" class="login__mypage-btn">
-            <i class="fas fa-user-circle fa-2x"></i>
-            마이페이지
-          </a>
-          <button class="login__logout-btn">
-            <i class="fas fa-sign-out-alt fa-2x"></i>
-            로그아웃
-          </button>
+          <div>
+            <a href="#" class="login__mypage-btn">
+              <i class="fas fa-user-circle fa-2x"></i>
+              마이페이지
+            </a>
+          </div>
+          <div class="login__logout">
+            <button class="login__logout-btn">
+              <i class="fas fa-sign-out-alt fa-2x"></i>
+              로그아웃
+            </button>
+          </div>
         </div>
       </div>
       <div class="no-login">
-        <a href="javascript:void(0)" class="no-login__login-btn">
+        <div class="no-login__signin">
           <i class="fas fa-lock"></i>
-          로그인
-        </a>
-        <a href="javascript:void(0)" class="no-login__signup-btn">
-          <i class="fas fa-user-plus"></i>
-          회원가입
-        </a>
+          <a href="javascript:void(0)" class="no-login__login-btn">로그인</a>
+        </div>
+        <div class="no-login__signup">
+          <i class="fas fa-user"></i>
+          <a href="javascript:void(0)" class="no-login__signup-btn">회원가입</a>
+        </div>
       </div>
     </header>
     <div id="root"></div>
@@ -202,6 +206,72 @@
           </div>
         </fieldset>
       </form>
+    </section>
+    <section class="register">
+        <form class="register-form">
+          <div class="register-title">
+            <label for="title" class="sr-only">제목</label>
+            <input id="title" type="text" class="register-title-input" placeholder="제목을 입력해주세요." />
+          </div>
+          <div class="register-upload">
+            <label for="file" class="sr-only">파일 업로드</label>
+            <input id="file" class="register-upload__input sr-only" type="file"/></i>
+            <button type="button" class="register-upload__btn">
+              <i class="fas fa-plus-circle fa-5x"></i>
+            </button>
+          </div>
+  
+          <div class="register-preview">
+            <button type="button" class="register-preview__delete">
+              <i class="fas fa-times-circle fa-2x"></i>
+            </button>
+          </div>
+  
+          <div id="area">
+            <select name="city" id="city">
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+              <option value="hamster">Hamster</option>
+              <option value="parrot">Parrot</option>
+              <option value="spider">Spider</option>
+              <option value="goldfish">Goldfish</option>
+            </select>
+            <select name="district" id="district">
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+              <option value="hamster">Hamster</option>
+              <option value="parrot">Parrot</option>
+              <option value="spider">Spider</option>
+              <option value="goldfish">Goldfish</option>
+            </select>
+          </div>
+  
+          <div class="animal-select">
+            <select name="animal" id="animal">
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+              <option value="hamster">Hamster</option>
+              <option value="parrot">Parrot</option>
+              <option value="spider">Spider</option>
+              <option value="goldfish">Goldfish</option>
+            </select>
+  
+            <label for="animalType" class="sr-only">견종</label>
+            <input type="text" id="animalType" class="animal-select__type" placeholder="종류">
+          </div>
+  
+          <div class="register-textcontent">
+            <label for="content" class="sr-only">본문 입력란</label>
+            <textarea id="content" name="content" class="register-textcontent__content" placeholder="글을 작성해주세요."> </textarea>
+          </div>
+
+          <div class="register-form-btns">
+            <button type="button" class="register-edit-btn register__btn">수정</button>
+            <button type="submit" class="register-submit-btn register__btn ">등록</button>
+          </div>
+        </form>
+    </section>
+
     </section> -->
     <!-- <section class="mainpage">
       <div class="main-nav">
