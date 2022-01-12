@@ -40,6 +40,13 @@ app.get(urls, devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
+// 메인페이지
+app.get('/mainpage', devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/html/mainpage.html'));
+  console.log(posts);
+  res.send(posts);
+});
+
 // 닉네임 중복검사
 app.get('/user/name/:nickname', (req, res) => {
   const { nickname } = req.params;
