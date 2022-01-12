@@ -14,11 +14,11 @@ export const getSignUpForm = async () => {
 };
 
 export const getSignUpEmail = async emailValue => {
-  return axios.get(`/user/email/${emailValue}`);
+  return await axios.get(`/user/email/${emailValue}`);
 };
 
 export const getSignUpName = async nickname => {
-  return axios.get(`/user/name/${nickname}`);
+  return await axios.get(`/user/name/${nickname}`);
 };
 
 // 회원가입 정보 전송

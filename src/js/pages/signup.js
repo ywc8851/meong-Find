@@ -2,6 +2,7 @@ import validate from '../helpers/validate';
 import { $ } from '../helpers/utils';
 import { getSignUpEmail, getSignUpName, getSignup, getSignUpForm } from '../requests';
 import header from '../components/header';
+import { render, handleHistory } from '../router';
 
 const $signupButton = $('.sign-up-btn');
 const $emailInput = $('.sign-up-form-email');
@@ -12,6 +13,8 @@ const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]
 const regName = /^[^\s]{2,5}$/;
 
 const signUp = () => {
+  header.bindEvents();
+
   const $emailInput = $('.sign-up-form-email');
   const $nicknameInput = $('.sign-up-form-name');
   const $duplicateButton = document.querySelectorAll('.check-duplicated');
@@ -28,9 +31,11 @@ const signUp = () => {
         $('#sign-up-form-district').value,
       ];
 
-      const res = await getSignup(nickname, email, password, city, district);
-      console.log(res);
-      // alert('회원가입이 완료되었습니다.');
+      await getSignup(nickname, email, password, city, district);
+      alert('회원가입이 완료되었습니다.');
+
+      history.pushState({ path: 'signin' }, '', 'signin');
+      await render('signin');
     } catch (error) {
       console.error(error);
     }
@@ -134,6 +139,7 @@ const signUp = () => {
       $districtSelect.append(option);
     }
   };
-};
 
+  window.addEventListener('popstate', handleHistory);
+};
 window.addEventListener('DOMContentLoaded', signUp);
