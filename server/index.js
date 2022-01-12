@@ -6,7 +6,7 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
 const auth = require('./auth.js');
-let { users, posts } = require('./database');
+const { users } = require('./db');
 
 require('dotenv').config();
 const app = express();
@@ -21,9 +21,11 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
+const urls = ['/signin', '/signup'];
+
 const devServer = (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
-    const file = path.join(config.output.path, `html/${req.url.slice(1)}.html`);
+    const file = path.join(config.output.path, `${urls.includes(req.url) ? `html${req.url}` : '/index'}.html`);
     compiler.outputFileSystem.readFile(file, (err, result) => {
       if (err) {
         res.sendStatus(404);
@@ -34,12 +36,8 @@ const devServer = (req, res, next) => {
   } else next();
 };
 
-app.get('/signin', devServer, (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/html/signin.html'));
-});
-
-app.get('/signup', devServer, (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/html/signup.html'));
+app.get(urls, devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
 // 메인페이지
@@ -52,9 +50,8 @@ app.get('/mainpage', devServer, (req, res) => {
 // 닉네임 중복검사
 app.get('/user/name/:nickname', (req, res) => {
   const { nickname } = req.params;
-  const user = users.find(user => user.nickname === nickname);
+  const [user] = users.filter({ nickname });
   const nicknameDuplicate = !!user;
-
   res.send({
     nicknameDuplicate,
   });
@@ -63,7 +60,7 @@ app.get('/user/name/:nickname', (req, res) => {
 // 이메일 중복검사
 app.get('/user/email/:email', (req, res) => {
   const { email } = req.params;
-  const user = users.find(user => user.email === email);
+  const [user] = users.filter({ email });
   const emailDuplicate = !!user;
   res.send({
     emailDuplicate,
@@ -72,9 +69,26 @@ app.get('/user/email/:email', (req, res) => {
 
 // 회원가입
 app.post('/users/signup', (req, res) => {
-  users = [...users, { ...req.body }];
-  res.send(users);
+  const user = users.create({ ...req.body });
+  res.send(user);
 });
+
+app.get('*', devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// app.post('/user/signin', (req, res) => {
+//   const {email, password } = req.body;
+
+//   if(!email) {
+//     res.status(401).send('email이 전달되지 않았습니다.')
+//   }
+
+//   if(!password) {
+//     res.status(401).send('password가 전달되지 않았습니다.')
+//   }
+
+// })
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
