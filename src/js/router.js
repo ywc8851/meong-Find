@@ -18,3 +18,12 @@ export const handleHistory = async event => {
     console.error(err);
   }
 };
+
+export const moveToPage = async path => {
+  history.pushState({ path }, '', path);
+  try {
+    await render(path);
+  } catch (error) {
+    console.error(error);
+  }
+};

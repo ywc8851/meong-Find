@@ -2,7 +2,7 @@ import validate from '../helpers/validate';
 import { $ } from '../helpers/utils';
 import { getSignUpEmail, getSignUpName, getSignup, getSignUpForm } from '../requests';
 import header from '../components/header';
-import { render, handleHistory } from '../router';
+import { moveToPage, handleHistory } from '../router';
 
 const $signupButton = $('.sign-up-btn');
 const $emailInput = $('.sign-up-form-email');
@@ -34,8 +34,7 @@ const signUp = () => {
       await getSignup(nickname, email, password, city, district);
       alert('회원가입이 완료되었습니다.');
 
-      history.pushState({ path: 'signin' }, '', 'signin');
-      await render('signin');
+      await moveToPage('signin');
     } catch (error) {
       console.error(error);
     }

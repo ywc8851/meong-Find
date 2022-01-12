@@ -54,226 +54,7 @@
     </header>
     <div id="root"></div>
 
-    <!-- my page -->
-    <!-- <section class="profile hidden">
-      <h2 class="sr-only">마이페이지</h2>
-      <form action="post" class="profile__form">
-        <button class="profile__edit">수 정</button>
-        <img src="../src/assets/user.svg" class="profile__img" alt="프로필 아이콘" />
-        <div class="profile__title-container">
-          <span>박시안</span>
-          <span class="bold">님의 프로필</span>
-        </div>
-        <div class="profile__email-container">
-          <span class="profile__email-title">이메일</span>
-          <span class="profile__email">parsian28@naver.com</span>
-        </div>
-        <div class="profile__city-container">
-          <span class="profile__city-title">지 역</span>
-          <span class="profile__city">서울특별시</span>
-          <span class="profile__district">강남구</span>
-        </div>
-      </form>
-      <div class="profile__my-posting">
-        <div class="profile__posting-title">
-          <span>내가 작성한 글</span>
-          <i class="fas fa-chevron-right fa-lg"></i>
-        </div>
-        <ul class="profile__posting-container">
-          <li class="profile__posting-list">
-            <span class="profile__posting-num">1</span>
-            <span class="profile__posting-header">나 강아지 잃어버렸다</span>
-            <a href="#" class="profile__posting-edit">
-              <span>수정</span>
-            </a>
-            <button class="profile__posting-del">삭제</button>
-          </li>
-          <li class="profile__posting-list">
-            <span class="profile__posting-num">2</span>
-            <span class="profile__posting-header">밍지</span>
-            <a href="#" class="profile__posting-edit">
-              <span>수정</span>
-            </a>
-            <button class="profile__posting-del">삭제</button>
-          </li>
-          <li class="profile__posting-list">
-            <span class="profile__posting-num">3</span>
-            <span class="profile__posting-header">하 .. 집나간 강아지 찾습니다. by 집사</span>
-            <a href="#" class="profile__posting-edit">
-              <span>수정</span>
-            </a>
-            <button class="profile__posting-del">삭제</button>
-          </li>
-        </ul>
-      </div>
-    </section> -->
-
-    <!-- 회원가입 -->
-    <!-- <section class="sign-up">
-      <h2 class="sign-title">회원가입</h2>
-      <form class="sign-up-form">
-        <fieldset>
-          <legend class="sr-only">회원가입 폼</legend>
-          <div class="sign-up-form-info sign-up-form-name">
-            <label for="nickname" class="sign-up-form-label">닉네임</label>
-            <input id="nickname" class="sign-up-form-input" type="text" maxlength="10" required />
-            <button class="check-duplicated sign-up-form__nickname-btn" disabled>중복확인</button>
-            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
-            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
-            <div class="error"></div>
-          </div>
-
-          <div class="sign-up-form-info sign-up-form-email">
-            <label for="email" class="sign-up-form-label">이메일</label>
-            <input id="email" class="sign-up-form-input" type="email" required />
-            <button class="check-duplicated sign-up-form__email-btn" disabled>중복확인</button>
-            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
-            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
-            <div class="error"></div>
-          </div>
-          <div class="sign-up-form-info sign-up-form-password">
-            <label for="password" class="sign-up-form-label">비밀번호</label>
-            <input id="password" class="sign-up-form-input" type="password" required />
-            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
-            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
-            <div class="error"></div>
-          </div>
-          <div class="sign-up-form-info sign-up-form-repassword">
-            <label for="repassword" class="sign-up-form-label">비밀번호 확인</label>
-            <input id="repassword" class="sign-up-form-input" type="password" required />
-            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
-            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
-            <div class="error"></div>
-          </div>
-          <div class="sign-up-form-info sign-up-form-area">
-            <label for="area">지역 선택</label>
-            <div id="area">
-              <select name="city" id="city">
-                <option value="dog">Dog</option>
-                <option value="cat">Cat</option>
-                <option value="hamster">Hamster</option>
-                <option value="parrot">Parrot</option>
-                <option value="spider">Spider</option>
-                <option value="goldfish">Goldfish</option>
-              </select>
-              <select name="district" id="district">
-                <option value="dog">Dog</option>
-                <option value="cat">Cat</option>
-                <option value="hamster">Hamster</option>
-                <option value="parrot">Parrot</option>
-                <option value="spider">Spider</option>
-                <option value="goldfish">Goldfish</option>
-              </select>
-            </div>
-          </div>
-          <button class="sign-up-btn" disabled>회원가입</button>
-        </fieldset>
-      </form>
-    </section> -->
-
-    <!-- 로그인 -->
-    <!-- <section class="sign-in hidden">
-      <h2 class="sign-title">로그인</h2>
-      <form class="sign-in-form">
-        <fieldset>
-          <legend class="sr-only">로그인 폼</legend>
-          <div class="sign-in-form-info sign-in-form-email">
-            <label for="email" class="sign-in-form-label">이메일</label>
-            <input id="email" type="email" class="sign-in-form-input" required />
-            <i class="fas fa-check-circle fa-lg hidden"></i>
-            <i class="fas fa-times-circle fa-lg hidden"></i>
-            <div class="error"></div>
-          </div>
-          <div class="sign-in-form-info sign-in-form-password">
-            <label for="password" class="sign-in-form-label">비밀번호</label>
-            <input id="password" type="password" class="sign-in-form-input" required />
-            <i class="fas fa-check-circle fa-lg hidden"></i>
-            <i class="fas fa-times-circle fa-lg hidden"></i>
-            <div class="error"></div>
-          </div>
-          <div class="sign-in-form-auto-find">
-            <div class="auto-login">
-              <input type="checkbox" id="auto__login" name="login" />
-              <label for="auto__login">자동 로그인</label>
-            </div>
-            <button class="find-password">비밀번호 찾기</button>
-          </div>
-          <div class="sign-in-form-btns">
-            <button disabled type="submit" class="sign-in-btn">로그인</button>
-            <button class="sign-up-link">
-              <a href="javascript:void(0)">회원가입하러 가기</a>
-            </button>
-          </div>
-        </fieldset>
-      </form>
-    </section>
-    <section class="register">
-        <form class="register-form">
-          <div class="register-title">
-            <label for="title" class="sr-only">제목</label>
-            <input id="title" type="text" class="register-title-input" placeholder="제목을 입력해주세요." />
-          </div>
-          <div class="register-upload">
-            <label for="file" class="sr-only">파일 업로드</label>
-            <input id="file" class="register-upload__input sr-only" type="file"/></i>
-            <button type="button" class="register-upload__btn">
-              <i class="fas fa-plus-circle fa-5x"></i>
-            </button>
-          </div>
-  
-          <div class="register-preview">
-            <button type="button" class="register-preview__delete">
-              <i class="fas fa-times-circle fa-2x"></i>
-            </button>
-          </div>
-  
-          <div id="area">
-            <select name="city" id="city">
-              <option value="dog">Dog</option>
-              <option value="cat">Cat</option>
-              <option value="hamster">Hamster</option>
-              <option value="parrot">Parrot</option>
-              <option value="spider">Spider</option>
-              <option value="goldfish">Goldfish</option>
-            </select>
-            <select name="district" id="district">
-              <option value="dog">Dog</option>
-              <option value="cat">Cat</option>
-              <option value="hamster">Hamster</option>
-              <option value="parrot">Parrot</option>
-              <option value="spider">Spider</option>
-              <option value="goldfish">Goldfish</option>
-            </select>
-          </div>
-  
-          <div class="animal-select">
-            <select name="animal" id="animal">
-              <option value="dog">Dog</option>
-              <option value="cat">Cat</option>
-              <option value="hamster">Hamster</option>
-              <option value="parrot">Parrot</option>
-              <option value="spider">Spider</option>
-              <option value="goldfish">Goldfish</option>
-            </select>
-  
-            <label for="animalType" class="sr-only">견종</label>
-            <input type="text" id="animalType" class="animal-select__type" placeholder="종류">
-          </div>
-  
-          <div class="register-textcontent">
-            <label for="content" class="sr-only">본문 입력란</label>
-            <textarea id="content" name="content" class="register-textcontent__content" placeholder="글을 작성해주세요."> </textarea>
-          </div>
-
-          <div class="register-form-btns">
-            <button type="button" class="register-edit-btn register__btn">수정</button>
-            <button type="submit" class="register-submit-btn register__btn ">등록</button>
-          </div>
-        </form>
-    </section>
-
-    </section> -->
-    <!-- <section class="mainpage">
+    <section class="mainpage">
       <div class="main-nav">
         <div class="main-nav-search">
           <label for="text" class="sr-only">검색</label>
@@ -302,7 +83,7 @@
         </div>
       </div>
       <div class="main-posts">
-        <div>
+        <!-- <div>
           <img src="https://mypetlife.co.kr/9989/kakaotalk_20180720_165306472/" alt="" />
           <span class="main-posts-title">저희 집 강아지 잃어버렸어요</span>
           <span class="main-posts-species species-dog">강아지</span>
@@ -319,9 +100,9 @@
           <span class="main-posts-title">귀여운 강쥐찾아주실분</span>
           <span class="main-posts-species species-etc">기타</span>
           <span class="main-posts-place">서울특별시 종로구</span>
-        </div>
+        </div> -->
       </div>
-    </section> -->
+    </section>
     <footer class="footer">
       <div class="footer__info">
         <span class="footer__contact">
