@@ -41,6 +41,10 @@ export const getSignUpName = async nickname => {
   }
 };
 
+export const findPosts = async (city, district, species) => {
+  return await axios.get(`/findposts/${city}/${district}/${species}`);
+};
+
 // 회원가입 정보 전송
 export const getSignup = async (nickname, email, password, city, district) => {
   try {
@@ -60,7 +64,7 @@ export const postSignIn = async (email, password, autoLogin) => {
   try {
     return await axios.post('/user/signin', { email, password, autoLogin });
   } catch (error) {
-    return console.error(error);
+    console.error(error);
   }
 };
 
@@ -70,4 +74,13 @@ export const getSignOut = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+// main page posting 관리
+export const getMainPosts = async () => {
+  return await axios.get('/getposts');
+};
+
+export const searchTitile = async title => {
+  return await axios.get(`/findposts/${title}`);
 };

@@ -51,6 +51,13 @@ app.get('/getposts', (req, res) => {
   res.send(posts.get());
 });
 
+app.get('/findposts/:city/:district/:species', (req, res) => {
+  const { city, district, species } = req.params;
+  const filterPosts = posts.filter({ city, district, animal: species });
+  console.log(filterPosts);
+  res.send(filterPosts);
+});
+
 // 닉네임 중복검사
 app.get('/user/name/:nickname', (req, res) => {
   const { nickname } = req.params;
