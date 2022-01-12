@@ -17,14 +17,6 @@ export const getSignUpForm = async () => {
   }
 };
 
-export const getMainPosts = async () => {
-  try {
-    return await axios.get('/getposts');
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const getSignUpEmail = async emailValue => {
   try {
     return await axios.get(`/user/email/${emailValue}`);
@@ -78,7 +70,11 @@ export const getSignOut = async () => {
 
 // main page posting 관리
 export const getMainPosts = async () => {
-  return await axios.get('/getposts');
+  try {
+    return await axios.get('/getposts');
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const searchTitile = async title => {
