@@ -1,5 +1,5 @@
 import header from '../components/header';
-import { handleHistory } from '../router';
+import { moveToPage, handleHistory } from '../router';
 import { $ } from '../helpers/utils';
 
 const bindEvents = () => {
@@ -14,8 +14,8 @@ const bindEvents = () => {
     console.log('비밀번호 찾기 모달');
   });
 
-  $('.sign-up-link').addEventListener('click', () => {
-    history.pushState({ path: 'signup' }, '', 'signup');
+  $('.sign-up-link').addEventListener('click', async () => {
+    await moveToPage('signup');
   });
 
   window.addEventListener('popstate', handleHistory);
