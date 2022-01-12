@@ -15,97 +15,104 @@
     <h1 class="sr-only">찾아줄개</h1>
     <header>
       <a class="logo-container" href="/">
-        <img src="../assets/logo.svg" class="logo" alt="찾아줄개 로고" />
+        <img src="./assets/logo.svg" class="logo" alt="찾아줄개 로고" />
       </a>
-      <div class="login hidden">
-        <a href="javascript:void(0)" class="login__posting-btn">글 작성</a>
+      <div class="login">
+        <!-- <a href="#" class="login__posting-btn">글 작성</a> -->
         <div class="login-wrapper">
+          <button class="login__posting-btn">글작성</button>
           <div class="login__msg">
             <span>박시안</span>
+            <!-- 동적으로 닉네임 들어가야함-->
             <span class="bold">님, 반갑습니다!</span>
           </div>
-          <a href="#" class="login__mypage-btn">
-            <i class="fas fa-user-circle fa-2x"></i>
-            마이페이지
-          </a>
-          <button class="login__logout-btn">
-            <i class="fas fa-sign-out-alt fa-2x"></i>
-            로그아웃
-          </button>
+          <div>
+            <a href="#" class="login__mypage-btn">
+              <i class="fas fa-user-circle fa-2x"></i>
+              마이페이지
+            </a>
+          </div>
+          <div class="login__logout">
+            <button class="login__logout-btn">
+              <i class="fas fa-sign-out-alt fa-2x"></i>
+              로그아웃
+            </button>
+          </div>
         </div>
       </div>
       <div class="no-login">
-        <a href="javascript:void(0)" class="no-login__login-btn">
+        <div class="no-login__signin">
           <i class="fas fa-lock"></i>
-          로그인
-        </a>
-        <a href="javascript:void(0)" class="no-login__signup-btn">
-          <i class="fas fa-user-plus"></i>
-          회원가입
-        </a>
+          <a href="javascript:void(0)" class="no-login__login-btn">로그인</a>
+        </div>
+        <div class="no-login__signup">
+          <i class="fas fa-user"></i>
+          <a href="javascript:void(0)" class="no-login__signup-btn">회원가입</a>
+        </div>
       </div>
     </header>
-    <div id="root"></div>
-    <section class="sign-up">
-      <h2 class="sign-title">회원가입</h2>
-      <form class="sign-up-form">
-        <fieldset>
-          <legend class="sr-only">회원가입 폼</legend>
-          <div class="sign-up-form-info sign-up-form-name">
-            <label for="nickname" class="sign-up-form-label">닉네임</label>
-            <input id="nickname" class="sign-up-form-input" type="text" maxlength="10" required />
-            <button class="check-duplicated sign-up-form__nickname-btn" disabled>중복확인</button>
-            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
-            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
-            <div class="error"></div>
-          </div>
-          <div class="sign-up-form-info sign-up-form-email">
-            <label for="email" class="sign-up-form-label">이메일</label>
-            <input id="email" class="sign-up-form-input" type="email" required />
-            <button class="check-duplicated sign-up-form__email-btn" disabled>중복확인</button>
-            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
-            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
-            <div class="error"></div>
-          </div>
-          <div class="sign-up-form-info sign-up-form-password">
-            <label for="password" class="sign-up-form-label">비밀번호</label>
-            <input id="password" class="sign-up-form-input" type="password" required />
-            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
-            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
-            <div class="error"></div>
-          </div>
-          <div class="sign-up-form-info sign-up-form-repassword">
-            <label for="repassword" class="sign-up-form-label">비밀번호 확인</label>
-            <input id="repassword" class="sign-up-form-input" type="password" required />
-            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
-            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
-            <div class="error"></div>
-          </div>
-          <div class="sign-up-form-info sign-up-form-area">
-            <label for="area">지역 선택</label>
-            <div id="area">
-              <select name="" id="">
-                <option value="dog">Dog</option>
-                <option value="cat">Cat</option>
-                <option value="hamster">Hamster</option>
-                <option value="parrot">Parrot</option>
-                <option value="spider">Spider</option>
-                <option value="goldfish">Goldfish</option>
-              </select>
-              <select name="" id="">
-                <option value="dog">Dog</option>
-                <option value="cat">Cat</option>
-                <option value="hamster">Hamster</option>
-                <option value="parrot">Parrot</option>
-                <option value="spider">Spider</option>
-                <option value="goldfish">Goldfish</option>
-              </select>
+    <main>
+      <section class="sign-up">
+        <h2 class="sign-title">회원가입</h2>
+        <form class="sign-up-form">
+          <fieldset>
+            <legend class="sr-only">회원가입 폼</legend>
+            <div class="sign-up-form-info sign-up-form-name">
+              <label for="nickname" class="sign-up-form-label">닉네임</label>
+              <input id="nickname" class="sign-up-form-input" type="text" maxlength="10" required />
+              <button class="check-duplicated sign-up-form__nickname-btn" disabled>중복확인</button>
+              <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+              <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
+              <div class="error"></div>
             </div>
-          </div>
-          <button class="sign-up-btn" disabled>회원가입</button>
-        </fieldset>
-      </form>
-    </section>
+            <div class="sign-up-form-info sign-up-form-email">
+              <label for="email" class="sign-up-form-label">이메일</label>
+              <input id="email" class="sign-up-form-input" type="email" required />
+              <button class="check-duplicated sign-up-form__email-btn" disabled>중복확인</button>
+              <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+              <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
+              <div class="error"></div>
+            </div>
+            <div class="sign-up-form-info sign-up-form-password">
+              <label for="password" class="sign-up-form-label">비밀번호</label>
+              <input id="password" class="sign-up-form-input" type="password" required />
+              <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+              <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
+              <div class="error"></div>
+            </div>
+            <div class="sign-up-form-info sign-up-form-repassword">
+              <label for="repassword" class="sign-up-form-label">비밀번호 확인</label>
+              <input id="repassword" class="sign-up-form-input" type="password" required />
+              <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+              <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
+              <div class="error"></div>
+            </div>
+            <div class="sign-up-form-info sign-up-form-area">
+              <label for="area">지역 선택</label>
+              <div id="area">
+                <select name="" id="">
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                  <option value="hamster">Hamster</option>
+                  <option value="parrot">Parrot</option>
+                  <option value="spider">Spider</option>
+                  <option value="goldfish">Goldfish</option>
+                </select>
+                <select name="" id="">
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                  <option value="hamster">Hamster</option>
+                  <option value="parrot">Parrot</option>
+                  <option value="spider">Spider</option>
+                  <option value="goldfish">Goldfish</option>
+                </select>
+              </div>
+            </div>
+            <button class="sign-up-btn" disabled>회원가입</button>
+          </fieldset>
+        </form>
+      </section>
+    </main>
     <footer class="footer">
       <div class="footer__info">
         <span class="footer__contact">
