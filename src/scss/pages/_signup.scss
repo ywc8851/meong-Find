@@ -24,6 +24,12 @@
       @include autoMargin();
     }
   }
+  .error {
+    position: absolute;
+    top: rem(50px);
+    left: rem(140px);
+    font-size: rem(15px);
+  }
 }
 
 .check-duplicated {

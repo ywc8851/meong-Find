@@ -21,9 +21,9 @@ a {
   @include pos($t: rem(55px), $r: rem(40px));
 }
 
-.login__posting-btn {
-  display: none;
-}
+// .login__posting-btn {
+//   display: none;
+// }
 
 .login-wrapper {
   display: flex;
@@ -55,6 +55,16 @@ a {
     display: flex;
     align-items: center;
     height: rem(36px);
+  }
+  &__posting-btn {
+    width: rem(132px);
+    height: rem(47px);
+    background: #888080;
+    border: none;
+    border-radius: 10px;
+    margin-right: rem(39px);
+    font-size: rem(20px);
+    color: $white;
   }
 }
 
