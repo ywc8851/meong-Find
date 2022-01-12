@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>찾아줄개</title>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous" />
+  </head>
+  <body>
+    <!-- 헤더 -->
+    <h1 class="sr-only">찾아줄개</h1>
+    <header>
+      <a class="logo-container" href="/">
+        <img src="../assets/logo.svg" class="logo" alt="찾아줄개 로고" />
+      </a>
+      <div class="login">
+        <!-- <a href="#" class="login__posting-btn">글 작성</a> -->
+        <div class="login-wrapper">
+          <button class="login__posting-btn">글작성</button>
+          <div class="login__msg">
+            <span>박시안</span>
+            <!-- 동적으로 닉네임 들어가야함-->
+            <span class="bold">님, 반갑습니다!</span>
+          </div>
+          <div>
+            <a href="#" class="login__mypage-btn">
+              <i class="fas fa-user-circle fa-2x"></i>
+              마이페이지
+            </a>
+          </div>
+          <div class="login__logout">
+            <button class="login__logout-btn">
+              <i class="fas fa-sign-out-alt fa-2x"></i>
+              로그아웃
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="no-login">
+        <div class="no-login__signin">
+          <i class="fas fa-lock"></i>
+          <a href="javascript:void(0)" class="no-login__login-btn">로그인</a>
+        </div>
+        <div class="no-login__signup">
+          <i class="fas fa-user"></i>
+          <a href="javascript:void(0)" class="no-login__signup-btn">회원가입</a>
+        </div>
+      </div>
+    </header>
+    <div id="root"></div>
+
+    <section class="detail">
+      <h2 class="sr-only">상세페이지</h2>
+      <section class="detail__posting">
+        <div class="detail__info">
+          <span class="detail__info-title">강아지 잃어버렸어요 ㅠㅠ</span>
+          <div class="detail__info-container">
+            <span class="detail__info-writer">박시안</span>
+            <span class="detail__info-date">2021-01-03</span>
+          </div>
+        </div>
+        <div class="carousel__contaier">
+          <div class="carousel__img-container">
+            <img src="" alt="이미지1" />
+            <img src="" alt="이미지2" />
+            <img src="" alt="이미지3" />
+            <img src="" alt="이미지4" />
+          </div>
+          <div class="swiper-pagination">
+            <input class="sr-only" type="radio" id="page1" name="best" checked /><label for="page1">img1</label>
+            <input class="sr-only" type="radio" id="page2" name="best" /><label for="page2">img2</label>
+            <input class="sr-only" type="radio" id="page3" name="best" /><label for="page3">img3</label>
+            <input class="sr-only" type="radio" id="page4" name="best" /><label for="page4">img4</label>
+          </div>
+          <button class="carousel__prev">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button clas="carousel__next">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <span class="detail__city">서울시 종로구</span>
+        <span class="detail__animal">강아지</span>
+        <div clss="detail__posting-content">동해물과 백두산이 마르고 닳도록</div>
+      </section>
+      <section class="detail__comment">
+        <span>댓글 1 개</span>
+        <ul class="detail__comment-list">
+          <li>
+            <span class="detail__comment-writer">박샤니</span>
+            <span class="detail__comment-content">강아지 찾아요 제발 ㅠㅠ</span>
+            <div class="detail__comment-edit-del">
+              <button class="comment-edit-btn">수정</button>
+              <button class="comment-del-btn">삭제</button>
+            </div>
+          </li>
+        </ul>
+        <div class="detail__comment-input">
+          <label for="detail" class="sr-only">댓글 입력</label>
+          <input type="text" id="comment" class="detail__comment" />
+          <button class="detail__comment-submit">등록</button>
+        </div>
+        <div class="detail__posting-edit-del">
+          <button class="posting-edit-btn">수정</button>
+          <button class="posting-del-btn">삭제</button>
+        </div>
+      </section>
+    </section>
+    <footer class="footer">
+      <div class="footer__info">
+        <span class="footer__contact">
+          contact us | <a href="https://github.com/MeongFind/meong-Find">https://github.com/MeongFind/meong-Find</a>
+        </span>
+        <small class="footer__copyright"> Copyright since &copy; meong-find </small>
+        <ul class="footer__list">
+          <li><a href="https://www.animal.go.kr/front/index.do">동물보호관리 시스템</a></li>
+          <li><a href="http://pawinhand.kr/">포인핸드</a></li>
+          <li><a href="https://dmanimal.co.kr/">도그마루</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

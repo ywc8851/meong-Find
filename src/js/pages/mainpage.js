@@ -13,11 +13,16 @@ const render = (() => {
         // 성공적으로 가져왔을 때
         let postlist = '';
         posts.map(post => {
-          postlist += `<div>
-          <img src="${post.images[0]}" alt="" />
-          <span class="main-posts-title">${post.title}</span>
-          <span class="main-posts-species species-dog">${post.animal}</span>
-          <span class="main-posts-place">${post.city} ${post.district}</span>
+          postlist += `
+        <div>
+          <a href="#">
+            <img src="${post.images[0]}" alt="${post.title} 이미지" />
+            <span class="main-posts-title">${post.title}</span>
+            <span class="main-posts-species species-${
+              post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
+            }">${post.animal}</span>
+            <span class="main-posts-place">${post.city} ${post.district}</span>
+          </a>
         </div>`;
         });
         $('.main-posts').innerHTML = postlist;
