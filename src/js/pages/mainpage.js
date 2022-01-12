@@ -3,6 +3,7 @@ import { handleHistory } from '../router';
 import { getMainPosts } from '../requests';
 import { $ } from '../helpers/utils';
 
+const $citySelect = $('#city');
 const render = (() => {
   window.onload = async () => {
     try {
@@ -35,12 +36,31 @@ const bindEvents = () => {
 
 const init = async () => {
   bindEvents();
-  // try {
-  //   console.log('ee');
-  //   const res = await getMainPosts();
-  // } catch (error) {
-  //   console.error(error);
-  // }
+};
+
+$citySelect.onchange = () => {
+  const $districtSelect = $('#district');
+  let mainOption = $citySelect.options[$citySelect.selectedIndex].innerText;
+  let subOptions = {
+    seoul: ['강남구', '광진구', '서초구'],
+    busan: ['해운대구', '민지구', '시안구'],
+  };
+  let subOption;
+  switch (mainOption) {
+    case '서울특별시':
+      subOption = subOptions.seoul;
+      break;
+    case '부산광역시':
+      subOption = subOptions.busan;
+      break;
+  }
+  $districtSelect.options.length = 0;
+
+  for (let i = 0; i < subOption.length; i++) {
+    let option = document.createElement('option');
+    option.innerText = subOption[i];
+    $districtSelect.append(option);
+  }
 };
 
 window.addEventListener('DOMContentLoaded', init);
