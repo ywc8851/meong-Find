@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>찾아줄개</title>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous" />
+  </head>
+  <body>
+    <!-- 헤더 -->
+    <h1 class="sr-only">찾아줄개</h1>
+    <header>
+      <a class="logo-container" href="/">
+        <img src="./assets/logo.svg" class="logo" alt="찾아줄개 로고" />
+      </a>
+      <div class="login">
+        <!-- <a href="#" class="login__posting-btn">글 작성</a> -->
+        <div class="login-wrapper">
+          <button class="login__posting-btn">글작성</button>
+          <div class="login__msg">
+            <span>박시안</span>
+            <!-- 동적으로 닉네임 들어가야함-->
+            <span class="bold">님, 반갑습니다!</span>
+          </div>
+          <a href="#" class="login__mypage-btn">
+            <i class="fas fa-user-circle fa-2x"></i>
+            마이페이지
+          </a>
+          <button class="login__logout-btn">
+            <i class="fas fa-sign-out-alt fa-2x"></i>
+            로그아웃
+          </button>
+        </div>
+      </div>
+      <div class="no-login">
+        <a href="javascript:void(0)" class="no-login__login-btn">
+          <i class="fas fa-lock"></i>
+          로그인
+        </a>
+        <a href="javascript:void(0)" class="no-login__signup-btn">
+          <i class="fas fa-user-plus"></i>
+          회원가입
+        </a>
+      </div>
+    </header>
+    <div id="root"></div>
+
+    <!-- my page -->
+    <section class="profile hidden">
+      <h2 class="sr-only">마이페이지</h2>
+      <form action="post" class="profile__form">
+        <button class="profile__edit">수 정</button>
+        <img src="../src/assets/user.svg" class="profile__img" alt="프로필 아이콘" />
+        <div class="profile__title-container">
+          <span>박시안</span>
+          <span class="bold">님의 프로필</span>
+        </div>
+        <div class="profile__email-container">
+          <span class="profile__email-title">이메일</span>
+          <span class="profile__email">parsian28@naver.com</span>
+        </div>
+        <div class="profile__city-container">
+          <span class="profile__city-title">지 역</span>
+          <span class="profile__city">서울특별시</span>
+          <span class="profile__district">강남구</span>
+        </div>
+      </form>
+      <div class="profile__my-posting">
+        <div class="profile__posting-title">
+          <span>내가 작성한 글</span>
+          <i class="fas fa-chevron-right fa-lg"></i>
+        </div>
+        <ul class="profile__posting-container">
+          <li class="profile__posting-list">
+            <span class="profile__posting-num">1</span>
+            <span class="profile__posting-header">나 강아지 잃어버렸다</span>
+            <a href="#" class="profile__posting-edit">
+              <span>수정</span>
+            </a>
+            <button class="profile__posting-del">삭제</button>
+          </li>
+          <li class="profile__posting-list">
+            <span class="profile__posting-num">2</span>
+            <span class="profile__posting-header">밍지</span>
+            <a href="#" class="profile__posting-edit">
+              <span>수정</span>
+            </a>
+            <button class="profile__posting-del">삭제</button>
+          </li>
+          <li class="profile__posting-list">
+            <span class="profile__posting-num">3</span>
+            <span class="profile__posting-header">하 .. 집나간 강아지 찾습니다. by 집사</span>
+            <a href="#" class="profile__posting-edit">
+              <span>수정</span>
+            </a>
+            <button class="profile__posting-del">삭제</button>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__info">
+        <span class="footer__contact">
+          contact us | <a href="https://github.com/MeongFind/meong-Find">https://github.com/MeongFind/meong-Find</a>
+        </span>
+        <small class="footer__copyright"> Copyright since &copy; meong-find </small>
+      </div>
+      <ul class="footer__list">
+        <li><a href="https://www.animal.go.kr/front/index.do">동물보호관리 시스템</a></li>
+        <li><a href="http://pawinhand.kr/">포인핸드</a></li>
+        <li><a href="https://dmanimal.co.kr/">도그마루</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>
