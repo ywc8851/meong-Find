@@ -21,9 +21,9 @@ a {
   @include pos($t: rem(55px), $r: rem(40px));
 }
 
-.login__posting-btn {
-  display: none;
-}
+// .login__posting-btn {
+//   display: none;
+// }
 
 .login-wrapper {
   display: flex;
@@ -31,7 +31,6 @@ a {
 }
 
 .login {
-  // display: none;
   display: inline-block;
   margin-right: rem(30px);
 
@@ -57,16 +56,27 @@ a {
     align-items: center;
     height: rem(36px);
   }
+  &__posting-btn {
+    width: rem(132px);
+    height: rem(47px);
+    background: #888080;
+    border: none;
+    border-radius: 10px;
+    margin-right: rem(39px);
+    font-size: rem(20px);
+    color: $white;
+  }
 }
 
 .no-login {
-  // display: none;
-  display: inline-block;
-
-  &__login-btn {
-    margin-right: rem(30px);
-    width: rem(38px);
-    height: rem(38px);
+  display: flex;
+  flex-direction: row;
+  &__signin {
+    margin-right: rem(20px);
+  }
+  &__login-btn,
+  &__signup-btn {
+    padding-left: rem(20px);
   }
 }
 

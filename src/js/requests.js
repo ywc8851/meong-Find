@@ -1,7 +1,12 @@
 import axios from 'axios';
 
-export const getSignInTemplate = async () => {
-  return await axios.get('/signin');
+export const fetchHtml = async url => {
+  // console.log(`/${url === '/' ? 'index' : `html/${url}`}.html`);
+  try {
+    return await axios.get(url);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getSignUpForm = async () => {
@@ -15,8 +20,10 @@ export const getSignUpEmail = async emailValue => {
 export const getSignUpName = async nickname => {
   return axios.get(`/user/name/${nickname}`);
 };
+
+// 회원가입 정보 전송
 export const getSignup = async (nickname, email, password, city, district) => {
-  return axios.post('/users/signup', {
+  return await axios.post('/users/signup', {
     nickname,
     email,
     password,

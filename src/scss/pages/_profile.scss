@@ -1,0 +1,116 @@
+@use '../utils/' as *;
+
+.bold {
+  font-weight: 700;
+}
+.profile__title-container,
+.profile__email-container,
+.profile__city-container {
+  color: #4d4c4c;
+  font-size: rem(20px);
+  margin-left: rem(250px);
+}
+.profile {
+  &__title-container {
+    font-size: rem(40px);
+    color: $black;
+    letter-spacing: rem(-3px);
+  }
+  &__city-title,
+  &__email-title {
+    display: inline-block;
+    width: rem(110px);
+    height: rem(35px);
+    margin-top: rem(35px);
+    margin-right: rem(30px);
+
+    background-color: $navy;
+    border-radius: rem(10px);
+    text-align: center;
+    line-height: rem(35px);
+
+    font-weight: 700;
+    color: $white;
+  }
+  &__img {
+    position: absolute;
+    width: rem(170px);
+    top: rem(65px);
+    left: rem(80px);
+  }
+}
+#profile {
+  &__city:disabled,
+  &__district:disabled {
+    border: none;
+    background-color: transparent;
+
+    color: #4d4c4c;
+    font-weight: bold;
+    font-size: rem(20px);
+  }
+}
+// 내가 작성한 글
+.profile__my-posting {
+  width: 85vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin: rem(50px) auto 0 auto;
+}
+.profile__posting {
+  &-title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: $darkgray;
+    font-size: rem(28px);
+    font-weight: 700;
+
+    > i {
+      // background-color: red;
+      position: absolute;
+      left: rem(180px);
+      color: $darkgray;
+    }
+  }
+
+  &-container {
+    margin-top: rem(20px);
+    li {
+      padding: rem(20px) 0;
+      border-bottom: 1px solid $gray;
+      position: relative;
+
+      color: $darkgray;
+      font-size: rem(18px);
+
+      &:last-child {
+        border: none;
+      }
+
+      button,
+      a {
+        position: absolute;
+      }
+      button {
+        right: 0;
+        bottom: rem(12px);
+      }
+      a {
+        right: rem(98px);
+        bottom: rem(12px);
+      }
+    }
+  }
+  &-num {
+    margin: rem(50px);
+    font-weight: 700;
+  }
+  &-header {
+    display: inline-block;
+    margin-left: rem(50px);
+    width: rem(650px);
+    text-align: center;
+    overflow: hidden;
+  }
+}

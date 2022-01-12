@@ -1,0 +1,103 @@
+@use '../utils' as *;
+
+.register {
+  width: rem(816px);
+  @include autoMargin();
+
+  &-title {
+    margin-bottom: rem(34px);
+
+    &-input {
+      height: rem(65px);
+      width: rem(814px);
+      border-radius: rem(10px);
+      border: rem(1px) solid $gray;
+      font-size: rem(30px);
+      text-indent: rem(10px);
+    }
+  }
+
+  &-upload {
+    height: rem(369px);
+    width: rem(814px);
+    background-color: $gray;
+    margin-bottom: rem(20px);
+    position: relative;
+
+    &__btn {
+      border: 0;
+      background: none;
+      @include pos($t: 40%, $r: 55%);
+    }
+  }
+
+  &-preview {
+    position: relative;
+    width: rem(180px);
+    height: rem(160px);
+    margin-right: rem(20px);
+    margin-bottom: rem(22px);
+    background-color: $gray;
+
+    &__delete {
+      border: 0;
+      background: none;
+      @include pos($t: rem(-2px), $r: rem(10px));
+    }
+  }
+
+  &-textcontent {
+    margin-bottom: rem(35px);
+    &__content {
+      width: rem(816px);
+      height: rem(341px);
+      border-radius: 10px;
+      border: rem(1px) solid $gray;
+      resize: none;
+    }
+  }
+
+  &-form-btns {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__btn {
+    height: rem(50px);
+    width: rem(96px);
+    border-radius: 30px;
+    color: $white;
+    border: 0;
+  }
+
+  &-edit-btn {
+    background-color: $gray;
+    margin-right: rem(20px);
+  }
+
+  &-submit-btn {
+    background-color: $navy;
+  }
+}
+
+.animal-select {
+  margin-bottom: rem(10px);
+  // border: 10px;
+
+  &__type {
+    width: rem(100px);
+    padding: rem(5px);
+    border: 1px solid #999;
+    border-radius: 3px;
+  }
+}
+
+select {
+  width: rem(100px);
+  padding: rem(5px);
+  border: 1px solid #999;
+  border-radius: 3px;
+  // -webkit-appearance: none;
+  // -moz-appearance: none;
+  appearance: none;
+}

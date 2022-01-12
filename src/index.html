@@ -18,38 +18,95 @@
       <a class="logo-container" href="/">
         <img src="./assets/logo.svg" class="logo" alt="찾아줄개 로고" />
       </a>
-
-      <div class="login hidden">
-        <a href="#" class="login__posting-btn">글 작성</a>
+      <div class="login">
+        <!-- <a href="#" class="login__posting-btn">글 작성</a> -->
         <div class="login-wrapper">
+          <button class="login__posting-btn">글작성</button>
           <div class="login__msg">
             <span>박시안</span>
             <!-- 동적으로 닉네임 들어가야함-->
             <span class="bold">님, 반갑습니다!</span>
           </div>
-          <a href="#" class="login__mypage-btn">
-            <i class="fas fa-user-circle fa-2x"></i>
-            마이페이지
-          </a>
-          <button class="login__logout-btn">
-            <i class="fas fa-sign-out-alt fa-2x"></i>
-            로그아웃
-          </button>
+          <div>
+            <a href="#" class="login__mypage-btn">
+              <i class="fas fa-user-circle fa-2x"></i>
+              마이페이지
+            </a>
+          </div>
+          <div class="login__logout">
+            <button class="login__logout-btn">
+              <i class="fas fa-sign-out-alt fa-2x"></i>
+              로그아웃
+            </button>
+          </div>
         </div>
       </div>
-
       <div class="no-login">
-        <a href="#" class="no-login__login-btn">
+        <div class="no-login__signin">
           <i class="fas fa-lock"></i>
-          로그인
-        </a>
-        <a href="#" class="no-login__signup-btn">
-          <i class="fas fa-user-plus"></i>
-          회원가입
-        </a>
+          <a href="javascript:void(0)" class="no-login__login-btn">로그인</a>
+        </div>
+        <div class="no-login__signup">
+          <i class="fas fa-user"></i>
+          <a href="javascript:void(0)" class="no-login__signup-btn">회원가입</a>
+        </div>
       </div>
     </header>
-    <div id="app"></div>
+    <div id="root"></div>
+
+    <!-- my page -->
+    <!-- <section class="profile hidden">
+      <h2 class="sr-only">마이페이지</h2>
+      <form action="post" class="profile__form">
+        <button class="profile__edit">수 정</button>
+        <img src="../src/assets/user.svg" class="profile__img" alt="프로필 아이콘" />
+        <div class="profile__title-container">
+          <span>박시안</span>
+          <span class="bold">님의 프로필</span>
+        </div>
+        <div class="profile__email-container">
+          <span class="profile__email-title">이메일</span>
+          <span class="profile__email">parsian28@naver.com</span>
+        </div>
+        <div class="profile__city-container">
+          <span class="profile__city-title">지 역</span>
+          <span class="profile__city">서울특별시</span>
+          <span class="profile__district">강남구</span>
+        </div>
+      </form>
+      <div class="profile__my-posting">
+        <div class="profile__posting-title">
+          <span>내가 작성한 글</span>
+          <i class="fas fa-chevron-right fa-lg"></i>
+        </div>
+        <ul class="profile__posting-container">
+          <li class="profile__posting-list">
+            <span class="profile__posting-num">1</span>
+            <span class="profile__posting-header">나 강아지 잃어버렸다</span>
+            <a href="#" class="profile__posting-edit">
+              <span>수정</span>
+            </a>
+            <button class="profile__posting-del">삭제</button>
+          </li>
+          <li class="profile__posting-list">
+            <span class="profile__posting-num">2</span>
+            <span class="profile__posting-header">밍지</span>
+            <a href="#" class="profile__posting-edit">
+              <span>수정</span>
+            </a>
+            <button class="profile__posting-del">삭제</button>
+          </li>
+          <li class="profile__posting-list">
+            <span class="profile__posting-num">3</span>
+            <span class="profile__posting-header">하 .. 집나간 강아지 찾습니다. by 집사</span>
+            <a href="#" class="profile__posting-edit">
+              <span>수정</span>
+            </a>
+            <button class="profile__posting-del">삭제</button>
+          </li>
+        </ul>
+      </div>
+    </section> -->
 
     <!-- 회원가입 -->
     <!-- <section class="sign-up">
@@ -115,7 +172,7 @@
     </section> -->
 
     <!-- 로그인 -->
-    <section class="sign-in hidden">
+    <!-- <section class="sign-in hidden">
       <h2 class="sign-title">로그인</h2>
       <form class="sign-in-form">
         <fieldset>
@@ -144,13 +201,127 @@
           <div class="sign-in-form-btns">
             <button disabled type="submit" class="sign-in-btn">로그인</button>
             <button class="sign-up-link">
-              <a href="#">회원가입하러 가기</a>
+              <a href="javascript:void(0)">회원가입하러 가기</a>
             </button>
           </div>
         </fieldset>
       </form>
     </section>
+    <section class="register">
+        <form class="register-form">
+          <div class="register-title">
+            <label for="title" class="sr-only">제목</label>
+            <input id="title" type="text" class="register-title-input" placeholder="제목을 입력해주세요." />
+          </div>
+          <div class="register-upload">
+            <label for="file" class="sr-only">파일 업로드</label>
+            <input id="file" class="register-upload__input sr-only" type="file"/></i>
+            <button type="button" class="register-upload__btn">
+              <i class="fas fa-plus-circle fa-5x"></i>
+            </button>
+          </div>
+  
+          <div class="register-preview">
+            <button type="button" class="register-preview__delete">
+              <i class="fas fa-times-circle fa-2x"></i>
+            </button>
+          </div>
+  
+          <div id="area">
+            <select name="city" id="city">
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+              <option value="hamster">Hamster</option>
+              <option value="parrot">Parrot</option>
+              <option value="spider">Spider</option>
+              <option value="goldfish">Goldfish</option>
+            </select>
+            <select name="district" id="district">
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+              <option value="hamster">Hamster</option>
+              <option value="parrot">Parrot</option>
+              <option value="spider">Spider</option>
+              <option value="goldfish">Goldfish</option>
+            </select>
+          </div>
+  
+          <div class="animal-select">
+            <select name="animal" id="animal">
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+              <option value="hamster">Hamster</option>
+              <option value="parrot">Parrot</option>
+              <option value="spider">Spider</option>
+              <option value="goldfish">Goldfish</option>
+            </select>
+  
+            <label for="animalType" class="sr-only">견종</label>
+            <input type="text" id="animalType" class="animal-select__type" placeholder="종류">
+          </div>
+  
+          <div class="register-textcontent">
+            <label for="content" class="sr-only">본문 입력란</label>
+            <textarea id="content" name="content" class="register-textcontent__content" placeholder="글을 작성해주세요."> </textarea>
+          </div>
 
+          <div class="register-form-btns">
+            <button type="button" class="register-edit-btn register__btn">수정</button>
+            <button type="submit" class="register-submit-btn register__btn ">등록</button>
+          </div>
+        </form>
+    </section>
+
+    </section> -->
+    <!-- <section class="mainpage">
+      <div class="main-nav">
+        <div class="main-nav-search">
+          <label for="text" class="sr-only">검색</label>
+          <input id="text" type="text" class="aa" placeholder="검색어를 입력하세요" />
+          <button>검색</button>
+        </div>
+        <div class="main-nav-find">
+          <select name="city" id="city">
+            <option value="city">시</option>
+            <option value="seoul">서울특별시</option>
+            <option value="busan">부산광역시</option>
+          </select>
+          <select name="district" id="district">
+            <option value="district">구</option>
+            <option value="gangnamgu">강남구</option>
+            <option value="gangjingu">광진구</option>
+            <option value="seochogu">서초구</option>
+          </select>
+          <select name="kind" id="kind">
+            <option value="kind">종류</option>
+            <option value="dog">강아지</option>
+            <option value="cat">고양이</option>
+            <option value="etc">기타</option>
+          </select>
+          <button>찾기</button>
+        </div>
+      </div>
+      <div class="main-posts">
+        <div>
+          <img src="https://mypetlife.co.kr/9989/kakaotalk_20180720_165306472/" alt="" />
+          <span class="main-posts-title">저희 집 강아지 잃어버렸어요</span>
+          <span class="main-posts-species species-dog">강아지</span>
+          <span class="main-posts-place">서울특별시 종로구</span>
+        </div>
+        <div>
+          <img src="https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg" alt="" />
+          <span class="main-posts-title">우리애기 찾아주세요</span>
+          <span class="main-posts-species species-cat">고양이</span>
+          <span class="main-posts-place">서울특별시 종로구</span>
+        </div>
+        <div>
+          <img src="https://image.msscdn.net/images/goods_img/20191216/1252014/1252014_1_500.jpg" alt="" />
+          <span class="main-posts-title">귀여운 강쥐찾아주실분</span>
+          <span class="main-posts-species species-etc">기타</span>
+          <span class="main-posts-place">서울특별시 종로구</span>
+        </div>
+      </div>
+    </section> -->
     <footer class="footer">
       <div class="footer__info">
         <span class="footer__contact">
