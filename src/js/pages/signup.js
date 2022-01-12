@@ -108,32 +108,6 @@ const signUp = () => {
       console.error(error);
     }
   };
-  // $signupButton.onclick = async e => {
-  // try {
-  //   const [nickname, email, password, city, district] = [
-  //     $('#nickname').value,
-  //     $('#email').value,
-  //     $('#password').value,
-  //     $('#sign-up-form-city').value,
-  //     $('#sign-up-form-district').value,
-  //   ];
-
-    try {
-      const [nickname, email, password, city, district] = [
-        $('#nickname').value,
-        $('#email').value,
-        $('#password').value,
-        $('#city').value,
-        $('#district').value,
-      ];
-
-      const res = await getSignup(nickname, email, password, city, district);
-      console.log(res);
-      alert('회원가입이 완료되었습니다.');
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const $citySelect = $('#sign-up-form-city');
   $citySelect.onchange = () => {
