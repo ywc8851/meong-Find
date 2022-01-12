@@ -1,24 +1,28 @@
-import { getSignInTemplate } from '../requests';
+import header from '../components/header';
+import { handleHistory } from '../router';
 import { $ } from '../helpers/utils';
 
-const signIn = () => {
-  const fetch = async () => {
-    console.error('[signin]', location.pathname);
-    if (location.pathname !== '/signin') return;
-    const { data } = await getSignInTemplate('/signin');
-    document.querySelector('#app').innerHTML = data;
+const bindEvents = () => {
+  header.bindEvents();
 
-    $('.sign-in-form').addEventListener('submit', e => {
-      e.preventDefault();
-      console.log('test');
-    });
+  $('.sign-in-form').addEventListener('submit', e => {
+    e.preventDefault();
+  });
 
-    $('.sign-up-link').addEventListener('click', () => {
-      history.pushState(null, '', '/signup');
-    });
-  };
+  $('.find-password').addEventListener('click', () => {
+    // pop up modal
+    console.log('비밀번호 찾기 모달');
+  });
 
-  window.addEventListener('popstate', fetch);
+  $('.sign-up-link').addEventListener('click', () => {
+    history.pushState({ path: 'signup' }, '', 'signup');
+  });
+
+  window.addEventListener('popstate', handleHistory);
 };
 
-export default signIn;
+const init = () => {
+  bindEvents();
+};
+
+window.addEventListener('DOMContentLoaded', init);

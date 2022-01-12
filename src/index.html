@@ -18,7 +18,6 @@
       <a class="logo-container" href="/">
         <img src="./assets/logo.svg" class="logo" alt="찾아줄개 로고" />
       </a>
-
       <div class="login">
         <!-- <a href="#" class="login__posting-btn">글 작성</a> -->
         <div class="login-wrapper">
@@ -38,30 +37,26 @@
           </button>
         </div>
       </div>
-
-      <div class="no-login hidden">
-        <a href="#" class="no-login__login-btn">
+      <div class="no-login">
+        <a href="javascript:void(0)" class="no-login__login-btn">
           <i class="fas fa-lock"></i>
           로그인
         </a>
-        <a href="#" class="no-login__signup-btn">
+        <a href="javascript:void(0)" class="no-login__signup-btn">
           <i class="fas fa-user-plus"></i>
           회원가입
         </a>
       </div>
     </header>
-    <div id="app"></div>
+    <div id="root"></div>
 
-    <!-- profile -->
-    <section class="profile hidden">
+    <!-- my page -->
+    <!-- <section class="profile hidden">
       <h2 class="sr-only">마이페이지</h2>
       <form action="post" class="profile__form">
         <button class="profile__edit">수 정</button>
         <img src="../src/assets/user.svg" class="profile__img" alt="프로필 아이콘" />
-
         <div class="profile__title-container">
-          <!-- <label for="profile__name" class="sr-only">닉네임</label>
-          <input id="profile__name" class="profile__nickname" type="text" value="박시안" maxlength="10" disabled /> -->
           <span>박시안</span>
           <span class="bold">님의 프로필</span>
         </div>
@@ -71,21 +66,10 @@
         </div>
         <div class="profile__city-container">
           <span class="profile__city-title">지 역</span>
-          <!-- <select name="profile__city" id="profile__city" disabled>
-            <option value="dog">Dog</option>
-            <option value="cat">Cat</option>
-            <option value="hamster">Hamster</option>
-          </select>
-          <select name="profile__district" id="profile__district" disabled>
-            <option value="dog">Dog</option>
-            <option value="cat">Cat</option>
-            <option value="hamster">Hamster</option>
-          </select> -->
           <span class="profile__city">서울특별시</span>
           <span class="profile__district">강남구</span>
         </div>
       </form>
-
       <div class="profile__my-posting">
         <div class="profile__posting-title">
           <span>내가 작성한 글</span>
@@ -118,7 +102,7 @@
           </li>
         </ul>
       </div>
-    </section>
+    </section> -->
 
     <!-- 회원가입 -->
     <!-- <section class="sign-up">
@@ -184,7 +168,7 @@
     </section> -->
 
     <!-- 로그인 -->
-    <section class="sign-in hidden">
+    <!-- <section class="sign-in hidden">
       <h2 class="sign-title">로그인</h2>
       <form class="sign-in-form">
         <fieldset>
@@ -213,13 +197,13 @@
           <div class="sign-in-form-btns">
             <button disabled type="submit" class="sign-in-btn">로그인</button>
             <button class="sign-up-link">
-              <a href="#">회원가입하러 가기</a>
+              <a href="javascript:void(0)">회원가입하러 가기</a>
             </button>
           </div>
         </fieldset>
       </form>
-    </section>
-    <section class="mainpage">
+    </section> -->
+    <!-- <section class="mainpage">
       <div class="main-nav">
         <div class="main-nav-search">
           <label for="text" class="sr-only">검색</label>
@@ -267,7 +251,7 @@
           <span class="main-posts-place">서울특별시 종로구</span>
         </div>
       </div>
-    </section>
+    </section> -->
     <footer class="footer">
       <div class="footer__info">
         <span class="footer__contact">
