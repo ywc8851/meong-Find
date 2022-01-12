@@ -57,7 +57,6 @@ app.get('/user/name/:nickname', (req, res) => {
 app.get('/user/email/:email', (req, res) => {
   const { email } = req.params;
   const user = users.find(user => user.email === email);
-  console.log(email);
   const emailDuplicate = !!user;
   res.send({
     emailDuplicate,
@@ -66,8 +65,7 @@ app.get('/user/email/:email', (req, res) => {
 
 // 회원가입
 app.post('/users/signup', (req, res) => {
-  users = [...users, { ...req.body, password: bcrypt.hashSync(req.body.password, 10) }];
-  // console.log(users);
+  users = [...users, { ...req.body }];
   console.log(users);
   res.send(users);
 });

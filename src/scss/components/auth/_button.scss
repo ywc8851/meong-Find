@@ -1,5 +1,29 @@
 @use '../../utils' as *;
 
+// 메인페이지
+.main-posts-species {
+  text-align: center;
+  vertical-align: middle;
+  width: rem(105px);
+  height: rem(31px);
+  line-height: rem(31px);
+  color: $white;
+  border-radius: rem(20px);
+  margin-top: rem(5px);
+  margin-bottom: rem(15px);
+}
+.species {
+  &-cat {
+    background-color: #57643c;
+  }
+  &-dog {
+    background: $navy;
+  }
+  &-etc {
+    background-color: #bb89cd;
+  }
+}
+
 // 회원가입 , 로그인 버튼 요소들
 
 .sign-up-btn,
@@ -42,4 +66,44 @@
     color: #f3f3f3;
     background-color: #a1a7b6;
   }
+}
+
+// 마이페이지
+.profile__posting-edit,
+.profile__posting-del {
+  width: rem(90px);
+  height: rem(35px);
+  color: $white;
+  border-radius: rem(30px);
+  font-weight: 600;
+  padding: 0;
+  font-size: rem(18px);
+}
+.profile__posting {
+  &-edit {
+    display: inline-block;
+    background-color: #a1a7b6;
+    line-height: rem(35px);
+    text-align: center;
+  }
+  &-del {
+    background-color: $red;
+    border: none;
+  }
+}
+
+.profile__edit {
+  position: absolute;
+  right: 3%;
+  top: 8%;
+
+  font-size: rem(20px);
+  width: rem(96px);
+  height: rem(40px);
+
+  border: none;
+  background-color: #c1bdbd;
+  border-radius: rem(10px);
+
+  color: $white;
 }
