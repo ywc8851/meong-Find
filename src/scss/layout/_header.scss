@@ -31,7 +31,6 @@ a {
 }
 
 .login {
-  // display: none;
   display: inline-block;
   margin-right: rem(30px);
 
@@ -60,13 +59,14 @@ a {
 }
 
 .no-login {
-  // display: none;
-  display: inline-block;
-
-  &__login-btn {
-    margin-right: rem(30px);
-    width: rem(38px);
-    height: rem(38px);
+  display: flex;
+  flex-direction: row;
+  &__signin {
+    margin-right: rem(20px);
+  }
+  &__login-btn,
+  &__signup-btn {
+    padding-left: rem(20px);
   }
 }
 

@@ -1,15 +1,17 @@
 @use '../utils' as *;
 
 .footer {
-  background-color: #42578d;
+  background-color: $navy;
   color: $white;
-  position: relative;
-  width: 100vw;
+  width: 100%;
   height: rem(145px);
   margin-top: rem(100px);
+  // position: fixed;
+  // bottom: 0;
 
   &__info {
     display: flex;
+    position: relative;
     flex-direction: column;
     flex-wrap: nowrap;
     border: 2px white;
@@ -17,9 +19,6 @@
     padding-left: rem(60px);
     padding-bottom: rem(50px);
     line-height: rem(30px);
-  }
-
-  &__contact {
   }
 
   &__list {
