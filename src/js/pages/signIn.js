@@ -95,6 +95,7 @@ const bindEvents = () => {
       popupSetting();
     } catch (error) {
       console.error(error);
+      $('.find-error').classList.remove('hidden');
     }
   });
 
@@ -107,6 +108,7 @@ const bindEvents = () => {
 
 const init = () => {
   bindEvents();
+  console.log('signin init');
 };
 
 window.addEventListener('DOMContentLoaded', init);

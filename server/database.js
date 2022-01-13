@@ -21,7 +21,10 @@ const posts = [
     id: 'post1',
     userId: 'ramndomda',
     createdAt: '2021-01-12',
-    images: ['https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg'],
+    images: [
+      'https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg',
+      'https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg',
+    ],
     title: '저희 집 강아지 잃어버렸어요',
     animal: '강아지',
     type: 'siba',
@@ -32,7 +35,7 @@ const posts = [
   },
   {
     id: 'post2',
-    userId: 'ramnasdffffweedomda',
+    userId: 'asdffffwee',
     createdAt: '2021-01-12',
     images: ['https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg'],
     title: '우리애기 찾아주세요',
