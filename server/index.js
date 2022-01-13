@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
-const urls = ['/signin', '/signup', '/mypage'];
+const urls = ['/signin', '/signup', '/mypage', '/mypageEdit'];
 
 const devServer = (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
@@ -61,6 +61,11 @@ app.get('/mypage', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/mypage.html'));
 });
 
+// 수정페이지
+app.get('/mypageEdit', devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/html/mypageEdit.html'));
+});
+
 // 마이페이지 정보 랜더링
 app.get('/profile', (req, res) => {
   const accessToken = req.headers.authorization || req.cookies.accessToken;
@@ -73,6 +78,15 @@ app.get('/profile', (req, res) => {
     console.log('error');
     return res.redirect('/signin');
   }
+});
+
+app.patch('/users/:id', (req, res) => {
+  const { id } = req.params;
+  // const payload = { ...req.body };
+  // users = users.map(user => (user.id === id ? { ...user, ...payload } : user));
+  const user = users.update(id, req.body);
+  console.log(user);
+  res.send(users);
 });
 
 app.get(urls, blockLoginUser, devServer, (req, res) => {
