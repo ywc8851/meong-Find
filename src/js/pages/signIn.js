@@ -5,7 +5,6 @@ import validate from '../helpers/validate';
 import { postSignIn } from '../requests';
 
 const $signinbtn = $('.sign-in-btn');
-const $emailInput = $('.sign-in-form-email');
 
 const togglePopup = () => {
   $('.popup').classList.toggle('hidden');
@@ -19,12 +18,15 @@ const bindEvents = () => {
     e.preventDefault();
 
     try {
-      const [email, password, autoLogin] = [$('#email').value, $('#password').value, $('#auto__login').value];
+      const [email, password, autoLogin] = [
+        $('#email').value.trim(),
+        $('#password').value.trim(),
+        $('#auto__login').checked,
+      ];
 
       const user = await postSignIn(email, password, autoLogin);
-
       if (user) {
-        moveToPage('/mainpage');
+        moveToPage('/');
         return;
       }
       $('.no-user').classList.remove('hidden');

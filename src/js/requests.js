@@ -3,7 +3,9 @@ import axios from 'axios';
 export const fetchHtml = async url => {
   // console.log(`/${url === '/' ? 'index' : `html/${url}`}.html`);
   try {
-    return await axios.get(url);
+    const res = await axios.get(url);
+    console.log('res ===>', res);
+    return res;
   } catch (error) {
     console.log(error);
   }
