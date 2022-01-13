@@ -6,7 +6,7 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
 const { auth, blockLoginUser } = require('./auth.js');
-const { users, posts } = require('./db');
+const { users, posts, comments } = require('./db');
 
 require('dotenv').config();
 const app = express();
@@ -23,9 +23,11 @@ app.use(cookieParser());
 
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
-const urls = ['/signin', '/signup', '/mypage', '/mypageEdit'];
-
+const urls = ['/signin', '/signup', '/mypage', '/mypageEdit', '/detail'];
 const devServer = (req, res, next) => {
+  if (req.url.split('/').length >= 3) {
+    req.url = `/${req.url.split('/')[1]}`;
+  }
   if (process.env.NODE_ENV === 'development') {
     const file = path.join(config.output.path, `${urls.includes(req.url) ? `html${req.url}` : '/index'}.html`);
     compiler.outputFileSystem.readFile(file, (err, result) => {
@@ -52,7 +54,6 @@ app.get('/getposts', (req, res) => {
 app.get('/findposts/:city/:district/:species', (req, res) => {
   const { city, district, species } = req.params;
   const filterPosts = posts.filter({ city, district, animal: species });
-  console.log(filterPosts);
   res.send(filterPosts);
 });
 
@@ -91,6 +92,23 @@ app.patch('/users/:id', (req, res) => {
 
 app.get(urls, blockLoginUser, devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
+});
+
+// 메인페이지 -> 상세페이지로 이동
+app.get('/detail/:id', devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/html/detail.html`));
+});
+
+app.get('/post/:id', (req, res) => {
+  const { id } = req.params;
+  const postInfo = posts.filter({ id: id });
+  res.send(postInfo);
+});
+
+app.get('/post/user/:id', (req, res) => {
+  const { id } = req.params;
+  const userInfo = users.filter({ id: id });
+  res.send(userInfo);
 });
 
 // 닉네임 중복검사
