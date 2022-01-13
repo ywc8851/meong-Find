@@ -15,30 +15,22 @@
     <!-- 헤더 -->
     <h1 class="sr-only">찾아줄개</h1>
     <header>
-      <a class="logo-container" href="/">
+      <a class="logo-container" href="/mainpage">
         <img src="../assets/logo.svg" class="logo" alt="찾아줄개 로고" />
       </a>
-      <div class="login">
-        <!-- <a href="#" class="login__posting-btn">글 작성</a> -->
-        <div class="login-wrapper">
-          <button class="login__posting-btn">글작성</button>
-          <div class="login__msg">
-            <span>박시안</span>
-            <!-- 동적으로 닉네임 들어가야함-->
-            <span class="bold">님, 반갑습니다!</span>
-          </div>
-          <div>
-            <a href="#" class="login__mypage-btn">
-              <i class="fas fa-user-circle fa-2x"></i>
-              마이페이지
-            </a>
-          </div>
-          <div class="login__logout">
-            <button class="login__logout-btn">
-              <i class="fas fa-sign-out-alt fa-2x"></i>
-              로그아웃
-            </button>
-          </div>
+      <div class="login hidden">
+        <a href="#" class="login__posting-btn">글 작성</a>
+        <div class="login__msg">
+          <span class="user-nickname"></span>
+          <span class="bold">님, 반갑습니다!</span>
+        </div>
+        <div class="login__mypage-container">
+          <i class="fas fa-user-circle fa-lg"></i>
+          <a href="#" class="login__mypage-btn">마이페이지</a>
+        </div>
+        <div class="login__logout">
+          <i class="fas fa-sign-out-alt fa-lg"></i>
+          <button class="login__logout-btn">로그아웃</button>
         </div>
       </div>
       <div class="no-login">

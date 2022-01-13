@@ -1,6 +1,6 @@
 import { $ } from '../helpers/utils';
 import { moveToPage } from '../router';
-import { getSignOut } from '../requests';
+import { getSignOut, getIsUserLogin } from '../requests';
 
 const header = {
   bindEvents() {
@@ -32,6 +32,21 @@ const header = {
         console.error(error);
       }
     });
+
+    (async () => {
+      try {
+        const {
+          data: { nickname },
+        } = await getIsUserLogin();
+        if (nickname) {
+          $('.user-nickname').textContent = nickname;
+          $('.login').classList.remove('hidden');
+          $('.no-login').classList.add('hidden');
+        }
+      } catch (error) {
+        console.log('user not login');
+      }
+    })();
   },
 };
 

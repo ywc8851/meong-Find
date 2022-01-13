@@ -82,3 +82,20 @@ export const getMainPosts = async () => {
 export const searchTitile = async title => {
   return await axios.get(`/findposts/${title}`);
 };
+
+// mypage 정보
+export const getMyProfile = async () => {
+  try {
+    return await axios.get('/profile');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getIsUserLogin = async () => {
+  try {
+    return await axios.get('/user/login');
+  } catch (error) {
+    console.error(error);
+  }
+};
