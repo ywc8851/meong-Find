@@ -40,7 +40,7 @@ const header = {
         } = await getIsUserLogin();
         if (nickname) {
           $('.user-nickname').textContent = nickname;
-          $('.login-wrapper').classList.remove('hidden');
+          $('.login').classList.remove('hidden');
           $('.no-login').classList.add('hidden');
         }
       } catch (error) {
