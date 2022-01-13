@@ -94,7 +94,7 @@ app.post('/user/signin', (req, res) => {
     return res.status(401).send('등록되지 않은 사용자입니다.');
   }
 
-  const accessToken = createToken(email, autoLogin ? '30s' : '10s');
+  const accessToken = createToken(email, autoLogin ? '30s' : '5s');
 
   res.cookie('accessToken', accessToken, {
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
@@ -110,6 +110,8 @@ app.post('/user/signin', (req, res) => {
 app.get('/user/signout', (req, res) => {
   res.clearCookie('accessToken').redirect('/');
 });
+
+app.get('/user/login', auth);
 
 app.get('*', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));

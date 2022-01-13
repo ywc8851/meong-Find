@@ -40,7 +40,7 @@ const bindEvents = () => {
   window.addEventListener('popstate', handleHistory);
 };
 
-const init = async () => {
+const init = () => {
   bindEvents();
 };
 
