@@ -92,6 +92,20 @@ export const getMyProfile = async () => {
   }
 };
 
+// profile 변경
+export const changeUserProfile = async (curUserId, nickname, password, city, district) => {
+  try {
+    return await axios.patch(`/users/${curUserId}`, {
+      nickname,
+      password,
+      city,
+      district,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getIsUserLogin = async () => {
   try {
     return await axios.get('/user/login');

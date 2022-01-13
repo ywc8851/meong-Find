@@ -29,3 +29,15 @@ const render = (() => {
     }
   };
 })();
+
+const bindEvents = () => {
+  header.bindEvents();
+
+  window.addEventListener('popstate', handleHistory);
+};
+
+const init = () => {
+  bindEvents();
+};
+
+window.addEventListener('DOMContentLoaded', init);
