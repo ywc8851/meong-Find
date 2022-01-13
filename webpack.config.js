@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const urls = ['index', 'signin', 'signup', 'mypage', 'detail'];
+const urls = ['index', 'signin', 'signup', 'mypage', 'detail', 'mypageEdit'];
 const htmlWebpackPlugins = () =>
   urls.map(
     url =>
@@ -27,6 +27,7 @@ module.exports = {
     signup: ['./src/js/pages/signUp.js', './src/scss/index.scss'],
     mypage: ['./src/js/pages/mypage.js', './src/scss/index.scss'],
     detail: ['./src/js/pages/detail.js', './src/scss/index.scss'],
+    mypageEdit: ['./src/js/pages/mypageEdit.js', './src/scss/index.scss'],
   },
   output: {
     path: path.resolve(__dirname, 'public'),
