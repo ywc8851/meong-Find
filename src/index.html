@@ -18,7 +18,7 @@
       <a class="logo-container" href="/mainpage">
         <img src="./assets/logo.svg" class="logo" alt="찾아줄개 로고" />
       </a>
-      <div class="login">
+      <div class="login hidden">
         <!-- <a href="#" class="login__posting-btn">글 작성</a> -->
         <div class="login-wrapper">
           <button class="login__posting-btn">글작성</button>
@@ -41,7 +41,7 @@
           </div>
         </div>
       </div>
-      <div class="no-login">
+      <div class="no-login hidden">
         <div class="no-login__signin">
           <i class="fas fa-lock"></i>
           <a href="javascript:void(0)" class="no-login__login-btn">로그인</a>
@@ -52,34 +52,30 @@
         </div>
       </div>
     </header>
-    <div id="root"></div>
 
     <section class="mainpage">
       <div class="main-nav">
         <div class="main-nav-search">
           <label for="text" class="sr-only">검색</label>
-          <input id="text" type="text" class="aa" placeholder="검색어를 입력하세요" />
-          <button>검색</button>
+          <input id="text" type="text" class="search-input" placeholder="검색어를 입력하세요" />
+          <button class="main-nav-search-btn">검색</button>
         </div>
         <div class="main-nav-find">
           <select name="city" id="city">
             <option value="city">시</option>
-            <option value="seoul">서울특별시</option>
-            <option value="busan">부산광역시</option>
+            <option>서울특별시</option>
+            <option>부산광역시</option>
           </select>
           <select name="district" id="district">
             <option value="district">구</option>
-            <option value="gangnamgu">강남구</option>
-            <option value="gangjingu">광진구</option>
-            <option value="seochogu">서초구</option>
           </select>
           <select name="kind" id="kind">
             <option value="kind">종류</option>
-            <option value="dog">강아지</option>
-            <option value="cat">고양이</option>
-            <option value="etc">기타</option>
+            <option>강아지</option>
+            <option>고양이</option>
+            <option>기타</option>
           </select>
-          <button>찾기</button>
+          <button class="main-nav-find-btn">찾기</button>
         </div>
       </div>
       <div class="main-posts">
