@@ -5,7 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
-const auth = require('./auth.js');
+const { auth, blockLoginUser } = require('./auth.js');
 const { users, posts } = require('./db');
 
 require('dotenv').config();
@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
-const urls = ['/', '/signin', '/signup', '/mainpage'];
+const urls = ['/signin', '/signup'];
 
 const devServer = (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
@@ -38,18 +38,9 @@ const devServer = (req, res, next) => {
   } else next();
 };
 
-app.get(urls, devServer, (req, res) => {
-  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
-});
-
-// 메인페이지
-app.get('/mainpage', devServer, (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/html/mainpage.html'));
-});
-
 // 루트페이지(메인페이지)
 app.get('/', devServer, (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/html/mainpage.html'));
+  res.sendFile(path.join(__dirname, '../public/html/index.html'));
 });
 
 // 모든 게시물 가져오기
@@ -63,6 +54,10 @@ app.get('/findposts/:city/:district/:species', (req, res) => {
   const filterPosts = posts.filter({ city, district, animal: species });
   console.log(filterPosts);
   res.send(filterPosts);
+});
+
+app.get(urls, blockLoginUser, devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
 // 닉네임 중복검사
@@ -96,12 +91,9 @@ app.post('/user/signin', (req, res) => {
   const { email, password, autoLogin } = req.body;
   const [user] = users.filter({ email, password });
   if (!user) {
-    console.log(user);
-    return res.status(401).send(
-      '등록되지 않은 사용자입니다.'
-      // error: '등록되지 않은 사용자입니다.',
-    );
+    return res.status(401).send('등록되지 않은 사용자입니다.');
   }
+
   const accessToken = createToken(email, autoLogin ? '30s' : '10s');
 
   res.cookie('accessToken', accessToken, {
@@ -116,7 +108,7 @@ app.post('/user/signin', (req, res) => {
 
 //로그아웃
 app.get('/user/signout', (req, res) => {
-  res.clearCookie('accessToken').redirect('/mainpage');
+  res.clearCookie('accessToken').redirect('/');
 });
 
 app.get('*', devServer, (req, res) => {

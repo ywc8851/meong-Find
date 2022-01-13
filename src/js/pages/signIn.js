@@ -5,14 +5,11 @@ import validate from '../helpers/validate';
 import { postSignIn } from '../requests';
 
 const $signinbtn = $('.sign-in-btn');
-const $emailInput = $('.sign-in-form-email');
 
 const togglePopup = () => {
   $('.popup').classList.toggle('hidden');
   $('.cover').classList.toggle('hidden');
 };
-
-let checked = false;
 
 const bindEvents = () => {
   header.bindEvents();
@@ -21,12 +18,15 @@ const bindEvents = () => {
     e.preventDefault();
 
     try {
-      const [email, password, autoLogin] = [$('#email').value, $('#password').value, checked];
+      const [email, password, autoLogin] = [
+        $('#email').value.trim(),
+        $('#password').value.trim(),
+        $('#auto__login').checked,
+      ];
 
       const user = await postSignIn(email, password, autoLogin);
-
       if (user) {
-        moveToPage('/mainpage');
+        moveToPage('/');
         return;
       }
       $('.no-user').classList.remove('hidden');
@@ -41,10 +41,6 @@ const bindEvents = () => {
 
   $('.sign-up-link').addEventListener('click', async () => {
     await moveToPage('signup');
-  });
-
-  $('#auto__login').addEventListener('change', () => {
-    checked = !checked;
   });
 
   $('.sign-in-form').addEventListener('input', e => {
