@@ -130,6 +130,8 @@ app.get('/user/signout', (req, res) => {
   res.clearCookie('accessToken').redirect('/');
 });
 
+app.get('/user/login', auth);
+
 app.get('*', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });

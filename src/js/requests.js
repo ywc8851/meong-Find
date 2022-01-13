@@ -91,3 +91,11 @@ export const getMyProfile = async () => {
     console.error(error);
   }
 };
+
+export const getIsUserLogin = async () => {
+  try {
+    return await axios.get('/user/login');
+  } catch (error) {
+    console.error(error);
+  }
+};

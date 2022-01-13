@@ -39,7 +39,7 @@ const signUp = () => {
       console.error(error);
     }
   };
-  document.querySelector('.sign-up-form').oninput = e => {
+  $('.sign-up-form').oninput = e => {
     if (e.target.matches('#nickname')) {
       validate.nameValidate(e.target.value, 0, $signupButton);
       // console.log($nicknameInput.querySelector('.icon-success'));
@@ -63,11 +63,11 @@ const signUp = () => {
       }
     } else if (e.target.matches('#password')) {
       validate.passwordValidate(e.target.value, 2, $signupButton);
+      if (e.target.value) validate.passwordConfirmValidate(e.target.value !== $('#repassword').value, 3, $signupButton);
     } else if (e.target.matches('#repassword')) {
-      validate.passwordConfirmValidate(document.querySelector('#password').value !== e.target.value, 3, $signupButton);
+      if (e.target.value) validate.passwordConfirmValidate($('#password').value !== e.target.value, 3, $signupButton);
     }
   };
-
   $duplicateButton[0].onclick = async ({ target }) => {
     const $errormsg = target.parentElement.querySelector('.error');
 
