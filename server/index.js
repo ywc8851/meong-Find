@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
-const urls = ['/signin', '/signup', '/mainpage'];
+const urls = ['/signin', '/signup'];
 
 const devServer = (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
@@ -38,15 +38,17 @@ const devServer = (req, res, next) => {
   } else next();
 };
 
-// 메인페이지
-app.get('/mainpage', devServer, (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/html/mainpage.html'));
+// 루트페이지(메인페이지)
+app.get('/', devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/html/index.html'));
 });
 
+// 모든 게시물 가져오기
 app.get('/getposts', (req, res) => {
   res.send(posts.get());
 });
 
+// select 3개로 쿼리문을 날려서 게시물 가져오기
 app.get('/findposts/:city/:district/:species', (req, res) => {
   const { city, district, species } = req.params;
   const filterPosts = posts.filter({ city, district, animal: species });
@@ -106,7 +108,7 @@ app.post('/user/signin', (req, res) => {
 
 //로그아웃
 app.get('/user/signout', (req, res) => {
-  res.clearCookie('accessToken').redirect('/mainpage');
+  res.clearCookie('accessToken').redirect('/');
 });
 
 app.get('*', devServer, (req, res) => {
