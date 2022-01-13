@@ -1,5 +1,10 @@
 @use '../utils/' as *;
 
+button {
+  border: none;
+  background-color: transparent;
+}
+
 // 메인페이지
 .main-posts-species {
   text-align: center;
