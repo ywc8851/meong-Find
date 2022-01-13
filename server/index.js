@@ -14,6 +14,7 @@ const PORT = process.env.PORT;
 
 const config = require('../webpack.config.js');
 const compiler = webpack(config);
+const nodemailer = require('nodemailer');
 
 app.use(webpackDevMiddleware(compiler));
 
@@ -23,7 +24,25 @@ app.use(cookieParser());
 
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  port: 465,
+  secure: true,
+  auth: {
+    user: 'meongfind@gmail.com',
+    pass: 'meongfind123!',
+  },
+});
+
+const emailOptions = {
+  from: 'meongfind@gmail.com',
+  to: '',
+  subject: '임시 비밀번호 안내 입니다.',
+  html: '',
+};
+
 const urls = ['/signin', '/signup', '/mypage', '/mypageEdit', '/detail'];
+
 const devServer = (req, res, next) => {
   if (req.url.split('/').length >= 3) {
     req.url = `/${req.url.split('/')[1]}`;
@@ -160,6 +179,36 @@ app.post('/user/signin', (req, res) => {
 //로그아웃
 app.get('/user/signout', (req, res) => {
   res.clearCookie('accessToken').redirect('/');
+});
+
+// 아이디 확인
+app.get('/user/id/:email', (req, res) => {
+  const { email } = req.params;
+  const [user] = users.filter({ email });
+
+  res.send({
+    id: user.id,
+  });
+});
+
+// 임시 비밀번호 발급
+app.patch('/user/temporary', (req, res) => {
+  const { id, password } = req.body;
+  const changeCheck = users.update(id, { password });
+
+  if (!changeCheck) {
+    return res.status(401).send('임시비밀번호 변경에 실패 했습니다.');
+  }
+  emailOptions.to = changeCheck.email;
+  emailOptions.html = `<h2>임시 비밀번호 안내 입니다.</h2>
+  <p> 안녕하세요  찾아줄개 입니다~^^ 고객님의 임시 비밀번호입니다.</p>
+  <p>비밀번호:${changeCheck.password}</p>`;
+
+  transporter.sendMail(emailOptions);
+
+  res.send({
+    changeCheck,
+  });
 });
 
 app.get('/user/login', auth);

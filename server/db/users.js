@@ -9,7 +9,7 @@ const users = [
   },
   {
     id: 'asdffffwee',
-    email: 'sian@naver.com',
+    email: 'tocic@naver.com',
     password: 'tldks123',
     city: '서울특별시',
     district: '광진구',

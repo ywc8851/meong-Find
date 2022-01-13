@@ -83,6 +83,20 @@ export const searchTitile = async title => {
   return await axios.get(`/findposts/${title}`);
 };
 
+// 이메일 주소로 아이디 찾기
+export const getUserId = async email => {
+  return await axios.get(`/user/id/${email}`);
+};
+
+// 발급 받은 임시 비밀번호로 변경
+export const changePassword = async (id, password) => {
+  try {
+    return await axios.patch('/user/temporary', { id, password });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // 메인페이지 -> 상세페이지로 이동
 export const getPostId = async id => {
   try {
