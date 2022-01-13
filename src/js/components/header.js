@@ -27,7 +27,7 @@ const header = {
         if (status === 200) {
           alert('로그아웃 되었습니다.');
         }
-        moveToPage('mainpage');
+        moveToPage('/');
       } catch (error) {
         console.error(error);
       }

@@ -26,7 +26,7 @@ const bindEvents = () => {
 
       const user = await postSignIn(email, password, autoLogin);
       if (user) {
-        moveToPage('/mainpage');
+        moveToPage('/');
         return;
       }
       $('.no-user').classList.remove('hidden');
