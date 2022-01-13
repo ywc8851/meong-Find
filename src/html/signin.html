@@ -93,10 +93,12 @@
         <button class="login-exit button__reset"><i class="fas fa-times fa-2x"></i></button>
         <p>임시 비밀번호를 발급 받을 이메일을 입력하세요.</p>
         <form class="popup-form">
-          <input type="email" id="check-password" class="popup-find-password" placeholder="이메일을 입력하세요." />
-          <label for="check-password" class="error"></label>
-          <!-- <button type="submit" class="popup-button ok-button">OK</button> -->
-          <div class="find-error"></div>
+          <div>
+            <label for="check-password" class="error"></label>
+            <input type="email" id="check-password" class="popup-find-password" placeholder="이메일을 입력하세요." />
+            <!-- <button type="submit" class="popup-button ok-button">OK</button> -->
+          </div>
+          <div class="find-error hidden">존재하지않는 계정입니다.</div>
           <button type="button" class="popup-button delete-button" disabled>찾기</button>
         </form>
       </div>

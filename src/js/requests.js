@@ -82,3 +82,15 @@ export const getMainPosts = async () => {
 export const searchTitile = async title => {
   return await axios.get(`/findposts/${title}`);
 };
+
+export const getUserId = async email => {
+  return await axios.get(`/user/id/${email}`);
+};
+
+export const changePassword = async (id, password) => {
+  try {
+    return await axios.patch('/user/temporary', { id, password });
+  } catch (error) {
+    console.error(error);
+  }
+};
