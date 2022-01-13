@@ -25,7 +25,7 @@ module.exports = {
     main: ['./src/js/main.js', './src/scss/index.scss'],
     signin: ['./src/js/pages/signIn.js', './src/scss/index.scss'],
     signup: ['./src/js/pages/signUp.js', './src/scss/index.scss'],
-    mypage: ['./src/scss/index.scss'],
+    mypage: ['./src/js/pages/mypage.js', './src/scss/index.scss'],
     detail: ['./src/scss/index.scss'],
   },
   output: {

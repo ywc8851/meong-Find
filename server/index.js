@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
-const urls = ['/signin', '/signup'];
+const urls = ['/signin', '/signup', '/mypage'];
 
 const devServer = (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
@@ -54,6 +54,25 @@ app.get('/findposts/:city/:district/:species', (req, res) => {
   const filterPosts = posts.filter({ city, district, animal: species });
   console.log(filterPosts);
   res.send(filterPosts);
+});
+
+// 마이페이지
+app.get('/mypage', devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/html/mypage.html'));
+});
+
+// 마이페이지 정보 랜더링
+app.get('/profile', (req, res) => {
+  const accessToken = req.headers.authorization || req.cookies.accessToken;
+
+  try {
+    const decoded = jwt.verify(accessToken, process.env.SECRET_KEY);
+    // throw new Error();
+    res.send(users.filter({ email: decoded.email }));
+  } catch (e) {
+    console.log('error');
+    return res.redirect('/signin');
+  }
 });
 
 app.get(urls, blockLoginUser, devServer, (req, res) => {
@@ -94,7 +113,7 @@ app.post('/user/signin', (req, res) => {
     return res.status(401).send('등록되지 않은 사용자입니다.');
   }
 
-  const accessToken = createToken(email, autoLogin ? '30s' : '5s');
+  const accessToken = createToken(email, autoLogin ? '1d' : '1d');
 
   res.cookie('accessToken', accessToken, {
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
