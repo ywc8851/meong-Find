@@ -44,9 +44,9 @@ export default {
   },
 
   nameValidate(value, index, button) {
-    const regName = /^[^\s]{2,5}$/;
+    const regName = /^[^\s]{2,8}$/;
 
-    return checkIsCorrectForm(!regName.test(value), index, '닉네임 형식에 맞게 입력해 주세요.', button);
+    return checkIsCorrectForm(!regName.test(value), index, '영문 또는 숫자를 2~8자 입력하세요..', button);
   },
 
   // password validate
