@@ -8,9 +8,6 @@ const handleData = data => {
     get() {
       return datas;
     },
-    set(payload) {
-      datas = payload;
-    },
     create(newData) {
       datas = [newData, ...datas];
       return newData;
@@ -18,15 +15,16 @@ const handleData = data => {
     delete(id) {
       datas = datas.filter(data => data.id !== id);
     },
-    findById(id) {
-      return datas.find(data => data.id === id);
-    },
     filter(payload) {
       let filtered = datas;
       Object.keys(payload).forEach(key => {
         filtered = filtered.filter(data => data[key] === payload[key]);
       });
       return filtered;
+    },
+    update(id, payload) {
+      datas = datas.map(data => (data.id === id ? { ...data, ...payload } : data));
+      return datas.find(data => data.id === id);
     },
   };
 };

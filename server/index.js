@@ -5,7 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
-const auth = require('./auth.js');
+const { auth, blockLoginUser } = require('./auth.js');
 const { users, posts } = require('./db');
 
 require('dotenv').config();
@@ -38,10 +38,6 @@ const devServer = (req, res, next) => {
   } else next();
 };
 
-app.get(urls, devServer, (req, res) => {
-  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
-});
-
 // 메인페이지
 app.get('/mainpage', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/mainpage.html'));
@@ -56,6 +52,10 @@ app.get('/findposts/:city/:district/:species', (req, res) => {
   const filterPosts = posts.filter({ city, district, animal: species });
   console.log(filterPosts);
   res.send(filterPosts);
+});
+
+app.get(urls, blockLoginUser, devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
 // 닉네임 중복검사
@@ -89,12 +89,9 @@ app.post('/user/signin', (req, res) => {
   const { email, password, autoLogin } = req.body;
   const [user] = users.filter({ email, password });
   if (!user) {
-    console.log(user);
-    return res.status(401).send(
-      '등록되지 않은 사용자입니다.'
-      // error: '등록되지 않은 사용자입니다.',
-    );
+    return res.status(401).send('등록되지 않은 사용자입니다.');
   }
+
   const accessToken = createToken(email, autoLogin ? '30s' : '10s');
 
   res.cookie('accessToken', accessToken, {

@@ -7,6 +7,7 @@ export const render = async path => {
     document.write(data);
     document.close();
   } catch (error) {
+    history.back();
     console.error(error);
   }
 };
