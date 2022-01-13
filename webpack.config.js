@@ -26,8 +26,8 @@ module.exports = {
     signin: ['./src/js/pages/signIn.js', './src/scss/index.scss'],
     signup: ['./src/js/pages/signUp.js', './src/scss/index.scss'],
     mypage: ['./src/js/pages/mypage.js', './src/scss/index.scss'],
+    detail: ['./src/js/pages/detail.js', './src/scss/index.scss'],
     mypageEdit: ['./src/js/pages/mypageEdit.js', './src/scss/index.scss'],
-    detail: ['./src/scss/index.scss'],
   },
   output: {
     path: path.resolve(__dirname, 'public'),

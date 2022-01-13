@@ -60,6 +60,7 @@ const bindEvents = () => {
 
 const init = () => {
   bindEvents();
+  console.log('signin init');
 };
 
 window.addEventListener('DOMContentLoaded', init);

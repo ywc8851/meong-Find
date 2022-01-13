@@ -83,6 +83,24 @@ export const searchTitile = async title => {
   return await axios.get(`/findposts/${title}`);
 };
 
+// 메인페이지 -> 상세페이지로 이동
+export const getPostId = async id => {
+  try {
+    return await axios.get(`/post/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 상세페이지 posting 정보 가져오기
+export const getPostInfo = async id => {
+  return await axios.get(`/post/${id}`);
+};
+// 상세페이지 user 정보 가져오기
+export const getPostwriter = async id => {
+  return await axios.get(`/post/user/${id}`);
+};
+
 // mypage 정보
 export const getMyProfile = async () => {
   try {
