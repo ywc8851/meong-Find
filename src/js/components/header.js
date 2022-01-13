@@ -4,7 +4,7 @@ import { getSignOut, getIsUserLogin } from '../requests';
 
 const header = {
   bindEvents() {
-    $('.no-login__login-btn').addEventListener('click', async () => {
+    $('.no-login__signin-btn').addEventListener('click', async () => {
       try {
         moveToPage('signin');
       } catch (error) {
