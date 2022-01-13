@@ -2,8 +2,9 @@
 
 header {
   position: relative;
+  display: flex;
+  align-items: center;
   @include paddingY(45px);
-  @include paddingX(75px);
 }
 
 a {
@@ -14,73 +15,97 @@ a {
   font-weight: 600;
 }
 
+.logo-container {
+  margin-left: rem(75px);
+}
+.login {
+  width: rem(600px);
+  height: 30%;
+}
+.no-login {
+  width: rem(200px);
+  height: 30%;
+}
 .login,
 .no-login {
-  position: absolute;
-  display: flex;
-  @include pos($t: rem(55px), $r: rem(40px));
-}
-
-// .login__posting-btn {
-//   display: none;
-// }
-
-.login-wrapper {
+  margin-right: rem(20px);
+  font-size: rem(20px);
   display: flex;
   align-items: center;
+  color: $darkgray;
+  @include pos($t: rem(55px), $r: rem(40px));
+  justify-content: space-between;
 }
 
 .login {
-  display: inline-block;
-  margin-right: rem(30px);
-
   &__msg {
-    display: initial;
-    margin-right: rem(10px);
-    color: $darkgray;
+    line-height: rem(23px);
+    margin: 0 rem(10px);
   }
-
-  &__mypage-btn {
-    margin-right: rem(10px);
-    color: $navy;
+  &__mypage {
+    &-container {
+      display: flex;
+      text-align: right;
+      justify-items: center;
+      align-items: center;
+      color: $darkgray;
+      &:hover {
+        color: $navy;
+      }
+    }
+    &-btn {
+      color: inherit;
+      font-weight: 600;
+      margin-left: rem(30px);
+      line-height: rem(23px);
+    }
+  }
+  &__logout {
     display: flex;
+    justify-items: center;
     align-items: center;
-  }
-
-  &__logout-btn {
-    border: 0;
-    background: none;
-    color: $navy;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    height: rem(36px);
-  }
-  &__posting-btn {
-    width: rem(132px);
-    height: rem(47px);
-    background: #888080;
-    border: none;
-    border-radius: 10px;
-    margin-right: rem(39px);
-    font-size: rem(20px);
-    color: $white;
+    &:hover {
+      color: $navy;
+    }
+    &-btn {
+      font-size: rem(20px);
+      font-weight: 600;
+      letter-spacing: rem(-1px);
+      padding: none;
+      color: inherit;
+      margin-left: rem(30px);
+    }
   }
 }
-
 .no-login {
-  display: flex;
-  flex-direction: row;
-  &__signin {
-    margin-right: rem(20px);
-  }
-  &__login-btn,
-  &__signup-btn {
-    padding-left: rem(20px);
+  &__signin,
+  &__signup {
+    &-btn {
+      font-size: rem(20px);
+      font-weight: 600;
+      color: inherit;
+      margin-left: rem(30px);
+      padding: none;
+    }
   }
 }
-
-.fa-user-circle,
-.fa-sign-out-alt {
-  margin-right: rem(12px);
+// .no-login {
+//   display: flex;
+//   flex-direction: row;
+//   &__signin {
+//     margin-right: rem(20px);
+//   }
+//   &__login-btn,
+//   &__signup-btn {
+//     padding-left: rem(20px);
+//   }
+// }
+.login__posting-btn {
+  background-color: #888080;
+  color: $white;
+  border-radius: rem(10px);
+  width: rem(100px);
+  height: rem(40px);
+  text-align: center;
+  line-height: rem(40px);
 }

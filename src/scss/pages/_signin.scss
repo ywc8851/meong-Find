@@ -69,7 +69,7 @@
   height: 16rem;
 
   * {
-    @include marginY(10);
+    @include marginY(5);
   }
 
   &-button {
@@ -78,6 +78,7 @@
     border-radius: rem(10px);
     color: $white;
     background-color: $navy;
+    margin-top: rem(10px);
   }
 
   &-find-password {
@@ -89,4 +90,13 @@
 
 .button__reset {
   @include pos($t: rem(2px), $r: rem(40px));
+}
+
+.popup-button:disabled {
+  background-color: $darkgray;
+}
+
+.find-error {
+  color: $red;
+  font-size: rem(15px);
 }
