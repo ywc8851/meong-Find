@@ -2,6 +2,8 @@
 
 header {
   position: relative;
+  display: flex;
+  align-items: center;
   @include paddingY(45px);
 }
 
@@ -18,16 +20,16 @@ a {
 }
 .login {
   width: rem(600px);
+  height: 30%;
 }
 .no-login {
   width: rem(200px);
+  height: 30%;
 }
 .login,
 .no-login {
   margin-right: rem(20px);
   font-size: rem(20px);
-
-  position: absolute;
   display: flex;
   align-items: center;
   color: $darkgray;
