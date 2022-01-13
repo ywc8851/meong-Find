@@ -82,3 +82,11 @@ export const getMainPosts = async () => {
 export const searchTitile = async title => {
   return await axios.get(`/findposts/${title}`);
 };
+
+export const getIsUserLogin = async () => {
+  try {
+    return await axios.get('/user/login');
+  } catch (error) {
+    console.error(error);
+  }
+};
