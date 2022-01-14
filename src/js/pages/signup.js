@@ -103,7 +103,7 @@ const signUp = () => {
     try {
       // const name = document.querySelector('#nickname').value;
       const res = await getSignUpName($('#nickname').value);
-      const isDuplicate = res.data.nicknameDuplicate;
+      const isDuplicate = res.data.nicknameDuplication;
 
       if (isDuplicate) {
         $errormsg.textContent = '이미 존재하는 닉네임입니다';

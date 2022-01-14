@@ -76,8 +76,8 @@ export const getMainPosts = async () => {
 };
 
 // select에 따른 글찾기
-export const findPosts = async (city, district, species) => {
-  return await axios.get(`/findposts/${city}/${district}/${species}`);
+export const findPosts = async (city, district, animal) => {
+  return await axios.get(`/findposts/${city}/${district}/${animal}`);
 };
 
 export const searchTitile = async title => {
@@ -115,7 +115,7 @@ export const getPostInfo = async id => {
 // 상세페이지 comment 가져오기
 export const getPostComments = async _comments => {
   const comments = encodeURIComponent(JSON.stringify(_comments));
-  return await axios.get(`/post/comments/${comments}`);
+  return await axios.get(`/comments/${comments}`);
 };
 
 // mypage 정보

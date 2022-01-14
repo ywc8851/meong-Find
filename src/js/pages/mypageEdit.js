@@ -95,7 +95,7 @@ $duplicateButton.onclick = async e => {
   try {
     const name = document.querySelector('#nickname').value;
     const res = await getSignUpName(name);
-    const isDuplicate = res.data.nicknameDuplicate;
+    const isDuplicate = res.data.nicknameDuplication;
     const isFirstname = name === firstNickname;
 
     if (!isDuplicate || isFirstname) {

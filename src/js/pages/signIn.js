@@ -89,8 +89,8 @@ const bindEvents = () => {
 
       if (checkUser) {
         const pwd = randomPasssword().trim();
-        const checks = await changePassword(checkUser, pwd);
-        if (checks) alert('메일 발송이 완료되었습니다.');
+        const updatedUser = await changePassword(checkUser, pwd);
+        if (updatedUser) alert('메일 발송이 완료되었습니다.');
       }
       popupSetting();
     } catch (error) {
