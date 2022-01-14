@@ -7,7 +7,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const upload = require('./upload');
 
 const { auth, blockLoginUser } = require('./auth.js');
-const { users, posts } = require('./db');
+const { users, posts, comments } = require('./db');
 
 require('dotenv').config();
 const app = express();
@@ -15,6 +15,7 @@ const PORT = process.env.PORT;
 
 const config = require('../webpack.config.js');
 const compiler = webpack(config);
+const nodemailer = require('nodemailer');
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -26,9 +27,29 @@ if (process.env.NODE_ENV === 'development') {
 
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
-const urls = ['/signin', '/signup', '/mypage', '/register'];
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.ADMIN_EMAIL,
+    pass: process.env.ADMIN_PASSWORD,
+  },
+});
+
+const emailOptions = {
+  from: process.env.ADMIN_EMAIL,
+  to: '',
+  subject: '임시 비밀번호 안내 입니다.',
+  html: '',
+};
+
+const urls = ['/signin', '/signup', '/detail', '/mypage', '/mypageEdit'];
 
 const devServer = (req, res, next) => {
+  if (req.url.split('/').length >= 3) {
+    req.url = `/${req.url.split('/')[1]}`;
+  }
   if (process.env.NODE_ENV === 'development') {
     const file = path.join(config.output.path, `${urls.includes(req.url) ? `html${req.url}` : '/index'}.html`);
     compiler.outputFileSystem.readFile(file, (err, result) => {
@@ -51,19 +72,23 @@ app.get('/getposts', (req, res) => {
 });
 
 // select 3개로 쿼리문을 날려서 게시물 가져오기
-app.get('/findposts/:city/:district/:species', (req, res) => {
-  const { city, district, species } = req.params;
-  const filterPosts = posts.filter({ city, district, animal: species });
-  console.log(filterPosts);
+app.get('/findposts/:city/:district/:animal', (req, res) => {
+  const { city, district, animal } = req.params;
+  const filterPosts = posts.filter({ city, district, animal });
   res.send(filterPosts);
 });
 
 // 마이페이지
-app.get('/mypage', devServer, (req, res) => {
+app.get('/mypage', auth, devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/mypage.html'));
 });
 
-// 마이페이지 정보 랜더링
+// 수정페이지
+app.get('/mypageEdit', auth, devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/html/mypageEdit.html'));
+});
+
+// 마이페이지 정보
 app.get('/profile', (req, res) => {
   const accessToken = req.headers.authorization || req.cookies.accessToken;
 
@@ -71,7 +96,6 @@ app.get('/profile', (req, res) => {
     const decoded = jwt.verify(accessToken, process.env.SECRET_KEY);
     res.send(users.filter({ email: decoded.email }));
   } catch (e) {
-    console.log('error');
     return res.redirect('/signin');
   }
 });
@@ -80,34 +104,102 @@ app.get('/register', auth, devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
+// 내가 작성한 글
+app.get('/mypost/:writerNickname', (req, res) => {
+  const { writerNickname } = req.params;
+
+  try {
+    const post = posts.filter({ writerNickname });
+    res.send(post);
+  } catch (e) {
+    console.log('error');
+  }
+});
+
+// 프로필 정보 수정
+app.patch('/users/:id', (req, res) => {
+  const { id } = req.params;
+
+  try {
+    users.update(id, req.body);
+    res.send();
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+// 메인페이지 -> 상세페이지로 이동
+app.get('/post/:id', devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/html/detail.html`));
+});
+
+app.get('/detail/:id', (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const postInfo = posts.filter({ id });
+    res.send(postInfo);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+// 상세페이지 comment 가져오기
+app.get('/comments/:idList', (req, res) => {
+  const { idList: id } = req.params;
+  const commentList = JSON.parse(id);
+
+  try {
+    const list = commentList.map(id => comments.filter({ id })[0]);
+    res.send(list);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+// urls 배열에 있는 client 에게 전송
 app.get(urls, blockLoginUser, devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
+});
+
+// 회원가입
+app.post('/users/signup', (req, res) => {
+  try {
+    const user = users.create({ ...req.body });
+    res.send(user);
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 // 닉네임 중복검사
 app.get('/user/name/:nickname', (req, res) => {
   const { nickname } = req.params;
-  const [user] = users.filter({ nickname });
-  const nicknameDuplicate = !!user;
-  res.send({
-    nicknameDuplicate,
-  });
+  try {
+    const [user] = users.filter({ nickname });
+    const nicknameDuplication = !!user;
+    res.send({
+      nicknameDuplication,
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 // 이메일 중복검사
 app.get('/user/email/:email', (req, res) => {
   const { email } = req.params;
-  const [user] = users.filter({ email });
-  const emailDuplicate = !!user;
-  res.send({
-    emailDuplicate,
-  });
-});
 
-// 회원가입
-app.post('/users/signup', (req, res) => {
-  const user = users.create({ ...req.body });
-  res.send(user);
+  // 바꿔라 duplicate -> duplication
+  try {
+    const [user] = users.filter({ email });
+    const emailDuplicate = !!user;
+    res.send({
+      emailDuplicate,
+    });
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 //로그인
@@ -125,6 +217,7 @@ app.post('/user/signin', (req, res) => {
     httpOnly: true,
   });
 
+  // 아이디 필요한지 고뇌
   res.send({
     id: user.id,
   });
@@ -135,6 +228,38 @@ app.get('/user/signout', (req, res) => {
   res.clearCookie('accessToken').redirect('/');
 });
 
+// 존재하는 이메일인지 확인
+app.get('/user/id/:email', (req, res) => {
+  const { email } = req.params;
+  const [user] = users.filter({ email });
+
+  res.send({
+    id: user.id,
+  });
+});
+
+// 임시 비밀번호 발급
+app.patch('/user/temporary', (req, res) => {
+  const { id, password } = req.body;
+  const updatedUser = users.update(id, { password });
+
+  if (updatedUser) {
+    return res.status(401).send('임시비밀번호 변경에 실패 했습니다.');
+  }
+  emailOptions.to = updatedUser.email;
+  emailOptions.html = `
+  <h2>임시 비밀번호 안내 입니다.</h2>
+  <p> 안녕하세요  찾아줄개 입니다~^^ 고객님의 임시 비밀번호입니다.</p>
+  <p>비밀번호:${updatedUser.password}</p>`;
+
+  transporter.sendMail(emailOptions);
+
+  // 이거 꼭 필요한지 체크
+  res.send({
+    updatedUser,
+  });
+});
+
 app.get('/user/login', auth);
 
 app.post('/upload', upload.array('img', 4), (req, res) => {
@@ -142,6 +267,7 @@ app.post('/upload', upload.array('img', 4), (req, res) => {
   res.json({ success: true, files: req.files });
 });
 
+// 존재하는 페이지가 아니라면 , 404 뜨게하세요.
 app.get('*', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });

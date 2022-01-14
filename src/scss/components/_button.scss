@@ -29,8 +29,8 @@ button {
   }
 }
 
-// 회원가입 , 로그인 버튼 요소들
-
+// 회원가입 , 로그인, 정보수정 버튼 요소들
+.btn,
 .sign-up-btn,
 .sign-in-btn,
 .sign-up-link {
@@ -97,23 +97,13 @@ button {
   }
 }
 
-.profile__edit {
-  position: absolute;
-  right: 3%;
-  top: 8%;
-
-  font-size: rem(20px);
-  width: rem(96px);
-  height: rem(40px);
-
-  border: none;
-  background-color: #c1bdbd;
-  border-radius: rem(10px);
-
-  color: $white;
-}
-
 .button__reset {
   border: 0;
   background: none;
+}
+
+// 정보수정페이지
+.profile-change-btn,
+.profile-delete-btn {
+  margin-top: rem(30px);
 }

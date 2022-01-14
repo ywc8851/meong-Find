@@ -37,23 +37,20 @@ const checkIsCorrectForm = (reg, index, msg, btn) => {
 };
 
 export default {
+  regEmail: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+  regName: /^[^\s]{2,8}$/,
+  regPassword: /^[A-Za-z0-9]{6,12}$/,
   emailValidate(value, index, button) {
-    const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-
-    return checkIsCorrectForm(!regEmail.test(value), index, '이메일 형식에 맞게 입력해 주세요.', button);
+    console.log(this.regEmail);
+    return checkIsCorrectForm(!this.regEmail.test(value), index, '이메일 형식에 맞게 입력해 주세요.', button);
   },
 
   nameValidate(value, index, button) {
-    const regName = /^[^\s]{2,8}$/;
-
-    return checkIsCorrectForm(!regName.test(value), index, '영문 또는 숫자를 2~8자 입력하세요..', button);
+    return checkIsCorrectForm(!this.regName.test(value), index, '영문 또는 숫자를 2~8자 입력하세요..', button);
   },
 
-  // password validate
   passwordValidate(value, index, button) {
-    const regPassword = /^[A-Za-z0-9]{6,12}$/;
-
-    return checkIsCorrectForm(!regPassword.test(value), index, '영문 또는 숫자를 6~12자 입력하세요.', button);
+    return checkIsCorrectForm(!this.regPassword.test(value), index, '영문 또는 숫자를 6~12자 입력하세요.', button);
   },
 
   passwordConfirmValidate(value, index, button) {

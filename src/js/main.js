@@ -1,6 +1,6 @@
 import header from './components/header';
-import { handleHistory } from './router';
-import { getMainPosts, findPosts, searchTitile } from './requests';
+import { handleHistory, moveToPage } from './router';
+import { getMainPosts, findPosts } from './requests';
 import { $, handleSelectOptions } from './helpers/utils';
 
 const $citySelect = $('#city');
@@ -15,8 +15,8 @@ const render = (() => {
         let postlist = '';
         posts.map(post => {
           postlist += `
-        <div>
-          <a href="#">
+        <div data-id="${post.id}" class="main-posts-posting-list">
+          <a href="javascript:void(0)">
             <img src="${post.images[0]}" alt="${post.title} 이미지" />
             <span class="main-posts-title">${post.title}</span>
             <span class="main-posts-species species-${
@@ -80,12 +80,16 @@ $findButton.onclick = async () => {
     const { data: posts } = await findPosts(city, district, species);
     if (posts) {
       let postlist = '';
+      console.log(postlist);
       posts.map(post => {
-        postlist += `<div>
-          <img src="${post.images[0]}" alt="" />
-          <span class="main-posts-title">${post.title}</span>
-          <span class="main-posts-species species-dog">${post.animal}</span>
-          <span class="main-posts-place">${post.city} ${post.district}</span>
+        postlist += `
+        <div data-id="${post.id}" class="main-posts-posting-list">
+          <a href="javascript:void(0)">
+            <img src="${post.images[0]}" alt="" />
+            <span class="main-posts-title">${post.title}</span>
+            <span class="main-posts-species species-dog">${post.animal}</span>
+            <span class="main-posts-place">${post.city} ${post.district}</span>
+         </a>
         </div>`;
       });
       $('.main-posts').innerHTML = postlist;
@@ -93,6 +97,25 @@ $findButton.onclick = async () => {
   } catch (e) {
     console.error(e);
   }
+};
+
+$('.main-posts').onclick = ({ target }) => {
+  if (target.classList.contains('main-posts')) return;
+  moveToPage(`/post/${target.dataset.id}`);
+  // const {data} = await getPostId(target.dataset.id);
+  // if(data) {
+  //   moveToPage('/detail')
+  // }
+
+  // try {
+  //   if (e.target.classList.contains('main-posts')) return;
+  //   // const {
+  //   //   data: { path },
+  //   // } = await getPostId(e.target.dataset.id);
+  //   moveToPage(`/post/${target.dataset.id}`);
+  // } catch(error) {
+  //   console.error(error);
+  // }
 };
 
 window.addEventListener('DOMContentLoaded', init);
