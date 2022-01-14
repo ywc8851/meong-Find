@@ -15,18 +15,18 @@
     <!-- 헤더 -->
     <h1 class="sr-only">찾아줄개</h1>
     <header>
-      <a class="logo-container" href="/mainpage">
+      <a class="logo-container" href="javascript:void(0)">
         <img src="../assets/logo.svg" class="logo" alt="찾아줄개 로고" />
       </a>
       <div class="login hidden">
-        <a href="#" class="login__posting-btn">글 작성</a>
+        <a href="javascript:void(0)" class="login__posting-btn">글 작성</a>
         <div class="login__msg">
           <span class="user-nickname"></span>
           <span class="bold">님, 반갑습니다!</span>
         </div>
         <div class="login__mypage-container">
           <i class="fas fa-user-circle fa-lg"></i>
-          <a href="#" class="login__mypage-btn">마이페이지</a>
+          <a href="javascript:void(0)" class="login__mypage-btn">마이페이지</a>
         </div>
         <div class="login__logout">
           <i class="fas fa-sign-out-alt fa-lg"></i>
@@ -72,7 +72,7 @@
           <i class="fas fa-chevron-right fa-lg"></i>
         </div>
         <ul class="profile__posting-container">
-          <!-- <li class="profile__posting-list">
+          <!-- <li class="profile__posting-list" data-id="${id}>
             <span class="profile__posting-num">1</span>
             <span class="profile__posting-header">나 강아지 잃어버렸다</span>
             <a href="#" class="profile__posting-edit">
@@ -80,7 +80,7 @@
             </a>
             <button class="profile__posting-del">삭제</button>
           </li>
-          <li class="profile__posting-list">
+          <li class="profile__posting-list data-id="${id}">
             <span class="profile__posting-num">2</span>
             <span class="profile__posting-header">밍지</span>
             <a href="#" class="profile__posting-edit">
@@ -88,7 +88,7 @@
             </a>
             <button class="profile__posting-del">삭제</button>
           </li>
-          <li class="profile__posting-list">
+          <li class="profile__posting-list" data-id="${id}>
             <span class="profile__posting-num">3</span>
             <span class="profile__posting-header">하 .. 집나간 강아지 찾습니다. by 집사</span>
             <a href="#" class="profile__posting-edit">
