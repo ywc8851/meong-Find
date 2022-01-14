@@ -99,13 +99,22 @@ export const changePassword = async (id, password) => {
 
 // 상세페이지 posting 정보 가져오기
 export const getPostInfo = async id => {
-  return await axios.get(`/detail/${id}`);
+  try {
+    return await axios.get(`/detail/${id}`);
+  } catch (error) {
+    console.log(error);
+  }
 };
-
+// 상세페이지 - 작성자 가져오기
+export const getPostWriter = async writerId => {};
 // 상세페이지 comment 가져오기
 export const getPostComments = async _comments => {
-  const comments = encodeURIComponent(JSON.stringify(_comments));
-  return await axios.get(`/comments/${comments}`);
+  try {
+    const comments = encodeURIComponent(JSON.stringify(_comments));
+    return await axios.get(`/comments/${comments}`);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // mypage 정보
