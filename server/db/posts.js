@@ -3,7 +3,10 @@ const posts = [
     id: 'post1',
     writerNickname: '쪼용웅',
     createdAt: '2021-01-12',
-    images: ['https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg'],
+    images: [
+      'https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg',
+      'https://image.msscdn.net/images/goods_img/20191216/1252014/1252014_1_500.jpg',
+    ],
     title: '저희 집 강아지 잃어버렸어요',
     animal: '강아지',
     type: 'siba',

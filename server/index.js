@@ -105,10 +105,18 @@ app.get('/post/:id', (req, res) => {
   res.send(postInfo);
 });
 
-app.get('/post/user/:id', (req, res) => {
-  const { id } = req.params;
-  const userInfo = users.filter({ id: id });
-  res.send(userInfo);
+// app.get('/post/user/:id', (req, res) => {
+//   const { id } = req.params;
+//   const userInfo = users.filter({ id: id });
+//   res.send(userInfo);
+// });
+
+// 상세페이지 comment 가져오기
+app.get('/post/comments/:id', (req, res) => {
+  const { id: id } = req.params;
+  const commentList = JSON.parse(id);
+  const list = commentList.map(commentId => comments.filter({ id: commentId }));
+  res.send(list);
 });
 
 // 닉네임 중복검사

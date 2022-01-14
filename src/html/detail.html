@@ -44,12 +44,21 @@
         </div>
       </div>
     </header>
+
     <section class="detail">
       <h2 class="sr-only">상세페이지</h2>
       <section class="detail__posting">
-        <div class="detail__info"></div>
+        <div class="detail__info">
+          <!-- <span class="detail__info-title">${post.title}</span>
+          <div class="detail__info-container">
+            <div class="detail__info-writer">${post.writerNickname}</div>
+            <div class="detail__info-date">${post.createdAt}</div>
+          </div> -->
+        </div>
         <div class="carousel__contaier">
-          <div class="carousel__img-container"></div>
+          <div class="carousel__img-container">
+            <!-- <img class="detail__img" src="${img}" alt="이미지${current + 1}" -->
+          </div>
           <button class="carousel__prev">
             <i class="fas fa-chevron-left"></i>
           </button>
@@ -60,16 +69,18 @@
         <div class="post__detail-list"></div>
       </section>
       <section class="detail__comment">
-        <span class="detail__comment-num">댓글 1 개</span>
+        <span class="detail__comment-num">
+          <!-- 댓글 갯수 -->
+        </span>
         <ul class="detail__comment-list">
-          <li>
+          <!-- <li>
             <span class="detail__comment-writer">박샤니</span>
             <span class="detail__comment-content">강아지 찾아요 제발 ㅠㅠ</span>
             <div class="detail__comment-edit-del">
               <button class="comment-edit-btn">수정</button>
               <button class="comment-del-btn">삭제</button>
             </div>
-          </li>
+          </li> -->
         </ul>
         <div class="detail__comment-input">
           <label for="detail" class="sr-only">댓글 입력</label>

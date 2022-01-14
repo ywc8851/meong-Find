@@ -96,9 +96,11 @@ export const getPostId = async id => {
 export const getPostInfo = async id => {
   return await axios.get(`/post/${id}`);
 };
-// 상세페이지 user 정보 가져오기
-export const getPostwriter = async id => {
-  return await axios.get(`/post/user/${id}`);
+
+// 상세페이지 comment 가져오기
+export const getPostComments = async _comments => {
+  const comments = encodeURIComponent(JSON.stringify(_comments));
+  return await axios.get(`/post/comments/${comments}`);
 };
 
 // mypage 정보
