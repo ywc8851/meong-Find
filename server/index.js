@@ -86,7 +86,7 @@ app.get('/mypageEdit', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/mypageEdit.html'));
 });
 
-// 마이페이지 정보 랜더링
+// 마이페이지 정보
 app.get('/profile', (req, res) => {
   const accessToken = req.headers.authorization || req.cookies.accessToken;
 
@@ -100,6 +100,18 @@ app.get('/profile', (req, res) => {
   }
 });
 
+// 내가 작성한 글
+app.get('/mypost/:writerNickname', (req, res) => {
+  const { writerNickname } = req.params;
+  try {
+    console.log(posts.filter({ writerNickname }));
+    res.send(posts.filter({ writerNickname }));
+  } catch (e) {
+    console.log('error');
+  }
+});
+
+// 프로필 정보 수정
 app.patch('/users/:id', (req, res) => {
   const { id } = req.params;
   // const payload = { ...req.body };
