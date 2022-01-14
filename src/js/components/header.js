@@ -4,20 +4,12 @@ import { getSignOut, getIsUserLogin } from '../requests';
 
 const header = {
   bindEvents() {
-    $('.no-login__signin-btn').addEventListener('click', async () => {
-      try {
-        moveToPage('signin');
-      } catch (error) {
-        console.error(error);
-      }
+    $('.no-login__signin-btn').addEventListener('click', () => {
+      moveToPage('signin');
     });
 
-    $('.no-login__signup-btn').addEventListener('click', async () => {
-      try {
-        moveToPage('signup');
-      } catch (error) {
-        console.error(error);
-      }
+    $('.no-login__signup-btn').addEventListener('click', () => {
+      moveToPage('signup');
     });
 
     $('.login__logout-btn').addEventListener('click', async () => {
@@ -33,7 +25,11 @@ const header = {
       }
     });
 
-    (async () => {
+    $('.login__posting-btn').addEventListener('click', () => {
+      moveToPage('/register');
+    });
+
+    const updateHeaderIfUserLogin = async () => {
       try {
         const {
           data: { nickname },
@@ -46,7 +42,8 @@ const header = {
       } catch (error) {
         console.log('user not login');
       }
-    })();
+    };
+    updateHeaderIfUserLogin();
   },
 };
 

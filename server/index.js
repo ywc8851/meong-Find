@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
+const upload = require('./upload');
 
 const { auth, blockLoginUser } = require('./auth.js');
 const { users, posts } = require('./db');
@@ -15,23 +16,24 @@ const PORT = process.env.PORT;
 const config = require('../webpack.config.js');
 const compiler = webpack(config);
 
-app.use(webpackDevMiddleware(compiler));
-
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
+if (process.env.NODE_ENV === 'development') {
+  app.use(webpackDevMiddleware(compiler));
+}
+
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
-const urls = ['/signin', '/signup', '/mypage'];
+const urls = ['/signin', '/signup', '/mypage', '/register'];
 
 const devServer = (req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     const file = path.join(config.output.path, `${urls.includes(req.url) ? `html${req.url}` : '/index'}.html`);
     compiler.outputFileSystem.readFile(file, (err, result) => {
       if (err) {
-        res.sendStatus(404);
-        return;
+        return res.sendStatus(404);
       }
       res.set('content-type', 'text/html').end(result);
     });
@@ -67,12 +69,15 @@ app.get('/profile', (req, res) => {
 
   try {
     const decoded = jwt.verify(accessToken, process.env.SECRET_KEY);
-    // throw new Error();
     res.send(users.filter({ email: decoded.email }));
   } catch (e) {
     console.log('error');
     return res.redirect('/signin');
   }
+});
+
+app.get('/register', auth, devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
 app.get(urls, blockLoginUser, devServer, (req, res) => {
@@ -131,6 +136,11 @@ app.get('/user/signout', (req, res) => {
 });
 
 app.get('/user/login', auth);
+
+app.post('/upload', upload.array('img', 4), (req, res) => {
+  console.log('UPLOAD SUCCESS!', req.files);
+  res.json({ success: true, files: req.files });
+});
 
 app.get('*', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));

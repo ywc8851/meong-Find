@@ -3,9 +3,7 @@ import axios from 'axios';
 export const fetchHtml = async url => {
   // console.log(`/${url === '/' ? 'index' : `html/${url}`}.html`);
   try {
-    const res = await axios.get(url);
-    console.log('res ===>', res);
-    return res;
+    return await axios.get(url);
   } catch (error) {
     console.log(error);
   }
@@ -95,6 +93,22 @@ export const getMyProfile = async () => {
 export const getIsUserLogin = async () => {
   try {
     return await axios.get('/user/login');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const postUploadImages = async images => {
+  try {
+    return await axios.post('/upload', images);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addNewPost = async payload => {
+  try {
+    return await axios.post('/post', payload);
   } catch (error) {
     console.error(error);
   }

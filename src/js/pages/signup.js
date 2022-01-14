@@ -1,5 +1,5 @@
 import validate from '../helpers/validate';
-import { $ } from '../helpers/utils';
+import { $, handleSelectOptions } from '../helpers/utils';
 import { getSignUpEmail, getSignUpName, getSignup, getSignUpForm } from '../requests';
 import header from '../components/header';
 import { moveToPage, handleHistory } from '../router';
@@ -115,28 +115,7 @@ const signUp = () => {
 
   const $citySelect = $('#sign-up-form-city');
   $citySelect.onchange = () => {
-    const $districtSelect = $('#sign-up-form-district');
-    let mainOption = $citySelect.options[$citySelect.selectedIndex].innerText;
-    let subOptions = {
-      seoul: ['강남구', '광진구', '서초구'],
-      busan: ['해운대구', '민지구', '시안구'],
-    };
-    let subOption;
-    switch (mainOption) {
-      case '서울특별시':
-        subOption = subOptions.seoul;
-        break;
-      case '부산광역시':
-        subOption = subOptions.busan;
-        break;
-    }
-    $districtSelect.options.length = 0;
-
-    for (let i = 0; i < subOption.length; i++) {
-      let option = document.createElement('option');
-      option.innerText = subOption[i];
-      $districtSelect.append(option);
-    }
+    handleSelectOptions({ city: $citySelect, district: $('#sign-up-form-district') });
   };
 
   window.addEventListener('popstate', handleHistory);
