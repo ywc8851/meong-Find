@@ -3,7 +3,7 @@ import { handleHistory } from '../router';
 import { getMyProfile, getMyPosts } from '../requests';
 import { $ } from '../helpers/utils';
 
-let curwriterNickname = '';
+let curUserId = '';
 // render 바꿔
 const render = (() => {
   window.onload = async () => {
@@ -13,8 +13,7 @@ const render = (() => {
       } = await getMyProfile();
 
       if (user) {
-        curwriterNickname = user.nickname;
-
+        curUserId = user.id;
         $('.profile__title-container').innerHTML = `
           <span>${user.nickname}</span>
           <span class="bold">님의 프로필</span>
@@ -32,18 +31,18 @@ const render = (() => {
         `;
       }
 
-      const { data: myposts } = await getMyPosts(curwriterNickname);
+      const { data: myposts } = await getMyPosts(curUserId);
       if (myposts) {
         $('.profile__posting-container').innerHTML = myposts
           .map(
-            ({ title }, index) => `
-        <li class="profile__posting-list">
+            ({ id, title }, index) => `
+        <li class="profile__posting-list" data-id="${id}">
           <span class="profile__posting-num">${index + 1}</span>
           <span class="profile__posting-header">${title}</span>
           <a href="#" class="profile__posting-edit">
             <span>수정</span>
           </a>
-          <button class="profile__posting-del">삭제</button>
+          <button class="profile__posting-del" type="button">삭제</button>
         </li>
         `
           )
@@ -63,6 +62,13 @@ const bindEvents = () => {
 
 const init = () => {
   bindEvents();
+};
+
+$('.profile__posting-container').onclick = e => {
+  if (e.target.matches('button')) {
+    // 삭제버튼 이벤트
+    const curPostId = e.target.parentNode.dataset.id;
+  }
 };
 
 window.addEventListener('DOMContentLoaded', init);
