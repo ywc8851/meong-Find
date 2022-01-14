@@ -1,9 +1,12 @@
 import header from './components/header';
 import { handleHistory, moveToPage } from './router';
 import { getMainPosts, findPosts } from './requests';
-import { $, handleSelectOptions } from './helpers/utils';
+import { $ } from './helpers/utils';
+import { handleSelectOptions } from './helpers/select';
 
-const $citySelect = $('#city');
+const $city = $('#city');
+const $district = $('#district');
+
 const render = (() => {
   window.onload = async () => {
     console.log('upload 완료');
@@ -44,8 +47,8 @@ const init = () => {
   bindEvents();
 };
 
-$citySelect.onchange = () => {
-  handleSelectOptions({ city: $citySelect, district: $('#district') });
+$city.onchange = () => {
+  handleSelectOptions({ $city, $district });
 };
 
 const $searchInput = $('.search-input');
@@ -74,8 +77,8 @@ const filterTitle = inputValue => {
 const $findButton = $('.main-nav-find-btn');
 
 $findButton.onclick = async () => {
-  const [city, district, species] = [$('#city').value, $('#district').value, $('#kind').value];
-  console.log(city, district, species);
+  const [city, district, species] = [$city.value, $district.value, $('#kind').value];
+  console.log({ city, district, species });
   try {
     const { data: posts } = await findPosts(city, district, species);
     if (posts) {

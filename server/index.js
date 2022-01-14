@@ -128,6 +128,17 @@ app.patch('/users/:id', (req, res) => {
   }
 });
 
+app.post('/post', (req, res) => {
+  try {
+    const newPost = req.body;
+    const post = posts.create({ id: 'adsff', ...newPost });
+    res.send({ post });
+  } catch (error) {
+    console.error(error);
+    res.redirect('back');
+  }
+});
+
 // 메인페이지 -> 상세페이지로 이동
 app.get('/post/:id', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html/detail.html`));
@@ -260,7 +271,11 @@ app.patch('/user/temporary', (req, res) => {
   });
 });
 
-app.get('/user/login', auth);
+app.get('/user/login', auth, (req, res) => {
+  const { email } = req;
+  const [user] = users.filter({ email });
+  res.send({ user });
+});
 
 app.post('/upload', upload.array('img', 4), (req, res) => {
   console.log('UPLOAD SUCCESS!', req.files);

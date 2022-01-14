@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { users } = require('./db');
 
 const auth = (req, res, next) => {
   const accessToken = req.headers.authorization || req.cookies.accessToken;
@@ -9,14 +8,10 @@ const auth = (req, res, next) => {
       return res.redirect('back');
     }
     if (req.url === '/user/login') {
-      const [{ nickname }] = users.filter({ email });
-      return res.send({ nickname });
+      req.email = email;
     }
     next();
   } catch (e) {
-    if (req.url === '/user/login') {
-      return res.send();
-    }
     return res.redirect('back');
   }
 };
