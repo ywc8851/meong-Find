@@ -4,14 +4,37 @@ import { getSignOut, getIsUserLogin } from '../requests';
 
 const header = {
   async bindEvents() {
-    $('.no-login__signin-btn').addEventListener('click', () => {
-      moveToPage('signin');
+    $('.logo-container').addEventListener('click', async () => {
+      try {
+        moveToPage('/');
+      } catch (error) {
+        console.error(error);
+      }
     });
 
-    $('.no-login__signup-btn').addEventListener('click', () => {
-      moveToPage('signup');
+    $('.no-login__signin-btn').addEventListener('click', async () => {
+      try {
+        moveToPage('/signin');
+      } catch (error) {
+        console.error(error);
+      }
     });
 
+    $('.no-login__signup-btn').addEventListener('click', async () => {
+      try {
+        moveToPage('/signup');
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+    $('.login__mypage-btn').addEventListener('click', async () => {
+      try {
+        moveToPage('/mypage');
+      } catch (error) {
+        console.error(error);
+      }
+    });
     $('.login__logout-btn').addEventListener('click', async () => {
       console.log('logout');
       try {
