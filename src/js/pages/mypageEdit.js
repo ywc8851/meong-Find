@@ -9,6 +9,7 @@ let curUserId;
 
 const $nicknameInput = $('.sign-up-form-name');
 const $duplicateButton = $('.check-duplicated');
+// reg 말고 ~
 const regName = /^[^\s]{2,8}$/;
 
 // html 헤더 로그인/비로그인 상태 표시
@@ -27,13 +28,17 @@ window.addEventListener('DOMContentLoaded', init);
 // 프로필 정보 서버로부터 가져오기
 window.onload = async () => {
   try {
-    const { data: user } = await getMyProfile();
-    firstNickname = user[0].nickname;
+    const {
+      data: [user],
+    } = await getMyProfile();
+
+    // originNickname으로 변경
+    firstNickname = user.nickname;
     $('#nickname').value = firstNickname;
-    $('#email').value = user[0].email;
+    $('#email').value = user.email;
     $duplicateButton.removeAttribute('disabled');
 
-    curUserId = user[0].id;
+    curUserId = user.id;
   } catch (e) {
     console.error(e);
   }
@@ -95,7 +100,8 @@ $duplicateButton.onclick = async e => {
   try {
     const name = document.querySelector('#nickname').value;
     const res = await getSignUpName(name);
-    const isDuplicate = res.data.nicknameDuplicate;
+    const isDuplicate = res.data.nicknameDuplication;
+    // 이것도 변경해라
     const isFirstname = name === firstNickname;
 
     if (!isDuplicate || isFirstname) {
@@ -121,6 +127,7 @@ $profileChangeBtn.onclick = async e => {
     const city = $('#sign-up-form-city').value;
     const district = $('#sign-up-form-district').value;
 
+    // 객체로 넘겨줘
     await changeUserProfile(curUserId, nickname, password, city, district);
 
     moveToPage('/mypage');

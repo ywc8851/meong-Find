@@ -4,34 +4,36 @@ import { getMyProfile, getMyPosts } from '../requests';
 import { $ } from '../helpers/utils';
 
 let curwriterNickname = '';
+// render 바꿔
 const render = (() => {
   window.onload = async () => {
     try {
-      const { data: user } = await getMyProfile();
+      const {
+        data: [user],
+      } = await getMyProfile();
 
       if (user) {
-        curwriterNickname = user[0].nickname;
+        curwriterNickname = user.nickname;
 
         $('.profile__title-container').innerHTML = `
-          <span>${user[0].nickname}</span>
+          <span>${user.nickname}</span>
           <span class="bold">님의 프로필</span>
         `;
 
         $('.profile__email-container').innerHTML = `
         <span class="profile__email-title">이메일</span>
-        <span class="profile__email">${user[0].email}</span>
+        <span class="profile__email">${user.email}</span>
         `;
 
         $('.profile__city-container').innerHTML = `
           <span class="profile__city-title">지 역</span>
-          <span class="profile__city">${user[0].city}</span>
-          <span class="profile__district">${user[0].district}</span>
+          <span class="profile__city">${user.city}</span>
+          <span class="profile__district">${user.district}</span>
         `;
       }
+
       const { data: myposts } = await getMyPosts(curwriterNickname);
       if (myposts) {
-        // console.log(myposts);
-
         $('.profile__posting-container').innerHTML = myposts
           .map(
             ({ title }, index) => `
