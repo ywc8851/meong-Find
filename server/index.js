@@ -8,13 +8,15 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const { auth, blockLoginUser } = require('./auth.js');
 const { users, posts, comments } = require('./db');
 
+const { emailOptions, transporter } = require('./mail.js');
+
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT;
 
 const config = require('../webpack.config.js');
 const compiler = webpack(config);
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 
 app.use(webpackDevMiddleware(compiler));
 
@@ -23,23 +25,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.ADMIN_EMAIL,
-    pass: process.env.ADMIN_PASSWORD,
-  },
-});
-
-const emailOptions = {
-  from: process.env.ADMIN_EMAIL,
-  to: '',
-  subject: '임시 비밀번호 안내 입니다.',
-  html: '',
-};
 
 const urls = ['/signin', '/signup', '/detail', '/mypage', '/mypageEdit'];
 
@@ -199,7 +184,8 @@ app.get('/user/email/:email', (req, res) => {
 //로그인
 app.post('/user/signin', (req, res) => {
   const { email, password, autoLogin } = req.body;
-  const [user] = users.filter({ email, password });
+  const [user] = users.filter({ email, password, isValid: true });
+
   if (!user) {
     return res.status(401).send('등록되지 않은 사용자입니다.');
   }
@@ -211,10 +197,7 @@ app.post('/user/signin', (req, res) => {
     httpOnly: true,
   });
 
-  // 아이디 필요한지 고뇌
-  res.send({
-    id: user.id,
-  });
+  res.send();
 });
 
 //로그아웃
@@ -225,7 +208,7 @@ app.get('/user/signout', (req, res) => {
 // 존재하는 이메일인지 확인
 app.get('/user/id/:email', (req, res) => {
   const { email } = req.params;
-  const [user] = users.filter({ email });
+  const [user] = users.filter({ email, isValid: true });
 
   res.send({
     id: user.id,
@@ -237,9 +220,10 @@ app.patch('/user/temporary', (req, res) => {
   const { id, password } = req.body;
   const updatedUser = users.update(id, { password });
 
-  if (updatedUser) {
+  if (!updatedUser) {
     return res.status(401).send('임시비밀번호 변경에 실패 했습니다.');
   }
+
   emailOptions.to = updatedUser.email;
   emailOptions.html = `
   <h2>임시 비밀번호 안내 입니다.</h2>
@@ -248,10 +232,7 @@ app.patch('/user/temporary', (req, res) => {
 
   transporter.sendMail(emailOptions);
 
-  // 이거 꼭 필요한지 체크
-  res.send({
-    updatedUser,
-  });
+  res.send();
 });
 
 app.get('/user/login', auth);
