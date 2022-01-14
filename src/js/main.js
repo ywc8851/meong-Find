@@ -1,12 +1,14 @@
 import header from './components/header';
-import { handleHistory } from './router';
-import { getMainPosts, findPosts, searchTitile } from './requests';
+import { handleHistory, moveToPage } from './router';
+import { getMainPosts, findPosts } from './requests';
 import { $ } from './helpers/utils';
+import { handleSelectOptions } from './helpers/select';
 
-const $citySelect = $('#city');
+const $city = $('#city');
+const $district = $('#district');
+
 const render = (() => {
   window.onload = async () => {
-    console.log('upload 완료');
     try {
       const { data: posts } = await getMainPosts();
       if (posts) {
@@ -15,8 +17,8 @@ const render = (() => {
         let postlist = '';
         posts.map(post => {
           postlist += `
-        <div>
-          <a href="#">
+        <div data-id="${post.id}" class="main-posts-posting-list">
+          <a href="javascript:void(0)">
             <img src="${post.images[0]}" alt="${post.title} 이미지" />
             <span class="main-posts-title">${post.title}</span>
             <span class="main-posts-species species-${
@@ -44,30 +46,10 @@ const init = () => {
   bindEvents();
 };
 
-$citySelect.onchange = () => {
-  const $districtSelect = $('#district');
-  let mainOption = $citySelect.options[$citySelect.selectedIndex].innerText;
-  let subOptions = {
-    seoul: ['강남구', '광진구', '서초구'],
-    busan: ['해운대구', '민지구', '시안구'],
-  };
-  let subOption;
-  switch (mainOption) {
-    case '서울특별시':
-      subOption = subOptions.seoul;
-      break;
-    case '부산광역시':
-      subOption = subOptions.busan;
-      break;
-  }
-  $districtSelect.options.length = 0;
-
-  for (let i = 0; i < subOption.length; i++) {
-    let option = document.createElement('option');
-    option.innerText = subOption[i];
-    $districtSelect.append(option);
-  }
+$city.onchange = () => {
+  handleSelectOptions({ $city, $district });
 };
+
 const $searchInput = $('.search-input');
 const $navSearchButton = $('.main-nav-search-btn');
 $searchInput.onkeypress = ({ key }) => {
@@ -94,24 +76,37 @@ const filterTitle = inputValue => {
 const $findButton = $('.main-nav-find-btn');
 
 $findButton.onclick = async () => {
-  const [city, district, species] = [$('#city').value, $('#district').value, $('#kind').value];
-  console.log(city, district, species);
+  const [city, district, species] = [$city.value, $district.value, $('#kind').value];
+  console.log({ city, district, species });
   try {
     const { data: posts } = await findPosts(city, district, species);
     if (posts) {
       let postlist = '';
+      console.log(postlist);
       posts.map(post => {
-        postlist += `<div>
-          <img src="${post.images[0]}" alt="" />
-          <span class="main-posts-title">${post.title}</span>
-          <span class="main-posts-species species-dog">${post.animal}</span>
-          <span class="main-posts-place">${post.city} ${post.district}</span>
+        postlist += `
+        <div data-id="${post.id}" class="main-posts-posting-list">
+          <a href="javascript:void(0)">
+            <img src="${post.images[0]}" alt="" />
+            <span class="main-posts-title">${post.title}</span>
+            <span class="main-posts-species species-dog">${post.animal}</span>
+            <span class="main-posts-place">${post.city} ${post.district}</span>
+         </a>
         </div>`;
       });
       $('.main-posts').innerHTML = postlist;
     }
   } catch (e) {
     console.error(e);
+  }
+};
+
+$('.main-posts').onclick = ({ target }) => {
+  if (target.classList.contains('main-posts')) return;
+  try {
+    moveToPage(`/post/${target.dataset.id}`);
+  } catch (error) {
+    console.log(error);
   }
 };
 

@@ -23,26 +23,41 @@
     background-color: $gray;
     margin-bottom: rem(20px);
     position: relative;
+    text-align: center;
+    cursor: pointer;
 
     &__btn {
       border: 0;
       background: none;
       @include pos($t: 40%, $r: 55%);
     }
+
+    .limit-images {
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: rem(20px);
+    }
   }
 
   &-preview {
-    position: relative;
-    width: rem(180px);
-    height: rem(160px);
-    margin-right: rem(20px);
+    display: flex;
     margin-bottom: rem(22px);
-    background-color: $gray;
 
-    &__delete {
-      border: 0;
-      background: none;
-      @include pos($t: rem(-2px), $r: rem(10px));
+    &-image {
+      position: relative;
+      width: rem(180px);
+      height: rem(160px);
+      margin-right: rem(20px);
+      background: no-repeat center;
+      background-size: cover;
+
+      &__delete {
+        border: 0;
+        background: none;
+        @include pos($t: rem(-2px), $r: rem(10px));
+      }
     }
   }
 

@@ -2,13 +2,28 @@ import header from '../components/header';
 import { moveToPage, handleHistory } from '../router';
 import { $ } from '../helpers/utils';
 import validate from '../helpers/validate';
-import { postSignIn } from '../requests';
+import { postSignIn, changePassword, getUserId } from '../requests';
 
 const $signinbtn = $('.sign-in-btn');
 
-const togglePopup = () => {
+const handlePopup = () => {
   $('.popup').classList.toggle('hidden');
   $('.cover').classList.toggle('hidden');
+  $('.popup-find-password').value = '';
+  $('.popup-button').setAttribute('disabled', '');
+  $('.find-error').classList.add('hidden');
+  $('.popup-find-password').focus();
+};
+
+const randomPasssword = () => {
+  let setStr = '0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z'.split(',');
+  let randomStr = '';
+
+  for (let i = 0; i < 8; i++) {
+    randomStr += setStr[Math.floor(Math.random() * (setStr.length - 1))];
+  }
+
+  return randomStr;
 };
 
 const bindEvents = () => {
@@ -26,34 +41,52 @@ const bindEvents = () => {
 
       const user = await postSignIn(email, password, autoLogin);
       if (user) {
-        moveToPage('/');
+        await moveToPage('/');
         return;
       }
       $('.no-user').classList.remove('hidden');
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
     }
   });
 
   $('.find-password').addEventListener('click', () => {
-    togglePopup();
+    handlePopup();
   });
 
   $('.sign-up-link').addEventListener('click', async () => {
-    await moveToPage('signup');
+    await moveToPage('/signup');
   });
 
   $('.sign-in-form').addEventListener('input', e => {
-    if (e.target.matches('#email')) {
-      validate.emailValidate(e.target.value, 0, $signinbtn);
-    } else if (e.target.matches('#password')) {
-      validate.passwordValidate(e.target.value, 1, $signinbtn);
+    e.target.matches('#email')
+      ? validate.emailValidate(e.target.value, 0, $signinbtn)
+      : validate.passwordValidate(e.target.value, 1, $signinbtn);
+  });
+
+  $('.popup-form').addEventListener('input', e => {
+    validate.regEmail.test(e.target.value)
+      ? $('.popup-button').removeAttribute('disabled')
+      : $('.popup-button').setAttribute('disabled', '');
+  });
+
+  $('.popup-button').addEventListener('click', async e => {
+    e.preventDefault();
+
+    try {
+      const user = await getUserId($('#check-password').value.trim());
+      const pwd = randomPasssword().trim();
+
+      await changePassword(user.data.id, pwd);
+      alert('메일 발송이 완료되었습니다.');
+      handlePopup();
+    } catch (error) {
+      console.error(error);
+      $('.find-error').classList.remove('hidden');
     }
   });
 
-  $('.login-exit').addEventListener('click', () => {
-    togglePopup();
-  });
+  $('.login-exit').addEventListener('click', handlePopup);
 
   window.addEventListener('popstate', handleHistory);
 };

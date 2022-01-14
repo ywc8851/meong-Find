@@ -80,4 +80,11 @@
     font-size: rem(20px);
     color: $darkgray;
   }
+  &-posting-list {
+    a,
+    img,
+    span {
+      pointer-events: none;
+    }
+  }
 }
