@@ -35,10 +35,6 @@ export const getSignUpName = async nickname => {
   }
 };
 
-export const findPosts = async (city, district, species) => {
-  return await axios.get(`/findposts/${city}/${district}/${species}`);
-};
-
 // 회원가입 정보 전송
 export const getSignup = async (nickname, email, password, city, district) => {
   try {
@@ -79,8 +75,27 @@ export const getMainPosts = async () => {
   }
 };
 
+// select에 따른 글찾기
+export const findPosts = async (city, district, species) => {
+  return await axios.get(`/findposts/${city}/${district}/${species}`);
+};
+
 export const searchTitile = async title => {
   return await axios.get(`/findposts/${title}`);
+};
+
+// 이메일 주소로 아이디 찾기
+export const getUserId = async email => {
+  return await axios.get(`/user/id/${email}`);
+};
+
+// 발급 받은 임시 비밀번호로 변경
+export const changePassword = async (id, password) => {
+  try {
+    return await axios.patch('/user/temporary', { id, password });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // 메인페이지 -> 상세페이지로 이동
@@ -121,6 +136,15 @@ export const changeUserProfile = async (curUserId, nickname, password, city, dis
       city,
       district,
     });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 내글 불러오기
+export const getMyPosts = async curwriterNickname => {
+  try {
+    return await axios.get(`/mypost/${curwriterNickname}`);
   } catch (error) {
     console.error(error);
   }

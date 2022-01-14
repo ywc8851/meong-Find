@@ -38,6 +38,22 @@
     top: rem(65px);
     left: rem(80px);
   }
+  &__edit {
+    position: absolute;
+    right: 5%;
+    top: 19%;
+    text-align: center;
+    line-height: rem(40px);
+    font-size: rem(20px);
+    width: rem(96px);
+    height: rem(40px);
+
+    border: none;
+    background-color: #c1bdbd;
+    border-radius: rem(10px);
+
+    color: $white;
+  }
 }
 #profile {
   &__city:disabled,
