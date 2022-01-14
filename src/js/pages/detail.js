@@ -1,7 +1,7 @@
 import header from '../components/header';
 import { $ } from '../helpers/utils';
 import { handleHistory } from '../router';
-import { getPostInfo, getPostComments } from '../requests';
+import { getPostInfo, getPostComments, getPostWriter } from '../requests';
 
 const bindEvents = () => {
   header.bindEvents();
@@ -14,8 +14,9 @@ const fetchPostData = async id => {
     const {
       data: [post],
     } = await getPostInfo(id);
-    // 이다 서버에서 괄호 빼기
-
+    const reg = await getPostInfo(id);
+    console.log(reg.data);
+    //const res = await getPostWriter(post.writerId);
     const { data: commentList } = await getPostComments(post.comments);
 
     $('.detail__info').innerHTML = `
@@ -26,7 +27,6 @@ const fetchPostData = async id => {
       </div>
     `;
 
-    // foreach 를 써라 ~
     post.images.forEach((img, current) => {
       $('.carousel__img-container').innerHTML += `
         <img class="detail__img" src="${img}" alt="이미지${current + 1}" />`;
@@ -42,7 +42,6 @@ const fetchPostData = async id => {
 
     $('.detail__comment-num').textContent = `댓글 ${post.comments.length} 개`;
 
-    console.log(commentList);
     commentList.forEach(comment => {
       $('.detail__comment-list').innerHTML += `
       <li>
