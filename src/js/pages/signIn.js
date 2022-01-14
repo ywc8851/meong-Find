@@ -6,7 +6,7 @@ import { postSignIn, changePassword, getUserId } from '../requests';
 
 const $signinbtn = $('.sign-in-btn');
 
-const popupSetting = () => {
+const handlePopup = () => {
   $('.popup').classList.toggle('hidden');
   $('.cover').classList.toggle('hidden');
   $('.popup-find-password').value = '';
@@ -16,6 +16,7 @@ const popupSetting = () => {
 };
 
 const randomPasssword = () => {
+  // 인덱스 -1 접근불가하게끔 만들기
   let setStr = '0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z'.split(',');
   let randomStr = '';
 
@@ -41,24 +42,25 @@ const bindEvents = () => {
 
       const user = await postSignIn(email, password, autoLogin);
       if (user) {
-        moveToPage('/');
+        await moveToPage('/');
         return;
       }
       $('.no-user').classList.remove('hidden');
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
     }
   });
 
   $('.find-password').addEventListener('click', () => {
-    popupSetting();
+    handlePopup();
   });
 
   $('.sign-up-link').addEventListener('click', async () => {
-    await moveToPage('signup');
+    await moveToPage('/signup');
   });
 
   $('.sign-in-form').addEventListener('input', e => {
+    // 삼항으로 바꾸세용
     if (e.target.matches('#email')) {
       validate.emailValidate(e.target.value, 0, $signinbtn);
     } else if (e.target.matches('#password')) {
@@ -69,11 +71,9 @@ const bindEvents = () => {
   $('.popup-form').addEventListener('input', e => {
     const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 
-    if (regEmail.test(e.target.value)) {
-      $('.popup-button').removeAttribute('disabled');
-    } else {
-      $('.popup-button').setAttribute('disabled', '');
-    }
+    regEmail.test(e.target.value)
+      ? $('.popup-button').removeAttribute('disabled')
+      : $('.popup-button').setAttribute('disabled', '');
   });
 
   $('.popup-button').addEventListener('click', async e => {
@@ -92,23 +92,20 @@ const bindEvents = () => {
         const updatedUser = await changePassword(checkUser, pwd);
         if (updatedUser) alert('메일 발송이 완료되었습니다.');
       }
-      popupSetting();
+      handlePopup();
     } catch (error) {
       console.error(error);
       $('.find-error').classList.remove('hidden');
     }
   });
 
-  $('.login-exit').addEventListener('click', () => {
-    popupSetting();
-  });
+  $('.login-exit').addEventListener('click', handlePopup);
 
   window.addEventListener('popstate', handleHistory);
 };
 
 const init = () => {
   bindEvents();
-  console.log('signin init');
 };
 
 window.addEventListener('DOMContentLoaded', init);

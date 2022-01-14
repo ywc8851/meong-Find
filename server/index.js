@@ -123,11 +123,11 @@ app.patch('/users/:id', (req, res) => {
 });
 
 // 메인페이지 -> 상세페이지로 이동
-app.get('/detail/:id', devServer, (req, res) => {
+app.get('/post/:id', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html/detail.html`));
 });
 
-app.get('/post/:id', (req, res) => {
+app.get('/detail/:id', (req, res) => {
   const { id } = req.params;
 
   try {
@@ -144,7 +144,7 @@ app.get('/comments/:idList', (req, res) => {
   const commentList = JSON.parse(id);
 
   try {
-    const list = commentList.map(id => comments.filter({ id }));
+    const list = commentList.map(id => comments.filter({ id })[0]);
     res.send(list);
   } catch (e) {
     console.error(e);

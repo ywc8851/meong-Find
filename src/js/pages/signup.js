@@ -10,8 +10,10 @@ const signUp = () => {
   const $signupButton = $('.sign-up-btn');
   const $emailInput = $('.sign-up-form-email');
   const $nicknameInput = $('.sign-up-form-name');
+  // 이거 이렇게 쓰지말기 버튼 ~
   const $duplicateButton = document.querySelectorAll('.check-duplicated');
 
+  // validate 에서 가져오기
   const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
   const regName = /^[^\s]{2,8}$/;
 
@@ -50,7 +52,8 @@ const signUp = () => {
   };
 
   // 중복버튼 활성화/비활성화 함수
-  const setDuplicateBtn = (regex, index) => {
+  const setDuplicateBtn = (e, regex, index) => {
+    // e 못가져오는거 해결
     if (regex.test(e.target.value)) {
       $duplicateButton[index].removeAttribute('disabled');
     } else {
@@ -67,7 +70,8 @@ const signUp = () => {
       // $nicknameInput.querySelector('.icon-success').classList.add('hidden');
       // $nicknameInput.querySelector('.icon-error').classList.remove('hidden');
 
-      setDuplicateBtn(regName, 0);
+      console.log('ee', e);
+      setDuplicateBtn(e, regName, 0);
       // if (regName.test(e.target.value)) {
       //   $duplicateButton[0].removeAttribute('disabled');
       // } else {
@@ -80,7 +84,7 @@ const signUp = () => {
       // $emailInput.querySelector('.icon-success').classList.add('hidden');
       // $emailInput.querySelector('.icon-error').classList.remove('hidden');
 
-      setDuplicateBtn(regEmail, 1);
+      setDuplicateBtn(e, regEmail, 1);
       // if (regEmail.test(e.target.value)) {
       //   $duplicateButton[1].removeAttribute('disabled');
       // } else {
@@ -148,12 +152,15 @@ const signUp = () => {
   const $citySelect = $('#sign-up-form-city');
   $citySelect.onchange = () => {
     const $districtSelect = $('#sign-up-form-district');
+    // 나중에 value로 넣기
     let mainOption = $citySelect.options[$citySelect.selectedIndex].innerText;
     let subOptions = {
       seoul: ['강남구', '광진구', '서초구'],
       busan: ['해운대구', '민지구', '시안구'],
     };
     let subOption;
+
+    // 객체로 빼
     switch (mainOption) {
       case '서울특별시':
         subOption = subOptions.seoul;
@@ -164,6 +171,7 @@ const signUp = () => {
     }
     $districtSelect.options.length = 0;
 
+    // for문 변경
     for (let i = 0; i < subOption.length; i++) {
       let option = document.createElement('option');
       option.innerText = subOption[i];
