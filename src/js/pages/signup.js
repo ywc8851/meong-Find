@@ -1,5 +1,6 @@
 import validate from '../helpers/validate';
-import { $, handleSelectOptions } from '../helpers/utils';
+import { $ } from '../helpers/utils';
+import { handleSelectOptions } from '../helpers/select';
 import { getSignUpEmail, getSignUpName, getSignup, getSignUpForm } from '../requests';
 import header from '../components/header';
 import { moveToPage, handleHistory } from '../router';
@@ -149,9 +150,9 @@ const signUp = () => {
     }
   };
 
-  const $citySelect = $('#sign-up-form-city');
-  $citySelect.onchange = () => {
-    handleSelectOptions({ city: $citySelect, district: $('#sign-up-form-district') });
+  const $city = $('#sign-up-form-city');
+  $city.onchange = () => {
+    handleSelectOptions({ $city, $district: $('#sign-up-form-district') });
   };
 
   window.addEventListener('popstate', handleHistory);
