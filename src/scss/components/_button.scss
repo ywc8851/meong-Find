@@ -97,22 +97,6 @@ button {
   }
 }
 
-.profile__edit {
-  position: absolute;
-  right: 3%;
-  top: 8%;
-
-  font-size: rem(20px);
-  width: rem(96px);
-  height: rem(40px);
-
-  border: none;
-  background-color: #c1bdbd;
-  border-radius: rem(10px);
-
-  color: $white;
-}
-
 .button__reset {
   border: 0;
   background: none;
