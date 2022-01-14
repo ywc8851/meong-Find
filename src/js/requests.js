@@ -132,9 +132,9 @@ export const changeUserProfile = async (curUserId, nickname, password, city, dis
 };
 
 // 내글 불러오기
-export const getMyPosts = async curwriterNickname => {
+export const getMyPosts = async curUserId => {
   try {
-    return await axios.get(`/mypost/${curwriterNickname}`);
+    return await axios.get(`/mypost/${curUserId}`);
   } catch (error) {
     console.error(error);
   }

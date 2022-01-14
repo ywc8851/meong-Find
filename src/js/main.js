@@ -6,7 +6,6 @@ import { $ } from './helpers/utils';
 const $citySelect = $('#city');
 const render = (() => {
   window.onload = async () => {
-    console.log('upload 완료');
     try {
       const { data: posts } = await getMainPosts();
       if (posts) {
