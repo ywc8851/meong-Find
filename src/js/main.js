@@ -1,12 +1,11 @@
 import header from './components/header';
 import { handleHistory, moveToPage } from './router';
-import { getMainPosts, findPosts, getPostId } from './requests';
+import { getMainPosts, findPosts } from './requests';
 import { $ } from './helpers/utils';
 
 const $citySelect = $('#city');
 const render = (() => {
   window.onload = async () => {
-    console.log('upload 완료');
     try {
       const { data: posts } = await getMainPosts();
       if (posts) {
@@ -121,21 +120,11 @@ $findButton.onclick = async () => {
 
 $('.main-posts').onclick = ({ target }) => {
   if (target.classList.contains('main-posts')) return;
-  moveToPage(`/post/${target.dataset.id}`);
-  // const {data} = await getPostId(target.dataset.id);
-  // if(data) {
-  //   moveToPage('/detail')
-  // }
-
-  // try {
-  //   if (e.target.classList.contains('main-posts')) return;
-  //   // const {
-  //   //   data: { path },
-  //   // } = await getPostId(e.target.dataset.id);
-  //   moveToPage(`/post/${target.dataset.id}`);
-  // } catch(error) {
-  //   console.error(error);
-  // }
+  try {
+    moveToPage(`/post/${target.dataset.id}`);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 window.addEventListener('DOMContentLoaded', init);

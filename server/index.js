@@ -47,6 +47,7 @@ const devServer = (req, res, next) => {
   if (req.url.split('/').length >= 3) {
     req.url = `/${req.url.split('/')[1]}`;
   }
+  req.url = req.url === '/post' ? '/detail' : req.url;
   if (process.env.NODE_ENV === 'development') {
     const file = path.join(config.output.path, `${urls.includes(req.url) ? `html${req.url}` : '/index'}.html`);
     compiler.outputFileSystem.readFile(file, (err, result) => {
@@ -99,11 +100,10 @@ app.get('/profile', (req, res) => {
 });
 
 // 내가 작성한 글
-app.get('/mypost/:writerNickname', (req, res) => {
-  const { writerNickname } = req.params;
-
+app.get('/mypost/:writerId', (req, res) => {
+  const { writerId } = req.params;
   try {
-    const post = posts.filter({ writerNickname });
+    const post = posts.filter({ writerId });
     res.send(post);
   } catch (e) {
     console.log('error');
@@ -127,7 +127,9 @@ app.get('/post/:id', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html/detail.html`));
 });
 
+// 상세페이지 posting 정보 가져오기
 app.get('/detail/:id', (req, res) => {
+  console.log(2);
   const { id } = req.params;
 
   try {

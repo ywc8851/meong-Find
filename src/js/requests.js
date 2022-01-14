@@ -4,7 +4,6 @@ export const fetchHtml = async url => {
   // console.log(`/${url === '/' ? 'index' : `html/${url}`}.html`);
   try {
     const res = await axios.get(url);
-    console.log('res ===>', res);
     return res;
   } catch (error) {
     console.log(error);
@@ -98,18 +97,9 @@ export const changePassword = async (id, password) => {
   }
 };
 
-// 메인페이지 -> 상세페이지로 이동
-export const getPostId = async id => {
-  try {
-    return await axios.get(`/post/${id}`);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 // 상세페이지 posting 정보 가져오기
 export const getPostInfo = async id => {
-  return await axios.get(`/post/${id}`);
+  return await axios.get(`/detail/${id}`);
 };
 
 // 상세페이지 comment 가져오기
@@ -142,9 +132,9 @@ export const changeUserProfile = async (curUserId, nickname, password, city, dis
 };
 
 // 내글 불러오기
-export const getMyPosts = async curwriterNickname => {
+export const getMyPosts = async curUserId => {
   try {
-    return await axios.get(`/mypost/${curwriterNickname}`);
+    return await axios.get(`/mypost/${curUserId}`);
   } catch (error) {
     console.error(error);
   }
