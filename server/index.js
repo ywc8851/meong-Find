@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
+const upload = require('./upload');
 
 const { auth, blockLoginUser } = require('./auth.js');
 const { users, posts, comments } = require('./db');
@@ -18,11 +19,13 @@ const config = require('../webpack.config.js');
 const compiler = webpack(config);
 // const nodemailer = require('nodemailer');
 
-app.use(webpackDevMiddleware(compiler));
-
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(webpackDevMiddleware(compiler));
+}
 
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
@@ -37,8 +40,7 @@ const devServer = (req, res, next) => {
     const file = path.join(config.output.path, `${urls.includes(req.url) ? `html${req.url}` : '/index'}.html`);
     compiler.outputFileSystem.readFile(file, (err, result) => {
       if (err) {
-        res.sendStatus(404);
-        return;
+        return res.sendStatus(404);
       }
       res.set('content-type', 'text/html').end(result);
     });
@@ -84,6 +86,10 @@ app.get('/profile', (req, res) => {
   }
 });
 
+app.get('/register', auth, devServer, (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
+});
+
 // 내가 작성한 글
 app.get('/mypost/:writerId', (req, res) => {
   const { writerId } = req.params;
@@ -104,6 +110,17 @@ app.patch('/users/:id', (req, res) => {
     res.send();
   } catch (e) {
     console.error(e);
+  }
+});
+
+app.post('/post', (req, res) => {
+  try {
+    const newPost = req.body;
+    const post = posts.create({ id: 'adsff', ...newPost });
+    res.send({ post });
+  } catch (error) {
+    console.error(error);
+    res.redirect('back');
   }
 });
 
@@ -237,7 +254,16 @@ app.patch('/user/temporary', (req, res) => {
   res.send();
 });
 
-app.get('/user/login', auth);
+app.get('/user/login', auth, (req, res) => {
+  const { email } = req;
+  const [user] = users.filter({ email });
+  res.send({ user });
+});
+
+app.post('/upload', upload.array('img', 4), (req, res) => {
+  console.log('UPLOAD SUCCESS!', req.files);
+  res.json({ success: true, files: req.files });
+});
 
 // 존재하는 페이지가 아니라면 , 404 뜨게하세요.
 app.get('*', devServer, (req, res) => {

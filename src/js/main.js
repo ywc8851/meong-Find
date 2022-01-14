@@ -2,8 +2,11 @@ import header from './components/header';
 import { handleHistory, moveToPage } from './router';
 import { getMainPosts, findPosts } from './requests';
 import { $ } from './helpers/utils';
+import { handleSelectOptions } from './helpers/select';
 
-const $citySelect = $('#city');
+const $city = $('#city');
+const $district = $('#district');
+
 const render = (() => {
   window.onload = async () => {
     try {
@@ -43,30 +46,10 @@ const init = () => {
   bindEvents();
 };
 
-$citySelect.onchange = () => {
-  const $districtSelect = $('#district');
-  let mainOption = $citySelect.options[$citySelect.selectedIndex].innerText;
-  let subOptions = {
-    seoul: ['강남구', '광진구', '서초구'],
-    busan: ['해운대구', '민지구', '시안구'],
-  };
-  let subOption;
-  switch (mainOption) {
-    case '서울특별시':
-      subOption = subOptions.seoul;
-      break;
-    case '부산광역시':
-      subOption = subOptions.busan;
-      break;
-  }
-  $districtSelect.options.length = 0;
-
-  for (let i = 0; i < subOption.length; i++) {
-    let option = document.createElement('option');
-    option.innerText = subOption[i];
-    $districtSelect.append(option);
-  }
+$city.onchange = () => {
+  handleSelectOptions({ $city, $district });
 };
+
 const $searchInput = $('.search-input');
 const $navSearchButton = $('.main-nav-search-btn');
 $searchInput.onkeypress = ({ key }) => {
@@ -93,8 +76,8 @@ const filterTitle = inputValue => {
 const $findButton = $('.main-nav-find-btn');
 
 $findButton.onclick = async () => {
-  const [city, district, species] = [$('#city').value, $('#district').value, $('#kind').value];
-  console.log(city, district, species);
+  const [city, district, species] = [$city.value, $district.value, $('#kind').value];
+  console.log({ city, district, species });
   try {
     const { data: posts } = await findPosts(city, district, species);
     if (posts) {

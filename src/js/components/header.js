@@ -3,7 +3,7 @@ import { moveToPage } from '../router';
 import { getSignOut, getIsUserLogin } from '../requests';
 
 const header = {
-  bindEvents() {
+  async bindEvents() {
     $('.logo-container').addEventListener('click', async () => {
       try {
         moveToPage('/');
@@ -48,20 +48,27 @@ const header = {
       }
     });
 
-    (async () => {
+    $('.login__posting-btn').addEventListener('click', () => {
+      moveToPage('/register');
+    });
+
+    const updateHeaderIfUserLogin = async () => {
       try {
         const {
-          data: { nickname },
+          data: { user },
         } = await getIsUserLogin();
-        if (nickname) {
-          $('.user-nickname').textContent = nickname;
+        if (user?.id) {
+          $('.user-nickname').textContent = user?.nickname;
           $('.login').classList.remove('hidden');
           $('.no-login').classList.add('hidden');
         }
+        return user;
       } catch (error) {
         console.log('user not login');
       }
-    })();
+    };
+    const user = await updateHeaderIfUserLogin();
+    return user;
   },
 };
 
