@@ -99,11 +99,10 @@ app.get('/profile', (req, res) => {
 });
 
 // 내가 작성한 글
-app.get('/mypost/:writerNickname', (req, res) => {
-  const { writerNickname } = req.params;
-
+app.get('/mypost/:writerId', (req, res) => {
+  const { writerId } = req.params;
   try {
-    const post = posts.filter({ writerNickname });
+    const post = posts.filter({ writerId });
     res.send(post);
   } catch (e) {
     console.log('error');
