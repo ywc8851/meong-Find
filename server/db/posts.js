@@ -2,6 +2,7 @@ const posts = [
   {
     id: 'post1',
     userId: 'ramndomda',
+    writerNickname: '쪼용웅',
     createdAt: '2021-01-12',
     images: ['https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg'],
     title: '저희 집 강아지 잃어버렸어요',
@@ -15,6 +16,7 @@ const posts = [
   {
     id: 'post2',
     userId: 'ramnasdffffweedomda',
+    writerNickname: '박샤니',
     createdAt: '2021-01-12',
     images: ['https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg'],
     title: '우리애기 찾아주세요',
@@ -28,6 +30,7 @@ const posts = [
   {
     id: 'post3',
     userId: 'ramndomda',
+    writerNickname: '쪼용웅',
     createdAt: '2021-01-12',
     images: ['https://image.msscdn.net/images/goods_img/20191216/1252014/1252014_1_500.jpg'],
     title: '귀여운 강쥐찾아주실분',
