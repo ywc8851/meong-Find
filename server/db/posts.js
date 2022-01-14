@@ -17,7 +17,7 @@ const posts = [
   },
   {
     id: 'post2',
-    writerNickname: 'asdffffwee',
+    writerId: 'asdffffwee',
     createdAt: '2021-01-10',
     images: ['https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg'],
     title: '우리애기 찾아주세요',
@@ -30,7 +30,7 @@ const posts = [
   },
   {
     id: 'post3',
-    writerNickname: 'ramndomda',
+    writerId: 'dsalalalw',
     createdAt: '2020-12-20',
     images: ['https://image.msscdn.net/images/goods_img/20191216/1252014/1252014_1_500.jpg'],
     title: '귀여운 강쥐찾아주실분',
