@@ -14,6 +14,7 @@ const fetchPostData = async id => {
     const {
       data: [post],
     } = await getPostInfo(id);
+    // 이다 서버에서 괄호 빼기
 
     const { data: commentList } = await getPostComments(post.comments);
 
@@ -24,10 +25,13 @@ const fetchPostData = async id => {
         <div class="detail__info-date">${post.createdAt}</div>
       </div>
     `;
-    post.images.map((img, current) => {
+
+    // foreach 를 써라 ~
+    post.images.forEach((img, current) => {
       $('.carousel__img-container').innerHTML += `
         <img class="detail__img" src="${img}" alt="이미지${current + 1}" />`;
     });
+
     $('.post__detail-list').innerHTML = `
       <span class="detail__city">${post.city} ${post.district}</span>
       <span class="detail__animal species-${
@@ -38,11 +42,12 @@ const fetchPostData = async id => {
 
     $('.detail__comment-num').textContent = `댓글 ${post.comments.length} 개`;
 
-    commentList.map(comment => {
+    console.log(commentList);
+    commentList.forEach(comment => {
       $('.detail__comment-list').innerHTML += `
       <li>
-        <span class="detail__comment-writer">${comment[0].writerNickname}</span>
-        <span class="detail__comment-content">${comment[0].content}</span>
+        <span class="detail__comment-writer">${comment.writerNickname}</span>
+        <span class="detail__comment-content">${comment.content}</span>
       </li>
     `;
     });

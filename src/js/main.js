@@ -121,7 +121,7 @@ $findButton.onclick = async () => {
 
 $('.main-posts').onclick = ({ target }) => {
   if (target.classList.contains('main-posts')) return;
-  moveToPage(`/detail/${target.dataset.id}`);
+  moveToPage(`/post/${target.dataset.id}`);
   // const {data} = await getPostId(target.dataset.id);
   // if(data) {
   //   moveToPage('/detail')
