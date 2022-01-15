@@ -26,7 +26,8 @@ const registPost = async e => {
 
   try {
     const images = await uploadImage();
-    state.images = images.map(image => `img/${image.name}`);
+    state.images = images.map(({ filename }) => `img/${filename}`);
+
     const {
       data: { post },
     } = await addNewPost({ ...state, title: state.title.trim(), content: state.content.trim() });

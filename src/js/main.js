@@ -77,7 +77,6 @@ const $findButton = $('.main-nav-find-btn');
 
 $findButton.onclick = async () => {
   const [city, district, species] = [$city.value, $district.value, $('#kind').value];
-  console.log({ city, district, species });
   try {
     const { data: posts } = await findPosts(city, district, species);
     if (posts) {

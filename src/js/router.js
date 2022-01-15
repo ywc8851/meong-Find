@@ -3,7 +3,6 @@ import { fetchHtml } from './requests';
 export const render = async path => {
   try {
     const { data } = await fetchHtml(path);
-    // console.log('====>', path, data);
     document.open();
     document.write(data);
     document.close();
