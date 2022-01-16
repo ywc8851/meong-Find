@@ -52,6 +52,15 @@ app.get('/', devServer, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/index.html'));
 });
 
+// 검색 title
+
+app.get('/search/:title', (req, res) => {
+  const { title } = req.params;
+  console.log(title);
+  const searchPosts = posts.filter({ title });
+  res.send(searchPosts);
+});
+
 // 모든 게시물 가져오기
 app.get('/getposts', (req, res) => {
   res.send(posts.get());

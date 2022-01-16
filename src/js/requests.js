@@ -9,6 +9,13 @@ export const fetchHtml = async url => {
   }
 };
 
+export const getSearchTitle = async searchValue => {
+  try {
+    return await axios.get(`/search/${searchValue}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const getSignUpForm = async () => {
   try {
     return await axios.get('/signup');
