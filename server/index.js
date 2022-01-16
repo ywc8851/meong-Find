@@ -121,8 +121,8 @@ app.get('/detail/:id', (req, res) => {
     const [postInfo] = posts.filter({ id });
     const [writerInfo] = users.filter({ id: postInfo.writerId });
 
-    postInfo.writer = writerInfo.nickname;
-    res.send(postInfo);
+    // postInfo.writer = writerInfo.nickname;
+    res.send({ ...postInfo, writer: writerInfo.nickname });
   } catch (error) {
     console.error(error);
   }
@@ -135,13 +135,14 @@ app.get('/comments/:idList', (req, res) => {
 
   try {
     const lists = commentList.map(id => comments.filter({ id })[0]);
-
+    const listsAddedWriter = [];
     lists.map(list => {
       let [user] = users.filter({ id: list.writerId });
-      list.writerNickname = user.nickname;
+      // list.writerNickname = user.nickname;
+      listsAddedWriter[listsAddedWriter.length] = { ...list, writerNickname: user.nickname };
     });
 
-    res.send(lists);
+    res.send(listsAddedWriter);
   } catch (e) {
     console.error(e);
   }
@@ -165,7 +166,7 @@ app.post('/comment', (req, res) => {
     const comment = [...post.comments, id];
     posts.update(postId, { comments: comment });
 
-    res.send();
+    res.send(id);
   } catch (error) {
     console.error(error);
   }
