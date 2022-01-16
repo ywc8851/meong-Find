@@ -3,6 +3,7 @@ import { $ } from '../helpers/utils';
 import { handleSelectOptions } from '../helpers/select';
 import { bindImageEvents, uploadImage } from '../helpers/inputImageFile';
 import { addNewPost } from '../requests';
+import { handleHistory } from '../router';
 
 const $inputFile = $('.register-upload__input');
 const $registerUpload = $('.register-upload');
@@ -84,6 +85,7 @@ const bindEvents = async () => {
   });
 
   $registerForm.addEventListener('submit', registPost);
+  window.addEventListener('popstate', handleHistory);
 };
 
 const init = () => {
