@@ -40,6 +40,7 @@ const bindEvents = () => {
       ];
 
       const user = await postSignIn(email, password, autoLogin);
+      console.log(user);
       if (user) {
         await moveToPage('/');
         return;
