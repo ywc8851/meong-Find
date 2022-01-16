@@ -165,6 +165,17 @@ export const changeUserProfile = async (curUserId, nickname, password, city, dis
   }
 };
 
+// 회원탈퇴
+export const deleteUserProfile = async (curUserId, password) => {
+  try {
+    return await axios.post(`/users/delete/${curUserId}`, {
+      password,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // 내글 불러오기
 export const getMyPosts = async curUserId => {
   try {
