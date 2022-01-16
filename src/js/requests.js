@@ -105,7 +105,14 @@ export const getPostInfo = async id => {
   }
 };
 // 상세페이지 - 작성자 가져오기
-export const getPostWriter = async writerId => {};
+// export const getPostWriter = async writerId => {
+//   try {
+//     console.log(1);
+//     return await axios.get(`/detail/user/${writerId}`);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 // 상세페이지 comment 가져오기
 export const getPostComments = async _comments => {
   try {
