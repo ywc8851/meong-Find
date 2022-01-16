@@ -41,7 +41,6 @@ export default {
   regName: /^[^\s]{2,8}$/,
   regPassword: /^[A-Za-z0-9]{6,12}$/,
   emailValidate(value, index, button) {
-    console.log(this.regEmail);
     return checkIsCorrectForm(!this.regEmail.test(value), index, '이메일 형식에 맞게 입력해 주세요.', button);
   },
 
