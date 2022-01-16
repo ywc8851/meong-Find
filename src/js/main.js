@@ -3,25 +3,92 @@ import { handleHistory, moveToPage } from './router';
 import { getMainPosts, findPosts, getSearchTitle } from './requests';
 import { $ } from './helpers/utils';
 import { handleSelectOptions } from './helpers/select';
+const _ = require('lodash');
 
 const $city = $('#city');
 const $district = $('#district');
+
+const count = 6;
+let index = 0;
+let postLength = 0;
+
+//데이터 추가함수
+const loadPosts = async () => {
+  const fragment = document.createDocumentFragment();
+
+  const { data: posts } = await getMainPosts();
+  postLength = posts.length;
+
+  let postlist = '';
+
+  for (let i = index; i < index + count; i++) {
+    if (postLength <= i) {
+      break;
+    }
+
+    const item = document.createElement('div');
+
+    item.classList.add('main-posts-posting-list');
+
+    item.innerHTML = ` <a href="javascript:void(0)">
+    <img src="${posts[i].images[0]}" alt="${posts[i].title} 이미지" />
+    <span class="main-posts-title">${posts[i].title}</span>
+    <span class="main-posts-species species-${
+      posts[i].animal === '강아지' ? 'dog' : posts[i].animal === '고양이' ? 'cat' : 'etc'
+    }">${posts[i].animal}</span>
+    <span class="main-posts-place">${posts[i].city} ${posts[i].district}</span>
+  </a>`;
+
+    fragment.appendChild(item);
+  }
+
+  $('.main-posts').appendChild(fragment);
+  index += count;
+};
+
+// IntersectionObserver 갱신 함수
+const observeLastChild = intersectionObserver => {
+  const listChildren = document.querySelectorAll('.main-posts-posting-list');
+
+  listChildren.forEach(el => {
+    if (!el.nextSibling && index < postLength) {
+      intersectionObserver.observe(el); // el에 대하여 관측 시작
+      console.log('관측시작');
+    } else if (index >= postLength) {
+      intersectionObserver.disconnect();
+      console.log('페이지의 끝입니다.');
+    }
+  });
+};
+
+const io = new IntersectionObserver((entries, observe) => {
+  entries.forEach(entry => {
+    // entry.isIntersecting: 특정 요소가 뷰포트와 50%(threshold 0.5) 교차되었으면
+
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        observeLastChild(observe);
+        loadPosts();
+      }, 1000);
+    }
+  });
+});
 
 const setPosts = posts => {
   if (posts) {
     let postlist = '';
     posts.map(post => {
       postlist += `
-    <div data-id="${post.id}" class="main-posts-posting-list">
+      <div data-id="${post.id}" class="main-posts-posting-list">
       <a href="javascript:void(0)">
-        <img src="${post.images[0]}" alt="${post.title} 이미지" />
-        <span class="main-posts-title">${post.title}</span>
-        <span class="main-posts-species species-${
-          post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
-        }">${post.animal}</span>
-        <span class="main-posts-place">${post.city} ${post.district}</span>
+      <img src="${post.images[0]}" alt="${post.title} 이미지" />
+      <span class="main-posts-title">${post.title}</span>
+      <span class="main-posts-species species-${
+        post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
+      }">${post.animal}</span>
+      <span class="main-posts-place">${post.city} ${post.district}</span>
       </a>
-    </div>`;
+      </div>`;
     });
     $('.main-posts').innerHTML = postlist;
   }
@@ -31,7 +98,8 @@ const render = (() => {
   window.onload = async () => {
     try {
       const { data: posts } = await getMainPosts();
-      setPosts(posts);
+      io.observe(document.querySelector('.main-scroll'));
+      loadPosts();
     } catch (e) {
       console.error(e);
     }
@@ -122,4 +190,15 @@ $('.main-posts').onclick = ({ target }) => {
   }
 };
 
+$('.arrow-up').onclick = () => {
+  window.scroll({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  });
+};
+
+window.onscroll = _.throttle(() => {
+  $('.arrow-up').classList.toggle('hidden', window.pageYOffset <= 100);
+}, 100);
 window.addEventListener('DOMContentLoaded', init);

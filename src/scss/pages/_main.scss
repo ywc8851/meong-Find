@@ -58,8 +58,10 @@
 
 .main-posts {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  flex-wrap: wrap;
   margin-top: rem(20px);
+
   img {
     width: rem(346px);
     height: rem(379px);
@@ -81,6 +83,9 @@
     color: $darkgray;
   }
   &-posting-list {
+    margin-bottom: rem(40px);
+    width: rem(346px);
+
     a,
     img,
     span {
