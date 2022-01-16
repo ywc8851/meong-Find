@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const fetchHtml = async url => {
-  // console.log(`/${url === '/' ? 'index' : `html/${url}`}.html`);
   try {
     return await axios.get(url);
   } catch (error) {
@@ -159,6 +158,17 @@ export const changeUserProfile = async (curUserId, nickname, password, city, dis
       password,
       city,
       district,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 회원탈퇴
+export const deleteUserProfile = async (curUserId, password) => {
+  try {
+    return await axios.post(`/users/delete/${curUserId}`, {
+      password,
     });
   } catch (error) {
     console.error(error);

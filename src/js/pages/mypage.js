@@ -39,7 +39,7 @@ const render = (() => {
         <li class="profile__posting-list" data-id="${id}">
           <span class="profile__posting-num">${index + 1}</span>
           <span class="profile__posting-header">${title}</span>
-          <a href="#" class="profile__posting-edit">
+          <a href="javascript:void(0)" class="profile__posting-edit">
             <span>수정</span>
           </a>
           <button class="profile__posting-del" type="button">삭제</button>
