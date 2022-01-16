@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const upload = require('./upload');
+const bcrypt = require('bcrypt');
 
 const { auth, blockLoginUser } = require('./auth.js');
 const { users, posts, comments } = require('./db');
@@ -24,6 +25,14 @@ const urls = ['/signin', '/signup', '/detail', '/mypage', '/mypageEdit'];
 // 루트페이지(메인페이지)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/index.html'));
+});
+
+// 검색 title
+app.get('/search/:title', (req, res) => {
+  const { title } = req.params;
+  console.log(title);
+  const searchPosts = posts.filter({ title });
+  res.send(searchPosts);
 });
 
 // 모든 게시물 가져오기
@@ -78,6 +87,7 @@ app.get('/mypost/:writerId', (req, res) => {
 // 프로필 정보 수정
 app.patch('/users/:id', (req, res) => {
   const { id } = req.params;
+  req.body.password = bcrypt.hashSync(req.body.password, 10);
 
   try {
     users.update(id, req.body);
@@ -105,14 +115,16 @@ app.get('/post/:id', (req, res) => {
 
 // 상세페이지 posting 정보 가져오기
 app.get('/detail/:id', (req, res) => {
-  console.log(2);
   const { id } = req.params;
 
   try {
-    const postInfo = posts.filter({ id });
+    const [postInfo] = posts.filter({ id });
+    const [writerInfo] = users.filter({ id: postInfo.writerId });
+
+    postInfo.writer = writerInfo.nickname;
     res.send(postInfo);
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
   }
 });
 
@@ -122,8 +134,14 @@ app.get('/comments/:idList', (req, res) => {
   const commentList = JSON.parse(id);
 
   try {
-    const list = commentList.map(id => comments.filter({ id })[0]);
-    res.send(list);
+    const lists = commentList.map(id => comments.filter({ id })[0]);
+
+    lists.map(list => {
+      let [user] = users.filter({ id: list.writerId });
+      list.writerNickname = user.nickname;
+    });
+
+    res.send(lists);
   } catch (e) {
     console.error(e);
   }
@@ -134,14 +152,28 @@ app.get(urls, blockLoginUser, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
-// 회원가입
-app.post('/users/signup', (req, res) => {
+// 상세페이지 comment
+app.post('/comment', (req, res) => {
+  const { postId } = req.body;
+
   try {
-    const user = users.create({ ...req.body });
-    res.send(user);
-  } catch (e) {
-    console.error(e);
+    const id = `comment${comments.get().length + 1}`;
+    comments.createBack({ id, ...req.body });
+
+    // post에 comments 정보 추가
+    const [post] = posts.filter({ id: postId });
+    const comment = [...post.comments, id];
+    posts.update(postId, { comments: comment });
+
+    res.send();
+  } catch (error) {
+    console.error(error);
   }
+});
+
+// urls 배열에 있는 client 에게 전송
+app.get(urls, blockLoginUser, (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
 // 닉네임 중복검사
@@ -162,13 +194,23 @@ app.get('/user/name/:nickname', (req, res) => {
 app.get('/user/email/:email', (req, res) => {
   const { email } = req.params;
 
-  // 바꿔라 duplicate -> duplication
   try {
     const [user] = users.filter({ email });
-    const emailDuplicate = !!user;
+    const emailDuplication = !!user;
     res.send({
-      emailDuplicate,
+      emailDuplication,
     });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+// 회원가입
+app.post('/users/signup', (req, res) => {
+  try {
+    const user = users.create({ ...req.body, password: bcrypt.hashSync(req.body.password, 10), isValid: true });
+    // console.log(user);
+    res.send(user);
   } catch (e) {
     console.error(e);
   }
@@ -177,12 +219,16 @@ app.get('/user/email/:email', (req, res) => {
 //로그인
 app.post('/user/signin', (req, res) => {
   const { email, password, autoLogin } = req.body;
-  const [user] = users.filter({ email, password, isValid: true });
-
+  const [user] = users.filter({ email, isValid: true });
+  let iscorrectPwd;
   if (!user) {
     return res.status(401).send('등록되지 않은 사용자입니다.');
+  } else {
+    iscorrectPwd = bcrypt.compareSync(password, user.password);
   }
-
+  if (!iscorrectPwd) {
+    return res.status(401).send('등록되지 않은 사용자입니다.');
+  }
   const accessToken = createToken(email, autoLogin ? '1d' : '1d');
 
   res.cookie('accessToken', accessToken, {
@@ -198,6 +244,23 @@ app.get('/user/signout', (req, res) => {
   res.clearCookie('accessToken').redirect('/');
 });
 
+// 회원탈퇴를 위해 비밀번호 확인
+
+// 회원탈퇴
+app.post('/users/delete/:id', (req, res) => {
+  const { id } = req.params;
+  const [user] = users.filter({ id, isValid: true });
+
+  const iscorrectPwd = bcrypt.compareSync(req.body.password, user.password);
+  if (!iscorrectPwd) {
+    return res.status(401).send('비밀번호가 일치하지 않습니다.');
+  } else {
+    users.update(id, { isValid: false });
+    res.clearCookie('accessToken').sendStatus(204);
+    res.send();
+  }
+});
+
 // 존재하는 이메일인지 확인
 app.get('/user/id/:email', (req, res) => {
   const { email } = req.params;
@@ -211,7 +274,7 @@ app.get('/user/id/:email', (req, res) => {
 // 임시 비밀번호 발급
 app.patch('/user/temporary', (req, res) => {
   const { id, password } = req.body;
-  const updatedUser = users.update(id, { password });
+  const updatedUser = users.update(id, { password: bcrypt.hashSync(password, 10) });
 
   if (!updatedUser) {
     return res.status(401).send('임시비밀번호 변경에 실패 했습니다.');

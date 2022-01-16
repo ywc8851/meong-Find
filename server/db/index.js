@@ -15,6 +15,11 @@ const handleData = data => {
       datas = [_newData, ...datas];
       return _newData;
     },
+    createBack(newData) {
+      const _newData = { id: uniqid(), ...newData };
+      datas = [...datas, _newData];
+      return _newData;
+    },
     delete(id) {
       datas = datas.filter(data => data.id !== id);
     },

@@ -9,6 +9,13 @@ export const fetchHtml = async url => {
   }
 };
 
+export const getSearchTitle = async searchValue => {
+  try {
+    return await axios.get(`/search/${searchValue}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const getSignUpForm = async () => {
   try {
     return await axios.get('/signup');
@@ -105,7 +112,14 @@ export const getPostInfo = async id => {
   }
 };
 // 상세페이지 - 작성자 가져오기
-export const getPostWriter = async writerId => {};
+// export const getPostWriter = async writerId => {
+//   try {
+//     console.log(1);
+//     return await axios.get(`/detail/user/${writerId}`);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 // 상세페이지 comment 가져오기
 export const getPostComments = async _comments => {
   try {
@@ -116,6 +130,18 @@ export const getPostComments = async _comments => {
   }
 };
 
+// 상세페이지 댓글 달기
+export const postComment = async (postId, writerId, content) => {
+  // UTC 계산 (PC와 관계 없이 한국 시간으로)
+  const currentDate = new Date();
+  const createdAt = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+
+  try {
+    return await axios.post('/comment', { postId, writerId, createdAt, content });
+  } catch (error) {
+    console.error(error);
+  }
+};
 // mypage 정보
 export const getMyProfile = async () => {
   try {
@@ -133,6 +159,17 @@ export const changeUserProfile = async (curUserId, nickname, password, city, dis
       password,
       city,
       district,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 회원탈퇴
+export const deleteUserProfile = async (curUserId, password) => {
+  try {
+    return await axios.post(`/users/delete/${curUserId}`, {
+      password,
     });
   } catch (error) {
     console.error(error);
