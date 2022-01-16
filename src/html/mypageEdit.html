@@ -12,6 +12,7 @@
       crossorigin="anonymous" />
   </head>
   <body>
+    <div class="cover hidden"></div>
     <h1 class="sr-only">찾아줄개</h1>
     <header>
       <a class="logo-container" href="javascript:void(0)">
@@ -55,7 +56,7 @@
             </div>
             <div class="sign-up-form-info sign-up-form-name">
               <label for="nickname" class="sign-up-form-label">닉네임</label>
-              <input id="nickname" class="sign-up-form-input" type="text" maxlength="10" required />
+              <input id="nickname" class="sign-up-form-input" type="text" maxlength="10" />
               <button class="check-duplicated sign-up-form__nickname-btn" disabled>중복확인</button>
               <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
               <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
@@ -63,14 +64,14 @@
             </div>
             <div class="sign-up-form-info sign-up-form-password">
               <label for="password" class="sign-up-form-label">비밀번호</label>
-              <input id="password" class="sign-up-form-input" type="password" required />
+              <input id="password" class="sign-up-form-input" type="password" />
               <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
               <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
               <div class="error"></div>
             </div>
             <div class="sign-up-form-info sign-up-form-repassword">
               <label for="repassword" class="sign-up-form-label">비밀번호 확인</label>
-              <input id="repassword" class="sign-up-form-input" type="password" required />
+              <input id="repassword" class="sign-up-form-input" type="password" />
               <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
               <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
               <div class="error"></div>
@@ -89,9 +90,28 @@
               </div>
             </div>
             <button class="profile-change-btn btn" disabled>수정 완료</button>
-            <button class="profile-delete-btn btn" disabled>회원 탈퇴</button>
+            <button class="profile-delete-btn btn" type="button">회원 탈퇴</button>
           </fieldset>
         </form>
+        <div class="popup hidden">
+          <h2 class="title sr-only">회원탈퇴</h2>
+          <button class="login-exit button__reset"><i class="fas fa-times fa-2x"></i></button>
+          <p>탈퇴를 원하시면 비밀번호를 입력해주세요.</p>
+          <form class="popup-form">
+            <div>
+              <label for="check-password" class="error"></label>
+              <input
+                type="password"
+                id="check-password"
+                class="popup-find-password"
+                placeholder="비밀번호를 입력하세요." />
+              <!-- <button type="submit" class="popup-button ok-button">OK</button> -->
+            </div>
+            <div class="find-error hidden">비밀번호가 일치하지 않습니다.</div>
+            <!-- <div class="find-error hidden">비밀번호가 일치하지 않습니다.</div> -->
+            <button type="button" class="popup-button delete-button">회원탈퇴</button>
+          </form>
+        </div>
       </section>
     </main>
     <footer class="footer">
