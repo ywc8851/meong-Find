@@ -1,8 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-require('dotenv').config();
 
 const urls = ['index', 'signin', 'signup', 'mypage', 'detail', 'mypageEdit', 'register'];
 const htmlWebpackPlugins = () =>
@@ -17,12 +15,8 @@ const htmlWebpackPlugins = () =>
   );
 
 module.exports = {
-  mode: process.env.NODE_ENV,
-  plugins: [
-    ...htmlWebpackPlugins(),
-    new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
-    new CleanWebpackPlugin(),
-  ],
+  mode: 'development',
+  plugins: [...htmlWebpackPlugins(), new MiniCssExtractPlugin({ filename: 'css/[name].css' })],
   entry: {
     main: ['./src/js/main.js', './src/scss/index.scss'],
     signin: ['./src/js/pages/signIn.js', './src/scss/index.scss'],
@@ -35,6 +29,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'js/[name].js',
+    clean: true,
   },
   module: {
     rules: [
@@ -100,5 +95,6 @@ module.exports = {
       '/': 'http://localhost:9000',
     },
     open: true,
+    port: 'auto',
   },
 };

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const fetchHtml = async url => {
-  // console.log(`/${url === '/' ? 'index' : `html/${url}`}.html`);
   try {
     return await axios.get(url);
   } catch (error) {

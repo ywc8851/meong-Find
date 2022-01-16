@@ -2,8 +2,6 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const path = require('path');
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
 const upload = require('./upload');
 const bcrypt = require('bcrypt');
 
@@ -16,40 +14,16 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT;
 
-const config = require('../webpack.config.js');
-const compiler = webpack(config);
-// const nodemailer = require('nodemailer');
-
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
-
-if (process.env.NODE_ENV === 'development') {
-  app.use(webpackDevMiddleware(compiler));
-}
 
 const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
 const urls = ['/signin', '/signup', '/detail', '/mypage', '/mypageEdit'];
 
-const devServer = (req, res, next) => {
-  if (req.url.split('/').length >= 3) {
-    req.url = `/${req.url.split('/')[1]}`;
-  }
-  req.url = req.url === '/post' ? '/detail' : req.url;
-  if (process.env.NODE_ENV === 'development') {
-    const file = path.join(config.output.path, `${urls.includes(req.url) ? `html${req.url}` : '/index'}.html`);
-    compiler.outputFileSystem.readFile(file, (err, result) => {
-      if (err) {
-        return res.sendStatus(404);
-      }
-      res.set('content-type', 'text/html').end(result);
-    });
-  } else next();
-};
-
 // 루트페이지(메인페이지)
-app.get('/', devServer, (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/index.html'));
 });
 
@@ -74,12 +48,12 @@ app.get('/findposts/:city/:district/:animal', (req, res) => {
 });
 
 // 마이페이지
-app.get('/mypage', auth, devServer, (req, res) => {
+app.get('/mypage', auth, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/mypage.html'));
 });
 
 // 수정페이지
-app.get('/mypageEdit', auth, devServer, (req, res) => {
+app.get('/mypageEdit', auth, (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/mypageEdit.html'));
 });
 
@@ -95,7 +69,7 @@ app.get('/profile', (req, res) => {
   }
 });
 
-app.get('/register', auth, devServer, (req, res) => {
+app.get('/register', auth, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
@@ -135,7 +109,7 @@ app.post('/post', (req, res) => {
 });
 
 // 메인페이지 -> 상세페이지로 이동
-app.get('/post/:id', devServer, (req, res) => {
+app.get('/post/:id', (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html/detail.html`));
 });
 
@@ -173,6 +147,11 @@ app.get('/comments/:idList', (req, res) => {
   }
 });
 
+// urls 배열에 있는 client 에게 전송
+app.get(urls, blockLoginUser, (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
+});
+
 // 상세페이지 comment
 app.post('/comment', (req, res) => {
   const { postId } = req.body;
@@ -193,7 +172,7 @@ app.post('/comment', (req, res) => {
 });
 
 // urls 배열에 있는 client 에게 전송
-app.get(urls, blockLoginUser, devServer, (req, res) => {
+app.get(urls, blockLoginUser, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
@@ -324,7 +303,7 @@ app.post('/upload', upload.array('img', 4), (req, res) => {
 });
 
 // 존재하는 페이지가 아니라면 , 404 뜨게하세요.
-app.get('*', devServer, (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 

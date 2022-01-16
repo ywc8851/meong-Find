@@ -3,6 +3,7 @@ import { $ } from '../helpers/utils';
 import { handleSelectOptions } from '../helpers/select';
 import { bindImageEvents, uploadImage } from '../helpers/inputImageFile';
 import { addNewPost } from '../requests';
+import { handleHistory } from '../router';
 
 const $inputFile = $('.register-upload__input');
 const $registerUpload = $('.register-upload');
@@ -26,7 +27,8 @@ const registPost = async e => {
 
   try {
     const images = await uploadImage();
-    state.images = images.map(image => `img/${image.name}`);
+    state.images = images.map(({ filename }) => `img/${filename}`);
+
     const {
       data: { post },
     } = await addNewPost({ ...state, title: state.title.trim(), content: state.content.trim() });
@@ -83,6 +85,7 @@ const bindEvents = async () => {
   });
 
   $registerForm.addEventListener('submit', registPost);
+  window.addEventListener('popstate', handleHistory);
 };
 
 const init = () => {

@@ -3,7 +3,6 @@ import { fetchHtml } from './requests';
 export const render = async path => {
   try {
     const { data } = await fetchHtml(path);
-    // console.log('====>', path, data);
     document.open();
     document.write(data);
     document.close();
@@ -22,7 +21,6 @@ export const handleHistory = async event => {
 };
 
 export const moveToPage = async path => {
-  // console.log('moveToPage', path);
   history.pushState({ path }, '', path);
   try {
     await render(path);
