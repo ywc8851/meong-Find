@@ -57,7 +57,7 @@ const header = {
         const {
           data: { user },
         } = await getIsUserLogin();
-        if (user?.id) {
+        if (user?.email) {
           $('.user-nickname').textContent = user?.nickname;
           $('.login').classList.remove('hidden');
           $('.no-login').classList.add('hidden');
