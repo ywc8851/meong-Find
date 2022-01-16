@@ -12,6 +12,10 @@ const handleData = data => {
       datas = [newData, ...datas];
       return newData;
     },
+    createBack(newData) {
+      datas = [...datas, newData];
+      return newData;
+    },
     delete(id) {
       datas = datas.filter(data => data.id !== id);
     },

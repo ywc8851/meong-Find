@@ -153,17 +153,6 @@ app.get('/detail/:id', (req, res) => {
   }
 });
 
-// 상세페이지 - writer 가져오기
-// app.get('/detail/user/:id', (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     const [user] = users.filter({ id });
-//     res.send(user.nickname);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// });
-
 // 상세페이지 comment 가져오기
 app.get('/comments/:idList', (req, res) => {
   const { idList: id } = req.params;
@@ -182,6 +171,26 @@ app.get('/comments/:idList', (req, res) => {
     console.error(e);
   }
 });
+
+// 상세페이지 comment
+app.post('/comment', (req, res) => {
+  const { postId } = req.body;
+
+  try {
+    const id = `comment${comments.get().length + 1}`;
+    comments.createBack({ id, ...req.body });
+
+    // post에 comments 정보 추가
+    const [post] = posts.filter({ id: postId });
+    const comment = [...post.comments, id];
+    posts.update(postId, { comments: comment });
+
+    res.send();
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // urls 배열에 있는 client 에게 전송
 app.get(urls, blockLoginUser, devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
