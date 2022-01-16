@@ -1,4 +1,6 @@
-const users = [
+const bcrypt = require('bcrypt');
+
+const raw_users = [
   {
     id: 'ramndomda',
     email: 'ywc8851@naver.com',
@@ -37,4 +39,5 @@ const users = [
   },
 ];
 
+const users = raw_users.map(user => ({ ...user, password: bcrypt.hashSync(user.password, 10) }));
 module.exports = users;
