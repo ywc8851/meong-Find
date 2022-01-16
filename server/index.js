@@ -178,16 +178,6 @@ app.get(urls, blockLoginUser, devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
-// 회원가입
-app.post('/users/signup', (req, res) => {
-  try {
-    const user = users.create({ ...req.body });
-    res.send(user);
-  } catch (e) {
-    console.error(e);
-  }
-});
-
 // 닉네임 중복검사
 app.get('/user/name/:nickname', (req, res) => {
   const { nickname } = req.params;
@@ -206,13 +196,23 @@ app.get('/user/name/:nickname', (req, res) => {
 app.get('/user/email/:email', (req, res) => {
   const { email } = req.params;
 
-  // 바꿔라 duplicate -> duplication
   try {
     const [user] = users.filter({ email });
-    const emailDuplicate = !!user;
+    const emailDuplication = !!user;
     res.send({
-      emailDuplicate,
+      emailDuplication,
     });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+// 회원가입
+app.post('/users/signup', (req, res) => {
+  try {
+    const user = users.create({ ...req.body, isValid: true });
+    console.log(user);
+    res.send(user);
   } catch (e) {
     console.error(e);
   }
@@ -222,7 +222,7 @@ app.get('/user/email/:email', (req, res) => {
 app.post('/user/signin', (req, res) => {
   const { email, password, autoLogin } = req.body;
   const [user] = users.filter({ email, password, isValid: true });
-
+  console.log(user);
   if (!user) {
     return res.status(401).send('등록되지 않은 사용자입니다.');
   }
