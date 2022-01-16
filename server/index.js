@@ -131,16 +131,29 @@ app.get('/post/:id', devServer, (req, res) => {
 
 // 상세페이지 posting 정보 가져오기
 app.get('/detail/:id', (req, res) => {
-  console.log(2);
   const { id } = req.params;
 
   try {
-    const postInfo = posts.filter({ id });
+    const [postInfo] = posts.filter({ id });
+    const [writerInfo] = users.filter({ id: postInfo.writerId });
+
+    postInfo.writer = writerInfo.nickname;
     res.send(postInfo);
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
   }
 });
+
+// 상세페이지 - writer 가져오기
+// app.get('/detail/user/:id', (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const [user] = users.filter({ id });
+//     res.send(user.nickname);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// });
 
 // 상세페이지 comment 가져오기
 app.get('/comments/:idList', (req, res) => {
@@ -148,13 +161,18 @@ app.get('/comments/:idList', (req, res) => {
   const commentList = JSON.parse(id);
 
   try {
-    const list = commentList.map(id => comments.filter({ id })[0]);
-    res.send(list);
+    const lists = commentList.map(id => comments.filter({ id })[0]);
+
+    lists.map(list => {
+      let [user] = users.filter({ id: list.writerId });
+      list.writerNickname = user.nickname;
+    });
+
+    res.send(lists);
   } catch (e) {
     console.error(e);
   }
 });
-
 // urls 배열에 있는 client 에게 전송
 app.get(urls, blockLoginUser, devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
