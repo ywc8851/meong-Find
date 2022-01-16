@@ -1,7 +1,7 @@
 import header from '../components/header';
 import { $ } from '../helpers/utils';
 import { handleHistory } from '../router';
-import { getPostInfo, getPostComments, getIsUserLogin } from '../requests';
+import { getPostInfo, getPostComments, getIsUserLogin, postComment } from '../requests';
 
 const $commentInput = $('.detail__comment-input-tag');
 const $commentSubmitButton = $('.detail__comment-submit');
@@ -13,11 +13,10 @@ const bindEvents = () => {
 };
 
 const fetchPostData = async id => {
+  const {
+    data: { user },
+  } = await getIsUserLogin();
   try {
-    const {
-      data: { user },
-    } = await getIsUserLogin();
-
     const { data: post } = await getPostInfo(id);
     const { data: commentList } = await getPostComments(post.comments);
 
@@ -73,36 +72,56 @@ const fetchPostData = async id => {
       `;
       }
     }
+
+    // 이벤트 모음집 ~
+    $commentInput.addEventListener('keypress', ({ key }) => {
+      if (key !== 'Enter') return;
+
+      const content = $commentInput.value.trim();
+
+      if (key !== 'Enter' || content === '') {
+        return;
+      }
+      // addcomment 함수 실행
+      addComment($commentInput.value);
+
+      $commentInput.value = '';
+    });
+    $commentSubmitButton.addEventListener('click', async () => {
+      if (!$commentInput.value) return;
+
+      addComment($commentInput.value);
+      // addcomment 함수 실행
+    });
+
+    // 작성자 정보 모두 받아서 Post 해준다.
+    const addComment = async comment => {
+      try {
+        const res = await postComment(post.id, user.id, comment);
+        if (res.status === 200) {
+          $('.detail__comment-list').innerHTML += `
+            <li>
+            <span class="detail__comment-writer">${user.nickname}</span>
+            <span class="detail__comment-content">${comment}</span>
+            ${
+              user?.id
+                ? user.nickname === comment.writerNickname
+                  ? `<button class="comment-edit-btn">수정</button>
+                    <button class="comment-del-btn">삭제</button>`
+                  : ``
+                : ''
+            }
+          </li>
+        `;
+        } else {
+          alert('댓글 추가에 실패했습니다');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
   } catch (e) {
     console.error(e);
-  }
-};
-$commentInput.addEventListener('keypress', ({ key }) => {
-  if (key !== 'Enter') return;
-
-  const content = $commentInput.value.trim();
-
-  if (key !== 'Enter' || content === '') {
-    return;
-  }
-  // addcomment 함수 실행
-  addComment($commentInput.value);
-
-  $commentInput.value = '';
-});
-$commentSubmitButton.addEventListener('click', async () => {
-  if (!$commentInput.value) return;
-
-  addComment($commentInput.value);
-  // addcomment 함수 실행
-});
-
-// 작성자 정보 모두 받아서 Post 해준다.
-const addComment = async comment => {
-  try {
-    // user 정보와 함께 send
-  } catch (error) {
-    console.error(error);
   }
 };
 
