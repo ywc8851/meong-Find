@@ -45,6 +45,7 @@
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.4",
-    "nodemailer": "^6.7.2"
+    "nodemailer": "^6.7.2",
+    "uniqid": "^5.4.0"
   }
 }
