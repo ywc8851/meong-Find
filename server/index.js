@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 // 검색 title
 app.get('/search/:title', (req, res) => {
   const { title } = req.params;
-  const searchPosts = posts.filter({ title });
+  const searchPosts = posts.search({ title });
   res.send(searchPosts);
 });
 
