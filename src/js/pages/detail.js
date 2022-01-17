@@ -50,15 +50,12 @@ const addComment = async (user, content) => {
 const bindEvents = async () => {
   const user = await header.bindEvents();
 
-  $commentTextInput.addEventListener('keyup', ({ key }) => {
-    if (key !== 'Enter') return;
-
+  $commentTextInput.addEventListener('keydown', ({ key, isComposing }) => {
     const content = $commentTextInput.value.trim();
 
-    if (key !== 'Enter' || content === '') {
-      return;
-    }
+    if (key !== 'Enter' || content === '' || isComposing) return;
     addComment(user, content);
+
     $commentTextInput.value = '';
   });
 
@@ -76,10 +73,14 @@ const bindEvents = async () => {
     const commentValue = target.value.trim();
 
     try {
+      $commentEditButton = $parent(target, '.comment-edit-btn');
+      $commentDeleteButton = $parent(target, '.comment-del-btn');
+      $editConfirmButton = $parent(target, '.comment-edit-confirm-btn');
+
       target.setAttribute('disabled', true);
-      $parent(target, '.comment-edit-btn').classList.remove('hidden');
-      $parent(target, '.comment-del-btn').classList.remove('hidden');
-      $parent(target, '.comment-edit-confirm-btn').classList.add('hidden');
+      $commentEditButton.classList.remove('hidden');
+      $commentDeleteButton.classList.remove('hidden');
+      $editConfirmButton.classList.add('hidden');
 
       await updateComment(commentId, commentValue);
     } catch (error) {
@@ -100,6 +101,7 @@ const bindEvents = async () => {
       $commentDeleteButton.classList.add('hidden');
       // console.log(commentid);
     }
+
     // 수정완료했을 때
     if (target.classList.contains('comment-edit-confirm-btn')) {
       const { id: commentId } = target.parentElement.dataset;
@@ -107,9 +109,9 @@ const bindEvents = async () => {
 
       try {
         await updateComment(commentId, commentValue);
-        $parent(target, '.detail__comment-content').setAttribute('disabled', true);
-        $parent(target, '.comment-edit-btn').classList.remove('hidden');
-        $parent(target, '.comment-del-btn').classList.remove('hidden');
+        $commentInput.setAttribute('disabled', true);
+        $commentEditButton.classList.remove('hidden');
+        $commentDeleteButton.classList.remove('hidden');
         target.classList.add('hidden');
       } catch (error) {
         console.error(error);
@@ -167,8 +169,8 @@ const fetchPostData = async id => {
     commentRender(user, commentList);
 
     if (!user?.id) {
-      $commentInput.setAttribute('placeholder', '로그인 후 이용하세요.');
-      $commentInput.setAttribute('disabled', true);
+      $commentTextInput.setAttribute('placeholder', '로그인 후 이용하세요.');
+      $commentTextInput.setAttribute('disabled', true);
       $commentSubmitButton.setAttribute('disabled', true);
     } else {
       if (user.nickname === post.writer) {
@@ -178,8 +180,6 @@ const fetchPostData = async id => {
       `;
       }
     }
-
-    // 이벤트 모음집 ~
   } catch (e) {
     console.error(e);
   }
