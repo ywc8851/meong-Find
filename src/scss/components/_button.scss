@@ -90,6 +90,10 @@ button {
     background-color: #a1a7b6;
     line-height: rem(35px);
     text-align: center;
+
+    span {
+      pointer-events: none;
+    }
   }
   &-del {
     background-color: $red;

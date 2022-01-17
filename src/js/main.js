@@ -1,5 +1,5 @@
 import header from './components/header';
-import { handleHistory, moveToPage } from './router';
+import { moveToPage } from './router';
 import { getMainPosts, findPosts, getSearchTitle } from './requests';
 import { $ } from './helpers/utils';
 import { handleSelectOptions } from './helpers/select';
@@ -110,12 +110,6 @@ const render = (() => {
 
 const bindEvents = () => {
   header.bindEvents();
-
-  window.addEventListener('popstate', handleHistory);
-};
-
-const init = () => {
-  bindEvents();
 };
 
 $city.onchange = () => {
@@ -200,6 +194,7 @@ $('.arrow-up').onclick = () => {
 };
 
 window.onscroll = _.throttle(() => {
-  $('.arrow-up').classList.toggle('hidden', window.pageYOffset <= 100);
+  $('.arrow-up').classList.toggle('hidden', window.pageYOffset <= 300);
 }, 100);
-window.addEventListener('DOMContentLoaded', init);
+
+window.addEventListener('DOMContentLoaded', bindEvents);

@@ -21,7 +21,7 @@ export const handleHistory = async event => {
 };
 
 export const moveToPage = async path => {
-  history.pushState({ path }, '', path);
+  history.pushState({ path, prev: location.href }, '', path);
   try {
     await render(path);
   } catch (error) {
