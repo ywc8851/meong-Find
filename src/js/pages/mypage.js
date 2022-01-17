@@ -1,5 +1,5 @@
 import header from '../components/header';
-import { handleHistory } from '../router';
+import { moveToPage } from '../router';
 import { getMyProfile, getMyPosts } from '../requests';
 import { $ } from '../helpers/utils';
 
@@ -48,6 +48,11 @@ const render = (() => {
           )
           .join('');
       }
+
+      $('.profile__posting-container').addEventListener('click', ({ target }) => {
+        if (!target.matches('.profile__posting-edit')) return;
+        moveToPage(`/update/${target.parentElement.dataset.id}`);
+      });
     } catch (e) {
       console.error(e);
     }
@@ -56,12 +61,6 @@ const render = (() => {
 
 const bindEvents = () => {
   header.bindEvents();
-
-  window.addEventListener('popstate', handleHistory);
-};
-
-const init = () => {
-  bindEvents();
 };
 
 $('.profile__posting-container').onclick = e => {
@@ -71,4 +70,4 @@ $('.profile__posting-container').onclick = e => {
   }
 };
 
-window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('DOMContentLoaded', bindEvents);
