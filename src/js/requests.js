@@ -15,6 +15,7 @@ export const getSearchTitle = async searchValue => {
     console.error(error);
   }
 };
+
 export const getSignUpForm = async () => {
   try {
     return await axios.get('/signup');
@@ -111,15 +112,7 @@ export const getPostInfo = async id => {
     console.log(error);
   }
 };
-// 상세페이지 - 작성자 가져오기
-// export const getPostWriter = async writerId => {
-//   try {
-//     console.log(1);
-//     return await axios.get(`/detail/user/${writerId}`);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+
 // 상세페이지 comment 가져오기
 export const getPostComments = async _comments => {
   try {
@@ -160,6 +153,7 @@ export const deleteComment = async (postId, commentId) => {
     console.error(error);
   }
 };
+
 // mypage 정보
 export const getMyProfile = async () => {
   try {
