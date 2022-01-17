@@ -22,6 +22,12 @@ const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SEC
 
 const urls = ['/signin', '/signup', '/detail', '/mypage', '/mypageEdit'];
 
+const getCommentsByPostId = lists =>
+  lists.map(list => {
+    const [{ nickname }] = users.filter({ id: list.writerId });
+    return { ...list, writerNickname: nickname };
+  });
+
 // 루트페이지(메인페이지)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/index.html'));
@@ -86,7 +92,6 @@ app.get('/mypost/:writerId', (req, res) => {
 // 프로필 정보 수정
 app.patch('/users/:id', (req, res) => {
   const { id } = req.params;
-  req.body.password = bcrypt.hashSync(req.body.password, 10);
 
   try {
     users.update(id, req.body);
@@ -125,7 +130,6 @@ app.get('/post/:id', (req, res) => {
 // 상세페이지 posting 정보 가져오기
 app.get('/detail/:id', (req, res) => {
   const { id } = req.params;
-
   try {
     const [postInfo] = posts.filter({ id });
     const [writerInfo] = users.filter({ id: postInfo.writerId });
@@ -142,11 +146,7 @@ app.get('/comments/:idList', (req, res) => {
 
   try {
     const lists = commentList.map(id => comments.filter({ id })[0]);
-    const listsAddedWriter = [];
-    lists.map(list => {
-      let [user] = users.filter({ id: list.writerId });
-      listsAddedWriter[listsAddedWriter.length] = { ...list, writerNickname: user.nickname };
-    });
+    const listsAddedWriter = getCommentsByPostId(lists);
 
     res.send(listsAddedWriter);
   } catch (e) {
@@ -159,28 +159,55 @@ app.get(urls, blockLoginUser, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
 });
 
-// 상세페이지 comment
+// 상세페이지 comment 달기
 app.post('/comment', (req, res) => {
   const { postId } = req.body;
 
   try {
-    const id = `comment${comments.get().length + 1}`;
-    comments.createBack({ id, ...req.body });
+    // const id = `comment${comments.get().length + 1}`;
+    const comment = comments.createBack(req.body);
 
     // post에 comments 정보 추가
     const [post] = posts.filter({ id: postId });
-    const comment = [...post.comments, id];
-    posts.update(postId, { comments: comment });
+    posts.update(postId, { comments: [...post.comments, comment.id] });
 
-    res.send({ id, ...req.body });
+    const lists = comments.filter({ postId });
+    const listsAddedWriter = getCommentsByPostId(lists);
+
+    res.send(listsAddedWriter);
   } catch (error) {
     console.error(error);
   }
 });
 
-// urls 배열에 있는 client 에게 전송
-app.get(urls, blockLoginUser, (req, res) => {
-  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
+// 상세페이지 comment 수정
+app.patch('/post/comment', (req, res) => {
+  const { id, content } = req.body;
+  try {
+    comments.update(id, { content });
+    res.send();
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+// 상세페이지 comment 삭제
+app.delete('/post/comment/:postId/:commentId', (req, res) => {
+  const { postId, commentId } = req.params;
+
+  try {
+    comments.delete(commentId);
+
+    const [post] = posts.filter({ id: postId });
+    const deletedComments = post.comments.filter(comment => comment !== commentId);
+    posts.update(postId, { comments: deletedComments });
+
+    const lists = comments.filter({ postId });
+    const listsAddedWriter = getCommentsByPostId(lists);
+    res.send(listsAddedWriter);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 // 닉네임 중복검사
