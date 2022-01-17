@@ -41,14 +41,10 @@ export const getSignUpName = async nickname => {
 };
 
 // 회원가입 정보 전송
-export const getSignup = async (nickname, email, password, city, district) => {
+export const getSignup = async user => {
   try {
     return await axios.post('/users/signup', {
-      nickname,
-      email,
-      password,
-      city,
-      district,
+      user,
     });
   } catch (error) {
     console.error(error);

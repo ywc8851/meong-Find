@@ -242,7 +242,11 @@ app.get('/user/email/:email', (req, res) => {
 // 회원가입
 app.post('/users/signup', (req, res) => {
   try {
-    const user = users.create({ ...req.body, password: bcrypt.hashSync(req.body.password, 10), isValid: true });
+    const user = users.create({
+      ...req.body.user,
+      password: bcrypt.hashSync(req.body.user.password, 10),
+      isValid: true,
+    });
     // console.log(user);
     res.send(user);
   } catch (e) {
