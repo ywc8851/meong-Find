@@ -30,6 +30,8 @@ const loadPosts = async () => {
 
     item.classList.add('main-posts-posting-list');
 
+    item.setAttribute('data-id', posts[i].id);
+
     item.innerHTML = ` <a href="javascript:void(0)">
     <img src="${posts[i].images[0]}" alt="${posts[i].title} 이미지" />
     <span class="main-posts-title">${posts[i].title}</span>
