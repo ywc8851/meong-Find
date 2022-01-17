@@ -3,7 +3,7 @@ import { $ } from '../helpers/utils';
 import { handleSelectOptions } from '../helpers/select';
 import { getSignUpEmail, getSignUpName, getSignup, getSignUpForm } from '../requests';
 import header from '../components/header';
-import { moveToPage, handleHistory } from '../router';
+import { moveToPage } from '../router';
 
 header.bindEvents();
 
@@ -128,5 +128,3 @@ $duplicateButton[1].onclick = async ({ target }) => {
 // select 정적으로 추가
 const $city = $('#sign-up-form-city');
 $city.addEventListener('change', () => handleSelectOptions({ $city, $district: $('#sign-up-form-district') }));
-
-window.addEventListener('popstate', handleHistory);

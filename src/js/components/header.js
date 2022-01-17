@@ -1,9 +1,11 @@
 import { $ } from '../helpers/utils';
-import { moveToPage } from '../router';
+import { moveToPage, handleHistory } from '../router';
 import { getSignOut, getIsUserLogin } from '../requests';
 
 const header = {
   async bindEvents() {
+    window.addEventListener('popstate', handleHistory);
+
     $('.logo-container').addEventListener('click', async () => {
       try {
         moveToPage('/');
@@ -35,6 +37,7 @@ const header = {
         console.error(error);
       }
     });
+
     $('.login__logout-btn').addEventListener('click', async () => {
       console.log('logout');
       try {
