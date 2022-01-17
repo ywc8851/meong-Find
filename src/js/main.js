@@ -197,4 +197,13 @@ window.onscroll = _.throttle(() => {
   $('.arrow-up').classList.toggle('hidden', window.pageYOffset <= 300);
 }, 100);
 
+$('.main-nav-find').addEventListener('change', e => {
+  if (!e.target.matches('select')) return;
+  if ($('#city').value !== '시' && $('#district').value !== '구' && $('#kind').value !== '종류') {
+    $('.main-nav-find-btn').removeAttribute('disabled');
+  } else {
+    $('.main-nav-find-btn').setAttribute('disabled', '');
+  }
+});
+
 window.addEventListener('DOMContentLoaded', bindEvents);
