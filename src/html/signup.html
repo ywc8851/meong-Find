@@ -83,7 +83,7 @@
               <label for="area">지역 선택</label>
               <div id="area">
                 <select name="sign-up-form-city" id="sign-up-form-city">
-                  <option value="si">시</option>
+                  <option value="si" selected disabled>시</option>
                   <option>서울특별시</option>
                   <option>부산광역시</option>
                 </select>
@@ -91,6 +91,9 @@
                   <option value="gu">구</option>
                 </select>
               </div>
+              <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+              <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
+              <div class="error"></div>
             </div>
             <button class="sign-up-btn" disabled>회원가입</button>
           </fieldset>
