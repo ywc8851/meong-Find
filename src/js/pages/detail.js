@@ -1,6 +1,14 @@
 import header from '../components/header';
 import { $, $parent } from '../helpers/utils';
-import { getPostInfo, getPostComments, getIsUserLogin, postComment, updateComment, deleteComment } from '../requests';
+import {
+  getPostInfo,
+  getPostComments,
+  getIsUserLogin,
+  postComment,
+  updateComment,
+  deleteComment,
+  deletePost,
+} from '../requests';
 import { moveToPage } from '../router';
 
 const $commentTextInput = $('.detail__comment-input-tag');
@@ -132,14 +140,26 @@ const bindEvents = async () => {
     }
   });
 
-  $('.detail__posting-edit-del').addEventListener('click', e => {
+  $('.detail__posting-edit-del').addEventListener('click', async e => {
     if (!e.target.matches('button')) return;
 
     if (e.target.matches('.posting-edit-btn')) {
       moveToPage(`/update/${postId}`);
     }
     if (e.target.matches('.posting-del-btn')) {
-      console.log('삭제 클릭');
+      try {
+        if (confirm('게시글을 정말 삭제하시겠습니까?')) {
+          try {
+            await deletePost(postId);
+            alert('게시글 삭제 완료!');
+            moveToPage('/');
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   });
 };
