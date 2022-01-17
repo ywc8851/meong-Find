@@ -41,8 +41,6 @@ const commentRender = (user, comments) => {
 const addComment = async (user, content) => {
   try {
     const { data: comments } = await postComment(postId, user.id, content);
-    console.log(user);
-    console.log(comments);
     commentRender(user, comments);
   } catch (error) {
     console.error(error);

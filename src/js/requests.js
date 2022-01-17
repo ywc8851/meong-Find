@@ -15,6 +15,7 @@ export const getSearchTitle = async searchValue => {
     console.error(error);
   }
 };
+
 export const getSignUpForm = async () => {
   try {
     return await axios.get('/signup');

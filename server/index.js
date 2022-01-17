@@ -309,6 +309,7 @@ app.patch('/user/temporary', (req, res) => {
 app.get('/user/login', auth, (req, res) => {
   const { email } = req;
   const [user] = users.filter({ email });
+
   res.send({ user });
 });
 
