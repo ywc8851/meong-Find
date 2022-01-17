@@ -34,9 +34,6 @@ const handleData = data => {
       datas = datas.map(data => (data.id === id ? { ...data, ...payload } : data));
       return datas.find(data => data.id === id);
     },
-    search(payload) {
-      return datas.filter(data => data.title.includes(payload.title));
-    },
   };
 };
 
