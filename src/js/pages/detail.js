@@ -39,11 +39,10 @@ const fetchPostData = async id => {
       `;
     };
     // 작성자 정보 모두 받아서 Post 해준다.
-    const addComment = async comment => {
+    const addComment = async content => {
       try {
-        const { data: comment } = await postComment(post.id, user.id, comment);
-        console.log(comment);
-        commentRender(comment);
+        const { data: comment } = await postComment(post.id, user.id, content);
+        commentRender({ ...comment, writerNickname: user.nickname });
       } catch (error) {
         console.error(error);
       }
@@ -109,10 +108,7 @@ const fetchPostData = async id => {
     });
 
     $('.detail__comment-list').addEventListener('click', ({ target }) => {
-      // 수정 버튼을 눌렀을 때
-      console.log(target);
       if (target.classList.contains('comment-edit-btn')) {
-        console.log(2);
         const $commentInput = target.parentElement.querySelector('.detail__comment-content');
         const $commentEditButton = target.parentElement.querySelector('.comment-edit-btn');
         const $commentDeleteButton = target.parentElement.querySelector('.comment-del-btn');
@@ -122,11 +118,11 @@ const fetchPostData = async id => {
         $editConfirmButton.classList.remove('hidden');
         $commentEditButton.classList.add('hidden');
         $commentDeleteButton.classList.add('hidden');
+        // console.log(commentid);
       }
       // 수정완료했을 때
       if (target.classList.contains('comment-edit-confirm-btn')) {
-        // console.log(target.parentElement.querySelector('.detail__comment-content').value);
-
+        // await updateComment({})
         target.parentElement.querySelector('.detail__comment-content').setAttribute('disabled', true);
         target.parentElement.querySelector('.comment-edit-btn').classList.remove('hidden');
         target.parentElement.querySelector('.comment-del-btn').classList.remove('hidden');
@@ -134,7 +130,6 @@ const fetchPostData = async id => {
       }
       // 삭제했을 때
       if (target.classList.contains('comment-del-btn')) {
-        console.log(2);
       }
     });
   } catch (e) {

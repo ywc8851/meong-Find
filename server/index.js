@@ -145,7 +145,6 @@ app.get('/comments/:idList', (req, res) => {
     const listsAddedWriter = [];
     lists.map(list => {
       let [user] = users.filter({ id: list.writerId });
-      // list.writerNickname = user.nickname;
       listsAddedWriter[listsAddedWriter.length] = { ...list, writerNickname: user.nickname };
     });
 
@@ -173,7 +172,7 @@ app.post('/comment', (req, res) => {
     const comment = [...post.comments, id];
     posts.update(postId, { comments: comment });
 
-    res.send(id);
+    res.send({ id, ...req.body });
   } catch (error) {
     console.error(error);
   }
