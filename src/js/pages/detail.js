@@ -41,8 +41,6 @@ const commentRender = (user, comments) => {
 const addComment = async (user, content) => {
   try {
     const { data: comments } = await postComment(postId, user.id, content);
-    console.log(user);
-    console.log(comments);
     commentRender(user, comments);
   } catch (error) {
     console.error(error);
@@ -169,8 +167,8 @@ const fetchPostData = async id => {
     commentRender(user, commentList);
 
     if (!user?.id) {
-      $commentInput.setAttribute('placeholder', '로그인 후 이용하세요.');
-      $commentInput.setAttribute('disabled', true);
+      $commentTextInput.setAttribute('placeholder', '로그인 후 이용하세요.');
+      $commentTextInput.setAttribute('disabled', true);
       $commentSubmitButton.setAttribute('disabled', true);
     } else {
       if (user.nickname === post.writer) {
@@ -196,4 +194,3 @@ const init = () => {
 };
 
 window.addEventListener('DOMContentLoaded', init);
-//

@@ -4,7 +4,7 @@ const posts = [
     writerId: 'ramndomda',
     createdAt: '2021-01-12',
     images: [
-      'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_262/%EC%8D%B8%EB%84%A4%EC%9D%BC.jpg',
+      'https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg',
       'https://image.msscdn.net/images/goods_img/20191216/1252014/1252014_1_500.jpg',
     ],
     title: '저희 집 강아지 잃어버렸어요',

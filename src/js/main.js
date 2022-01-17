@@ -7,8 +7,6 @@ const _ = require('lodash');
 
 const $city = $('#city');
 const $district = $('#district');
-const $searchInput = $('.search-input');
-const $navSearchButton = $('.main-nav-search-btn');
 
 const count = 6;
 let index = 0;
@@ -17,7 +15,6 @@ let postLength = 0;
 //데이터 추가함수
 const loadPosts = async () => {
   const { data: posts } = await getMainPosts();
-
   postLength = posts.length;
 
   let postlist = '';
@@ -100,6 +97,7 @@ const setPosts = posts => {
 const render = (() => {
   window.onload = async () => {
     try {
+      const { data: posts } = await getMainPosts();
       io.observe(document.querySelector('.main-scroll'));
       loadPosts();
     } catch (e) {
@@ -116,6 +114,9 @@ $city.onchange = () => {
   handleSelectOptions({ $city, $district });
 };
 
+const $searchInput = $('.search-input');
+const $navSearchButton = $('.main-nav-search-btn');
+
 $searchInput.onkeypress = ({ key }) => {
   if (key !== 'Enter') return;
 
@@ -130,14 +131,14 @@ $searchInput.onkeypress = ({ key }) => {
   $searchInput.value = '';
   filterTitle(content);
 };
-$navSearchButton.onclick = async () => {
-  checkSearch = !checkSearch;
+$navSearchButton.onclick = () => {
   filterTitle($searchInput.value);
 };
 
 const filterTitle = async inputValue => {
   try {
     const { data: posts } = await getSearchTitle(inputValue);
+
     posts.length > 0
       ? setPosts(posts)
       : ($('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>');
