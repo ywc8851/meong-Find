@@ -16,8 +16,6 @@ const regName = /^[^\s]{2,8}$/;
 // html 헤더 로그인/비로그인 상태 표시
 const bindEvents = () => {
   header.bindEvents();
-
-  window.addEventListener('popstate', handleHistory);
 };
 
 window.addEventListener('DOMContentLoaded', bindEvents);

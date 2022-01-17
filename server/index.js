@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 // 검색 title
 app.get('/search/:title', (req, res) => {
   const { title } = req.params;
-  const searchPosts = posts.filter({ title });
+  const searchPosts = posts.search({ title });
   res.send(searchPosts);
 });
 
@@ -308,7 +308,7 @@ app.get('/user/id/:email', (req, res) => {
 // 임시 비밀번호 발급
 app.patch('/user/temporary', (req, res) => {
   const { id, password } = req.body;
-  const updatedUser = users.update(id, { password: bcrypt.hashSync(password, 10) });
+  const updatedUser = users.update(id, { password });
 
   if (!updatedUser) {
     return res.status(401).send('임시비밀번호 변경에 실패 했습니다.');
@@ -321,7 +321,7 @@ app.patch('/user/temporary', (req, res) => {
   <p>비밀번호:${updatedUser.password}</p>`;
 
   transporter.sendMail(emailOptions);
-
+  users.update(id, { password: bcrypt.hashSync(password, 10) });
   res.send();
 });
 
