@@ -1,10 +1,14 @@
 import header from '../components/header';
-import { $ } from '../helpers/utils';
+import { $, $parent } from '../helpers/utils';
 import { handleHistory } from '../router';
-import { getPostInfo, getPostComments, getIsUserLogin, postComment } from '../requests';
+import { getPostInfo, getPostComments, getIsUserLogin, postComment, updateComment, deleteComment } from '../requests';
 
-const $commentInput = $('.detail__comment-input-tag');
+const $commentTextInput = $('.detail__comment-input-tag');
 const $commentSubmitButton = $('.detail__comment-submit');
+let $commentInput = null;
+let $commentEditButton = null;
+let $commentDeleteButton = null;
+let $editConfirmButton = null;
 
 const postId = history.state.path.split('/')[2];
 
@@ -135,35 +139,7 @@ const fetchPostData = async id => {
     const { data: post } = await getPostInfo(id);
     const { data: commentList } = await getPostComments(post.comments);
 
-    const commentRender = comment => {
-      $('.detail__comment-list').innerHTML += `
-        <li data-id="${comment.id}" class="comment-li">
-          <span class="detail__comment-writer">${comment.writerNickname}</span>
-          <label for="detail__comment-content sr-only">댓글</label>
-          <input id="detail__comment-content" class="detail__comment-content" type="text" value="${
-            comment.content
-          }" disabled />
-          ${
-            user?.id
-              ? user.nickname === comment.writerNickname
-                ? `<button class="comment-edit-btn">수정</button>
-                  <button class="comment-del-btn">삭제</button>`
-                : ``
-              : ''
-          }
-          <button class="comment-edit-confirm-btn hidden">확인</button>
-        </li>
-      `;
-    };
     // 작성자 정보 모두 받아서 Post 해준다.
-    const addComment = async content => {
-      try {
-        const { data: comment } = await postComment(post.id, user.id, content);
-        commentRender({ ...comment, writerNickname: user.nickname });
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
     $('.detail__info').innerHTML = `
       <span class="detail__info-title">${post.title}</span>
@@ -188,9 +164,7 @@ const fetchPostData = async id => {
 
     $('.detail__comment-num').textContent = `댓글 ${post.comments.length} 개`;
 
-    commentList.forEach(comment => {
-      commentRender(comment);
-    });
+    commentRender(user, commentList);
 
     if (!user?.id) {
       $commentInput.setAttribute('placeholder', '로그인 후 이용하세요.');
@@ -206,49 +180,6 @@ const fetchPostData = async id => {
     }
 
     // 이벤트 모음집 ~
-    $commentInput.addEventListener('keypress', ({ key }) => {
-      if (key !== 'Enter') return;
-
-      const content = $commentInput.value.trim();
-
-      if (key !== 'Enter' || content === '') {
-        return;
-      }
-      addComment($commentInput.value);
-      $commentInput.value = '';
-    });
-
-    $commentSubmitButton.addEventListener('click', () => {
-      if (!$commentInput.value) return;
-
-      addComment($commentInput.value);
-    });
-
-    $('.detail__comment-list').addEventListener('click', ({ target }) => {
-      if (target.classList.contains('comment-edit-btn')) {
-        const $commentInput = target.parentElement.querySelector('.detail__comment-content');
-        const $commentEditButton = target.parentElement.querySelector('.comment-edit-btn');
-        const $commentDeleteButton = target.parentElement.querySelector('.comment-del-btn');
-        const $editConfirmButton = target.parentElement.querySelector('.comment-edit-confirm-btn');
-
-        $commentInput.removeAttribute('disabled');
-        $editConfirmButton.classList.remove('hidden');
-        $commentEditButton.classList.add('hidden');
-        $commentDeleteButton.classList.add('hidden');
-        // console.log(commentid);
-      }
-      // 수정완료했을 때
-      if (target.classList.contains('comment-edit-confirm-btn')) {
-        // await updateComment({})
-        target.parentElement.querySelector('.detail__comment-content').setAttribute('disabled', true);
-        target.parentElement.querySelector('.comment-edit-btn').classList.remove('hidden');
-        target.parentElement.querySelector('.comment-del-btn').classList.remove('hidden');
-        target.classList.add('hidden');
-      }
-      // 삭제했을 때
-      if (target.classList.contains('comment-del-btn')) {
-      }
-    });
   } catch (e) {
     console.error(e);
   }
@@ -263,4 +194,3 @@ const init = () => {
 };
 
 window.addEventListener('DOMContentLoaded', init);
-//
