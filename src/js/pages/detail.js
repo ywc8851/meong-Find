@@ -1,6 +1,5 @@
 import header from '../components/header';
 import { $, $parent } from '../helpers/utils';
-import { handleHistory } from '../router';
 import { getPostInfo, getPostComments, getIsUserLogin, postComment, updateComment, deleteComment } from '../requests';
 
 const $commentTextInput = $('.detail__comment-input-tag');

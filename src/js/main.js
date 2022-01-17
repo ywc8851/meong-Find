@@ -3,7 +3,7 @@ import { moveToPage } from './router';
 import { getMainPosts, findPosts, getSearchTitle } from './requests';
 import { $ } from './helpers/utils';
 import { handleSelectOptions } from './helpers/select';
-const _ = require('lodash');
+import _ from 'lodash';
 
 const $city = $('#city');
 const $district = $('#district');
@@ -16,8 +16,6 @@ let postLength = 0;
 const loadPosts = async () => {
   const { data: posts } = await getMainPosts();
   postLength = posts.length;
-
-  let postlist = '';
 
   for (let i = index; i < index + count; i++) {
     if (postLength <= i) {
