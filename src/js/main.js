@@ -1,5 +1,5 @@
 import header from './components/header';
-import { handleHistory, moveToPage } from './router';
+import { moveToPage } from './router';
 import { getMainPosts, findPosts, getSearchTitle } from './requests';
 import { $ } from './helpers/utils';
 import { handleSelectOptions } from './helpers/select';
@@ -40,12 +40,6 @@ const render = (() => {
 
 const bindEvents = () => {
   header.bindEvents();
-
-  window.addEventListener('popstate', handleHistory);
-};
-
-const init = () => {
-  bindEvents();
 };
 
 $city.onchange = () => {
@@ -121,4 +115,4 @@ $('.main-posts').onclick = ({ target }) => {
   }
 };
 
-window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('DOMContentLoaded', bindEvents);

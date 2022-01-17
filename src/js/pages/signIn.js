@@ -88,12 +88,6 @@ const bindEvents = () => {
   });
 
   $('.login-exit').addEventListener('click', handlePopup);
-
-  window.addEventListener('popstate', handleHistory);
 };
 
-const init = () => {
-  bindEvents();
-};
-
-window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('DOMContentLoaded', bindEvents);
