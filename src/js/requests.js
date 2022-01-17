@@ -141,6 +141,24 @@ export const postComment = async (postId, writerId, content) => {
     console.error(error);
   }
 };
+
+// 상세페이지 댓글 수정
+export const updateComment = async (commentId, content) => {
+  try {
+    return await axios.patch(`/post/comment`, { id: commentId, content });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 상세페이지 댓글 삭제
+export const deleteComment = async (postId, commentId) => {
+  try {
+    return await axios.delete(`/post/comment/${postId}/${commentId}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
 // mypage 정보
 export const getMyProfile = async () => {
   try {
