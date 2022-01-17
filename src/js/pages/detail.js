@@ -25,7 +25,7 @@ const commentRender = (user, comments) => {
     .map(
       comment =>
         `
-        <li data-id="${comment.id}" class="comment-li">
+        <li data-id="${comment.id}" class="detail__comment-li">
           <span class="detail__comment-writer">${comment.writerNickname}</span>
           <label for="detail__comment-content" class=" sr-only">댓글</label>
           <input id="detail__comment-content" class="detail__comment-content" type="text" value="${
@@ -34,8 +34,13 @@ const commentRender = (user, comments) => {
           ${
             user?.id
               ? user.nickname === comment.writerNickname
-                ? `<button class="comment-edit-btn">수정</button>
-                  <button class="comment-del-btn">삭제</button>`
+                ? `
+                <div class="comment-edit-del">
+                  <button class="comment-edit-btn">수정</button>
+                  <span> | </span>
+                  <button class="comment-del-btn">삭제</button>
+                </div>
+                  `
                 : ''
               : ''
           }
@@ -188,11 +193,13 @@ const fetchPostData = async id => {
     });
 
     $('.post__detail-list').innerHTML = `
-      <span class="detail__city">${post.city} ${post.district}</span>
-      <span class="detail__animal species-${
-        post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
-      }">${post.animal}</span>
-      <div clss="detail__posting-content">${post.content}</div>
+      <div class="detail__etc-info">
+        <span class="detail__city">${post.city} ${post.district}</span>
+        <span class="detail__animal species-${
+          post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
+        }">${post.animal}</span>
+      </div>
+      <div class="detail__posting-content">${post.content}</div>
     `;
 
     $('.detail__comment-num').textContent = `댓글 ${post.comments.length} 개`;
