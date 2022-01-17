@@ -7,8 +7,10 @@ const $registerUpload = $('.register-upload');
 
 let images = [];
 
-const createImage = (url, index) =>
-  `<div class="register-preview-image" style="background-image: url(${URL.createObjectURL(url)})">
+const createImage = (image, index) =>
+  `<div class="register-preview-image" style="background-image: url(${
+    typeof image === 'object' ? URL.createObjectURL(image) : image
+  })">
     <button type="button" class="register-preview-image__delete">
       <i class="fas fa-times-circle fa-2x" data-index="${index}"></i>
     </button>
@@ -18,38 +20,46 @@ const renderImage = () => {
   $imagePreview.innerHTML = images.map((image, i) => createImage(image, i)).join();
 };
 
-export const addImage = newImages => {
-  images = [...images, ...newImages];
+const restrictImages = _images => {
+  if (images.length + _images.length > 4) {
+    const _newImages = [];
+    for (let i = 0; i < 4 - images.length; i++) {
+      _newImages.push(_images[i]);
+    }
+    alert('이미지는 4장까지만 업로드 할 수 있습니다.');
+    return _newImages;
+  } else return _images;
+};
+
+const addImage = newImages => {
+  images = [...images, ...restrictImages(newImages)];
   renderImage();
 };
 
-export const deleteImage = ({ target }) => {
+const deleteImage = ({ target }) => {
   if (!target.matches('.fas.fa-times-circle')) return;
   images = images.filter((_, index) => index !== +target.dataset.index);
   renderImage();
 };
 
-export const handleInputFile = () => {
+export const setImages = newImages => {
+  images = newImages;
+  renderImage();
+};
+
+const handleInputFile = () => {
   const newImages = $inputFile.files;
-  if (newImages.length > 4) {
-    const _newImages = [];
-    for (let i = 0; i < 4; i++) {
-      _newImages.push(newImages[i]);
-    }
-    addImage(_newImages);
-    return alert('이미지는 4장까지만 업로드 할 수 있습니다.');
-  }
   if (!newImages[0]) return;
   addImage(newImages);
 };
 
-export const handleDrag = event => {
+const handleDrag = event => {
   event.stopPropagation();
   event.preventDefault();
   event.dataTransfer.dropEffect = 'copy';
 };
 
-export const handleDrop = event => {
+const handleDrop = event => {
   event.stopPropagation();
   event.preventDefault();
   const imageFiles = event.dataTransfer.files;
@@ -58,7 +68,8 @@ export const handleDrop = event => {
 
 export const uploadImage = async () => {
   const formData = new FormData();
-  images.forEach(image => formData.append('img', image));
+  const uploadedImages = [];
+  images.forEach(image => (typeof image === 'object' ? formData.append('img', image) : uploadedImages.push(image)));
   try {
     const {
       data: { success, files },
@@ -67,7 +78,7 @@ export const uploadImage = async () => {
     if (!success) {
       return alert('포스트가 정상적으로 등록되지 않았습니다.\n다시 한번 포스팅 해주세요.');
     }
-    return files;
+    return [...files, ...uploadedImages];
   } catch (error) {
     console.error(error);
   }

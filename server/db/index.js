@@ -1,3 +1,5 @@
+const uniqid = require('uniqid');
+
 const users = require('./users');
 const posts = require('./posts');
 const comments = require('./comments');
@@ -9,8 +11,14 @@ const handleData = data => {
       return datas;
     },
     create(newData) {
-      datas = [newData, ...datas];
-      return newData;
+      const _newData = { id: uniqid(), ...newData };
+      datas = [_newData, ...datas];
+      return _newData;
+    },
+    createBack(newData) {
+      const _newData = { id: uniqid(), ...newData };
+      datas = [...datas, _newData];
+      return _newData;
     },
     delete(id) {
       datas = datas.filter(data => data.id !== id);

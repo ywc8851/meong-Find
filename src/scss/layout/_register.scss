@@ -12,8 +12,12 @@
       width: rem(814px);
       border-radius: rem(10px);
       border: rem(1px) solid $gray;
-      font-size: rem(30px);
+      font-size: rem(25px);
       text-indent: rem(10px);
+
+      &:focus {
+        outline: none;
+      }
     }
   }
 
@@ -63,12 +67,27 @@
 
   &-textcontent {
     margin-bottom: rem(35px);
+
     &__content {
       width: rem(816px);
       height: rem(341px);
-      border-radius: 10px;
+      border-radius: 3px;
       border: rem(1px) solid $gray;
+      padding: rem(10px);
       resize: none;
+      font-size: rem(18px);
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &-title,
+  &-textcontent {
+    &__length {
+      margin-top: rem(5px);
+      text-align: right;
     }
   }
 
@@ -85,11 +104,7 @@
     border: 0;
   }
 
-  &-edit-btn {
-    background-color: $gray;
-    margin-right: rem(20px);
-  }
-
+  &-edit-btn,
   &-submit-btn {
     background-color: $navy;
   }

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const fetchHtml = async url => {
-  // console.log(`/${url === '/' ? 'index' : `html/${url}`}.html`);
   try {
     return await axios.get(url);
   } catch (error) {
@@ -130,6 +129,18 @@ export const getPostComments = async _comments => {
   }
 };
 
+// 상세페이지 댓글 달기
+export const postComment = async (postId, writerId, content) => {
+  // UTC 계산 (PC와 관계 없이 한국 시간으로)
+  const currentDate = new Date();
+  const createdAt = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+
+  try {
+    return await axios.post('/comment', { postId, writerId, createdAt, content });
+  } catch (error) {
+    console.error(error);
+  }
+};
 // mypage 정보
 export const getMyProfile = async () => {
   try {
@@ -147,6 +158,17 @@ export const changeUserProfile = async (curUserId, nickname, password, city, dis
       password,
       city,
       district,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 회원탈퇴
+export const deleteUserProfile = async (curUserId, password) => {
+  try {
+    return await axios.post(`/users/delete/${curUserId}`, {
+      password,
     });
   } catch (error) {
     console.error(error);
@@ -181,6 +203,14 @@ export const postUploadImages = async images => {
 export const addNewPost = async payload => {
   try {
     return await axios.post('/post', payload);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updatePost = async payload => {
+  try {
+    return await axios.put('/update', payload);
   } catch (error) {
     console.error(error);
   }

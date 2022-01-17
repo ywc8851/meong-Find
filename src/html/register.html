@@ -50,7 +50,11 @@
         <form class="register-form">
           <div class="register-title">
             <label for="title" class="sr-only">제목</label>
-            <input id="title" type="text" class="register-title-input" placeholder="제목을 입력해주세요." />
+            <input id="title" type="text" class="register-title-input" placeholder="제목을 입력해주세요 (50자 이내)" />
+            <div class="register-title__length">
+              <span class="register-title__length__filled">0</span> /
+              <span class="register-title__length__limit">50</span>
+            </div>
           </div>
           <div class="register-upload">
             <label for="file" class="sr-only">파일 업로드</label>
@@ -87,11 +91,15 @@
               id="content"
               name="content"
               class="register-textcontent__content"
-              placeholder="글을 작성해주세요.">
-            </textarea>
+              value=""
+              placeholder="본문을 작성해주세요 (1000자 이내)"></textarea>
+            <div class="register-textcontent__length">
+              <span class="register-textcontent__length__filled">0</span> /
+              <span class="register-textcontent__length__limit">1000</span>
+            </div>
           </div>
           <div class="register-form-btns">
-            <button type="button" class="register-edit-btn register__btn">수정</button>
+            <button type="submit" class="register-edit-btn register__btn hidden">수정</button>
             <button type="submit" class="register-submit-btn register__btn">등록</button>
           </div>
         </form>

@@ -1,7 +1,7 @@
 import validate from '../helpers/validate';
 import header from '../components/header';
 import { handleHistory, moveToPage } from '../router';
-import { getMyProfile, getSignUpName, changeUserProfile } from '../requests';
+import { getMyProfile, getSignUpName, changeUserProfile, deleteUserProfile } from '../requests';
 import { $ } from '../helpers/utils';
 
 let firstNickname = '';
@@ -19,11 +19,7 @@ const bindEvents = () => {
   window.addEventListener('popstate', handleHistory);
 };
 
-const init = () => {
-  bindEvents();
-};
-
-window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('DOMContentLoaded', bindEvents);
 
 // 프로필 정보 서버로부터 가져오기
 window.onload = async () => {
@@ -135,3 +131,61 @@ $profileChangeBtn.onclick = async e => {
     console.error(e);
   }
 };
+
+const handlePopup = () => {
+  $('.popup').classList.toggle('hidden');
+  $('.cover').classList.toggle('hidden');
+  $('.popup-find-password').value = '';
+  // $('.popup-button').setAttribute('disabled', '');
+  $('.find-error').classList.add('hidden');
+  $('.popup-find-password').focus();
+};
+
+$('.profile-delete-btn').addEventListener('click', () => {
+  handlePopup();
+});
+
+$('.login-exit').addEventListener('click', handlePopup);
+
+// $('#check-password').addEventListener('input', e => {
+//   // console.log(e.target.value);
+
+// });
+// $deletePasswordCheck.oninput = async () => {
+//   try {
+//     const hashPassword = await axios.post('/hashPassword', {
+//       password: $deletePasswordCheck.value,
+//       compare: nowUserPassword,
+//     });
+//     console.log($deletePasswordCheck.value);
+//     console.log(hashPassword.data, nowUserPassword);
+
+//     // if ($deletePasswordCheck.value === nowUserPassword) {
+//     // if (hashPassword.data === nowUserPassword) {
+//     if (hashPassword) {
+//       $modal.querySelector('.delete-button').removeAttribute('disabled');
+//       $modalError.textContent = '버튼을 누르면 계정이 삭제됩니다.';
+//     } else {
+//       $modalError.textContent = '비밀번호가 일치하지 않습니다!';
+//     }
+//   } catch (e) {
+//     console.error(e);
+//   }
+// };
+
+$('.delete-button').addEventListener('click', async e => {
+  e.preventDefault();
+
+  try {
+    const test = await deleteUserProfile(curUserId, $('#check-password').value);
+    if (!test) {
+      throw new Error('비밀번호가 일치하지 않습니다');
+    }
+    alert('회원 탈퇴 처리되었습니다.');
+    handlePopup();
+    moveToPage('/');
+  } catch (error) {
+    console.error(error);
+    $('.find-error').classList.remove('hidden');
+  }
+});

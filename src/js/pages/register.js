@@ -1,16 +1,35 @@
 import header from '../components/header';
 import { $ } from '../helpers/utils';
 import { handleSelectOptions } from '../helpers/select';
-import { bindImageEvents, uploadImage } from '../helpers/inputImageFile';
-import { addNewPost } from '../requests';
+import { bindImageEvents, uploadImage, setImages } from '../helpers/inputImageFile';
+import { addNewPost, updatePost, getPostInfo } from '../requests';
+import { moveToPage } from '../router';
 
 const $inputFile = $('.register-upload__input');
 const $registerUpload = $('.register-upload');
 const $registerForm = $('.register-form');
 const $city = $('#city');
 const $district = $('#district');
+const $title = $('.register-title-input');
+const $titleLength = $('.register-title__length__filled');
+const $content = $('.register-textcontent__content');
+const $contentLength = $('.register-textcontent__length__filled');
+const $animalType = $('#animalType');
 
-const state = {
+const LIMIT = {
+  TITLE: 50,
+  CONTENT: 1000,
+};
+
+const inputs = {
+  title: '제목',
+  type: '종류',
+  content: '글 본문',
+};
+
+let isEdit = false;
+
+let state = {
   title: '',
   images: [],
   city: '',
@@ -21,36 +40,80 @@ const state = {
   writerId: '',
 };
 
+const limitInputLength = ({ type, value, $input, $inputLength }) => {
+  if (value.length > LIMIT[type]) {
+    $input.value = value.slice(0, LIMIT[type]);
+    $inputLength.innerText = LIMIT[type];
+    return alert(`본문은 ${LIMIT[type]}자 이내로 입력해주세요.`);
+  }
+};
+
+const checkEmptyInput = () => {
+  for (const [key, value] of Object.entries(state)) {
+    if (key !== 'images' && value === '') {
+      alert(`${inputs[key]}의 값을 입력해주세요.`);
+      return true;
+    }
+  }
+  return false;
+};
+
 const registPost = async e => {
   e.preventDefault();
-
   try {
     const images = await uploadImage();
-    state.images = images.map(image => `img/${image.name}`);
+    state.images = images.map(image => (typeof image === 'object' ? `../img/${image.filename}` : image));
+
+    state.title = state.title.trim();
+    state.type = state.type.trim();
+    state.content = state.content.trim();
+
+    const hasEmptyInput = checkEmptyInput();
+    if (hasEmptyInput) return;
+
     const {
-      data: { post },
-    } = await addNewPost({ ...state, title: state.title.trim(), content: state.content.trim() });
-    alert('포스트가 등록되었습니다.');
-    // moveToPage
-    // 작업 미완료
+      data: { id },
+    } = isEdit ? await updatePost(state) : await addNewPost(state);
+
+    alert(`포스트가 ${isEdit ? '수정' : '등록'}되었습니다.`);
+    moveToPage(`/post/${id}`);
   } catch (error) {
     console.error(error);
   }
 };
 
-const updateSelectByUser = user => {
-  state.writerId = user.id;
-  state.city = user.city;
-  state.district = user.district;
+const setSelectOptionByUser = ({ id, city, district }) => {
+  state.writerId = id;
+  state.city = city;
+  state.district = district;
 
-  $city.value = user.city;
+  $city.value = city;
   handleSelectOptions({ $city, $district });
-  $district.value = user.district;
+  $district.value = district;
+};
+
+const setValueByUser = async user => {
+  if (history.state.prev === 'http://localhost:8080/mypage') {
+    isEdit = true;
+    $('.register-edit-btn').classList.remove('hidden');
+    $('.register-submit-btn').classList.add('hidden');
+
+    const postId = history.state.path.split('/')[2];
+    const { data: post } = await getPostInfo(postId);
+
+    $title.value = post.title;
+    $city.value = post.city;
+    $district.value = post.district;
+    $animalType.value = post.type;
+    $content.value = post.content;
+    setImages(post.images);
+    state = { ...post };
+  } else setSelectOptionByUser(user);
 };
 
 const bindEvents = async () => {
   const user = await header.bindEvents();
-  updateSelectByUser(user);
+  await setValueByUser(user);
   bindImageEvents();
 
   $registerUpload.addEventListener('click', () => {
@@ -58,6 +121,8 @@ const bindEvents = async () => {
   });
 
   $('.register-title-input').addEventListener('keyup', ({ target: { value } }) => {
+    $titleLength.innerText = value.length;
+    limitInputLength({ type: 'TITLE', value, $input: $title, $inputLength: $titleLength });
     state.title = value;
   });
 
@@ -74,19 +139,17 @@ const bindEvents = async () => {
     state.animal = value;
   });
 
-  $('#animalType').addEventListener('keyup', ({ target: { value } }) => {
+  $animalType.addEventListener('keyup', ({ target: { value } }) => {
     state.type = value;
   });
 
-  $('#content').addEventListener('keyup', ({ target: { value } }) => {
+  $('.register-textcontent__content').addEventListener('keyup', ({ target: { value } }) => {
+    $contentLength.innerText = value.length;
+    limitInputLength({ type: 'CONTENT', value, $input: $content, $inputLength: $contentLength });
     state.content = value;
   });
 
   $registerForm.addEventListener('submit', registPost);
 };
 
-const init = () => {
-  bindEvents();
-};
-
-window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('DOMContentLoaded', bindEvents);
