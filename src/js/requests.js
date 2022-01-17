@@ -207,3 +207,11 @@ export const addNewPost = async payload => {
     console.error(error);
   }
 };
+
+export const updatePost = async payload => {
+  try {
+    return await axios.put('/update', payload);
+  } catch (error) {
+    console.error(error);
+  }
+};

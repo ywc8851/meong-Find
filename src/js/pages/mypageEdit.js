@@ -19,11 +19,7 @@ const bindEvents = () => {
   window.addEventListener('popstate', handleHistory);
 };
 
-const init = () => {
-  bindEvents();
-};
-
-window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('DOMContentLoaded', bindEvents);
 
 // 프로필 정보 서버로부터 가져오기
 window.onload = async () => {

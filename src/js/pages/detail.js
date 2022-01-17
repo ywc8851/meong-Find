@@ -8,8 +8,6 @@ const $commentSubmitButton = $('.detail__comment-submit');
 
 const bindEvents = () => {
   header.bindEvents();
-
-  window.addEventListener('popstate', handleHistory);
 };
 
 const fetchPostData = async id => {
