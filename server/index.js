@@ -31,12 +31,20 @@ const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SEC
 
 const urls = ['/signin', '/signup', '/detail', '/mypage', '/mypageEdit'];
 
-const getCommentsByPostId = lists => {
-  console.log(lists);
-  return lists.map(list => {
-    const [{ nickname }] = users.filter({ id: list.writerId });
-    return { ...list, writerNickname: nickname };
-  });
+const devServer = (req, res, next) => {
+  if (req.url.split('/').length >= 3) {
+    req.url = `/${req.url.split('/')[1]}`;
+  }
+  req.url = req.url === '/post' ? '/detail' : req.url;
+  if (process.env.NODE_ENV === 'development') {
+    const file = path.join(config.output.path, `${urls.includes(req.url) ? `html${req.url}` : '/index'}.html`);
+    compiler.outputFileSystem.readFile(file, (err, result) => {
+      if (err) {
+        return res.sendStatus(404);
+      }
+      res.set('content-type', 'text/html').end(result);
+    });
+  } else next();
 };
 
 // 루트페이지(메인페이지)
@@ -147,10 +155,8 @@ app.get('/comments/:idList', (req, res) => {
   const commentList = JSON.parse(id);
 
   try {
-    const lists = commentList.map(id => comments.filter({ id })[0]);
-    const listsAddedWriter = getCommentsByPostId(lists);
-
-    res.send(listsAddedWriter);
+    const list = commentList.map(id => comments.filter({ id })[0]);
+    res.send(list);
   } catch (e) {
     console.error(e);
   }
@@ -159,57 +165,6 @@ app.get('/comments/:idList', (req, res) => {
 // urls 배열에 있는 client 에게 전송
 app.get(urls, blockLoginUser, devServer, (req, res) => {
   res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
-});
-
-// 상세페이지 comment 달기
-app.post('/comment', (req, res) => {
-  const { postId } = req.body;
-
-  try {
-    // const id = `comment${comments.get().length + 1}`;
-    const comment = comments.createBack(req.body);
-
-    // post에 comments 정보 추가
-    const [post] = posts.filter({ id: postId });
-    posts.update(postId, { comments: [...post.comments, comment.id] });
-
-    const lists = comments.filter({ postId });
-    const listsAddedWriter = getCommentsByPostId(lists);
-
-    res.send(listsAddedWriter);
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-// 상세페이지 comment 수정
-app.patch('/post/comment', (req, res) => {
-  const { id, content } = req.body;
-  try {
-    comments.update(id, { content });
-    res.send();
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-app.delete('/post/comment/:postId/:commentId', (req, res) => {
-  const { postId, commentId } = req.params;
-
-  try {
-    comments.delete(commentId);
-
-    const [post] = posts.filter({ id: postId });
-    const deletedComments = post.comments.filter(comment => comment !== commentId);
-    posts.update(postId, { comments: deletedComments });
-
-    const lists = comments.filter({ postId });
-    const listsAddedWriter = getCommentsByPostId(lists);
-
-    res.send(listsAddedWriter);
-  } catch (error) {
-    console.error(error);
-  }
 });
 
 // 회원가입
