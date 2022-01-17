@@ -83,6 +83,16 @@ $('.sign-up-form').oninput = e => {
   }
 };
 
+// $('.sign-up-form-area').onchange = () => {
+//   console.log('change');
+//   if (!e.target.matches('select')) return;
+//   // else if (e.target.matches('#sign-up-form-city')) {
+//   //   console.log('시 선택');
+//   // } else {
+//   //   console.log('구 선택');
+//   // }
+// };
+
 // 닉네임 중복확인
 $duplicateButton[0].onclick = async ({ target }) => {
   const $errormsg = target.parentElement.querySelector('.error');
@@ -127,4 +137,11 @@ $duplicateButton[1].onclick = async ({ target }) => {
 
 // select 정적으로 추가
 const $city = $('#sign-up-form-city');
-$city.addEventListener('change', () => handleSelectOptions({ $city, $district: $('#sign-up-form-district') }));
+$city.addEventListener('change', e => {
+  handleSelectOptions({ $city, $district: $('#sign-up-form-district') });
+  validate.selectValidate(!(e.target.value === '시' && $('#sign-up-form-district').value === '구'), 4, $signupButton);
+});
+
+$('#sign-up-form-district').addEventListener('change', e => {
+  validate.selectValidate(e.target.value === '구' && $('#sign-up-form-city').value === '시', 4, $signupButton);
+});
