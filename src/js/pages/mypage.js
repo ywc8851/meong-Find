@@ -70,4 +70,9 @@ $('.profile__posting-container').onclick = e => {
   }
 };
 
+// 정보수정으로 이동
+$('.profile__edit').addEventListener('click', () => {
+  moveToPage('/mypageEdit');
+});
+
 window.addEventListener('DOMContentLoaded', bindEvents);

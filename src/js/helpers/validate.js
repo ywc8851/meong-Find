@@ -1,6 +1,10 @@
+import { $ } from './utils';
+
 const $iconSuccess = document.querySelectorAll('.icon-success');
 const $iconError = document.querySelectorAll('.icon-error');
 const $error = document.querySelectorAll('.error');
+const $city = $('#sign-up-form-city');
+const $subCity = $('#sign-up-form-district');
 
 const iconChange = (index, isError) => {
   if (isError) {
@@ -10,6 +14,11 @@ const iconChange = (index, isError) => {
     $iconSuccess[index].classList.remove('hidden');
     $iconError[index].classList.add('hidden');
   }
+};
+
+const isSelectValid = () => {
+  if ($city.value !== '시' && $subCity.value !== '구') return true;
+  else return false;
 };
 
 const countCorrectInput = (arr, index, btn) => {
@@ -54,5 +63,9 @@ export default {
 
   passwordConfirmValidate(value, index, button) {
     return checkIsCorrectForm(value, index, '비밀번호가 일치하지 않습니다.', button);
+  },
+
+  selectValidate(value, index, button) {
+    return checkIsCorrectForm(value, index, '지역을 선택해주세요.', button);
   },
 };

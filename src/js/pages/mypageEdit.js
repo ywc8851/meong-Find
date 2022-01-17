@@ -3,6 +3,7 @@ import header from '../components/header';
 import { handleHistory, moveToPage } from '../router';
 import { getMyProfile, getSignUpName, changeUserProfile, deleteUserProfile } from '../requests';
 import { $ } from '../helpers/utils';
+import { handleSelectOptions } from '../helpers/select';
 
 let firstNickname = '';
 let curUserId;
@@ -88,6 +89,21 @@ $('.sign-up-form').oninput = e => {
   }
 };
 
+// select 유효성 검사
+const $city = $('#sign-up-form-city');
+$city.addEventListener('change', e => {
+  handleSelectOptions({ $city, $district: $('#sign-up-form-district') });
+  validate.selectValidate(
+    !(e.target.value === '시' && $('#sign-up-form-district').value === '구'),
+    3,
+    $profileChangeBtn
+  );
+});
+
+$('#sign-up-form-district').addEventListener('change', e => {
+  validate.selectValidate(e.target.value === '구' && $('#sign-up-form-city').value === '시', 3, $profileChangeBtn);
+});
+
 // 닉네임 중복확인
 $duplicateButton.onclick = async e => {
   e.preventDefault();
@@ -132,6 +148,7 @@ $profileChangeBtn.onclick = async e => {
   }
 };
 
+// 회원탈퇴 팝업창
 const handlePopup = () => {
   $('.popup').classList.toggle('hidden');
   $('.cover').classList.toggle('hidden');
@@ -146,32 +163,6 @@ $('.profile-delete-btn').addEventListener('click', () => {
 });
 
 $('.login-exit').addEventListener('click', handlePopup);
-
-// $('#check-password').addEventListener('input', e => {
-//   // console.log(e.target.value);
-
-// });
-// $deletePasswordCheck.oninput = async () => {
-//   try {
-//     const hashPassword = await axios.post('/hashPassword', {
-//       password: $deletePasswordCheck.value,
-//       compare: nowUserPassword,
-//     });
-//     console.log($deletePasswordCheck.value);
-//     console.log(hashPassword.data, nowUserPassword);
-
-//     // if ($deletePasswordCheck.value === nowUserPassword) {
-//     // if (hashPassword.data === nowUserPassword) {
-//     if (hashPassword) {
-//       $modal.querySelector('.delete-button').removeAttribute('disabled');
-//       $modalError.textContent = '버튼을 누르면 계정이 삭제됩니다.';
-//     } else {
-//       $modalError.textContent = '비밀번호가 일치하지 않습니다!';
-//     }
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
 
 $('.delete-button').addEventListener('click', async e => {
   e.preventDefault();
