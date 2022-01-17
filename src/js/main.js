@@ -16,8 +16,6 @@ let postLength = 0;
 
 //데이터 추가함수
 const loadPosts = async () => {
-  const fragment = document.createDocumentFragment();
-
   const { data: posts } = await getMainPosts();
 
   postLength = posts.length;
@@ -29,13 +27,14 @@ const loadPosts = async () => {
       break;
     }
 
-    const item = document.createElement('div');
+    const $div = document.createElement('div');
 
-    item.classList.add('main-posts-posting-list');
+    $div.classList.add('main-posts-posting-list');
 
-    item.setAttribute('data-id', posts[i].id);
+    $div.setAttribute('data-id', posts[i].id);
 
-    item.innerHTML = ` <a href="javascript:void(0)">
+    $div.innerHTML = `
+    <a href="javascript:void(0)">
     <img src="${posts[i].images[0]}" alt="${posts[i].title} 이미지" />
     <span class="main-posts-title">${posts[i].title}</span>
     <span class="main-posts-species species-${
@@ -44,10 +43,9 @@ const loadPosts = async () => {
     <span class="main-posts-place">${posts[i].city} ${posts[i].district}</span>
   </a>`;
 
-    fragment.appendChild(item);
+    $('.main-posts').appendChild($div);
   }
 
-  $('.main-posts').appendChild(fragment);
   index += count;
 };
 

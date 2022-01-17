@@ -105,6 +105,7 @@ export const changePassword = async (id, password) => {
 // 상세페이지 posting 정보 가져오기
 export const getPostInfo = async id => {
   try {
+    console.log('getPostinfo', id);
     return await axios.get(`/detail/${id}`);
   } catch (error) {
     console.log(error);
