@@ -15,6 +15,7 @@ body *::after {
   box-sizing: border-box;
 }
 
+header + main,
 header + section {
   margin-top: rem(62px);
 }
