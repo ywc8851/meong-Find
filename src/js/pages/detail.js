@@ -1,6 +1,7 @@
 import header from '../components/header';
 import { $, $parent } from '../helpers/utils';
 import { getPostInfo, getPostComments, getIsUserLogin, postComment, updateComment, deleteComment } from '../requests';
+import { moveToPage } from '../router';
 
 const $commentTextInput = $('.detail__comment-input-tag');
 const $commentSubmitButton = $('.detail__comment-submit');
@@ -128,6 +129,17 @@ const bindEvents = async () => {
           console.error(error);
         }
       }
+    }
+  });
+
+  $('.detail__posting-edit-del').addEventListener('click', e => {
+    if (!e.target.matches('button')) return;
+
+    if (e.target.matches('.posting-edit-btn')) {
+      moveToPage(`/update/${postId}`);
+    }
+    if (e.target.matches('.posting-del-btn')) {
+      console.log('삭제 클릭');
     }
   });
 };
