@@ -160,13 +160,10 @@ export const getMyProfile = async () => {
 };
 
 // profile 변경
-export const changeUserProfile = async (curUserId, nickname, password, city, district) => {
+export const changeUserProfile = async (curUserId, user) => {
   try {
     return await axios.patch(`/users/${curUserId}`, {
-      nickname,
-      password,
-      city,
-      district,
+      user,
     });
   } catch (error) {
     console.error(error);

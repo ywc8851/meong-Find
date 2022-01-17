@@ -92,9 +92,9 @@ app.get('/mypost/:writerId', (req, res) => {
 // 프로필 정보 수정
 app.patch('/users/:id', (req, res) => {
   const { id } = req.params;
-  req.body.password = bcrypt.hashSync(req.body.password, 10);
+  req.body.user.password = bcrypt.hashSync(req.body.user.password, 10);
   try {
-    users.update(id, req.body);
+    users.update(id, req.body.user);
     res.send();
   } catch (e) {
     console.error(e);
@@ -247,7 +247,6 @@ app.post('/users/signup', (req, res) => {
       password: bcrypt.hashSync(req.body.user.password, 10),
       isValid: true,
     });
-    // console.log(user);
     res.send(user);
   } catch (e) {
     console.error(e);
