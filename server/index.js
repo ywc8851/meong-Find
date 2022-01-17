@@ -30,7 +30,6 @@ app.get('/', (req, res) => {
 // 검색 title
 app.get('/search/:title', (req, res) => {
   const { title } = req.params;
-  console.log(title);
   const searchPosts = posts.filter({ title });
   res.send(searchPosts);
 });
@@ -70,7 +69,7 @@ app.get('/profile', (req, res) => {
 });
 
 app.get('/register', auth, (req, res) => {
-  res.sendFile(path.join(__dirname, `../public/html${req.url}.html`));
+  res.sendFile(path.join(__dirname, `../public/html/register.html`));
 });
 
 // 내가 작성한 글
@@ -100,12 +99,22 @@ app.patch('/users/:id', (req, res) => {
 app.post('/post', (req, res) => {
   try {
     const newPost = req.body;
-    const post = posts.create({ id: 'adsff', ...newPost });
-    res.send({ post });
+    const post = posts.create({ ...newPost, comments: [] });
+    res.send(post);
   } catch (error) {
     console.error(error);
     res.redirect('back');
   }
+});
+
+app.get('/update/:id', (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/html/register.html`));
+});
+
+app.put('/update', (req, res) => {
+  const { body } = req;
+  const updatedPost = posts.update(body.id, body);
+  res.send(updatedPost);
 });
 
 // 메인페이지 -> 상세페이지로 이동
@@ -120,9 +129,7 @@ app.get('/detail/:id', (req, res) => {
   try {
     const [postInfo] = posts.filter({ id });
     const [writerInfo] = users.filter({ id: postInfo.writerId });
-
-    postInfo.writer = writerInfo.nickname;
-    res.send(postInfo);
+    res.send({ ...postInfo, writer: writerInfo.nickname });
   } catch (error) {
     console.error(error);
   }
@@ -135,13 +142,14 @@ app.get('/comments/:idList', (req, res) => {
 
   try {
     const lists = commentList.map(id => comments.filter({ id })[0]);
-
+    const listsAddedWriter = [];
     lists.map(list => {
       let [user] = users.filter({ id: list.writerId });
-      list.writerNickname = user.nickname;
+      // list.writerNickname = user.nickname;
+      listsAddedWriter[listsAddedWriter.length] = { ...list, writerNickname: user.nickname };
     });
 
-    res.send(lists);
+    res.send(listsAddedWriter);
   } catch (e) {
     console.error(e);
   }
@@ -165,7 +173,7 @@ app.post('/comment', (req, res) => {
     const comment = [...post.comments, id];
     posts.update(postId, { comments: comment });
 
-    res.send();
+    res.send(id);
   } catch (error) {
     console.error(error);
   }
