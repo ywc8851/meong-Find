@@ -150,6 +150,15 @@ export const deleteComment = async (postId, commentId) => {
   }
 };
 
+// 페이지 삭제
+export const deletePost = async id => {
+  try {
+    return await axios.delete(`/post/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // mypage 정보
 export const getMyProfile = async () => {
   try {

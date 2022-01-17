@@ -204,7 +204,20 @@ app.delete('/post/comment/:postId/:commentId', (req, res) => {
 
     const lists = comments.filter({ postId });
     const listsAddedWriter = getCommentsByPostId(lists);
-    res.send(listsAddedWriter);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+app.delete('/post/:id', (req, res) => {
+  const { id } = req.params;
+
+  try {
+    posts.delete(id);
+
+    // post id에 따른 comment 삭제
+    comments.filter({ postId: id }).map(comment => comments.delete(comment.id));
+    res.send();
   } catch (error) {
     console.error(error);
   }
