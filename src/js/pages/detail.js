@@ -167,8 +167,8 @@ const fetchPostData = async id => {
     commentRender(user, commentList);
 
     if (!user?.id) {
-      $commentInput.setAttribute('placeholder', '로그인 후 이용하세요.');
-      $commentInput.setAttribute('disabled', true);
+      $commentTextInput.setAttribute('placeholder', '로그인 후 이용하세요.');
+      $commentTextInput.setAttribute('disabled', true);
       $commentSubmitButton.setAttribute('disabled', true);
     } else {
       if (user.nickname === post.writer) {
