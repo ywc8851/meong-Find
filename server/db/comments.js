@@ -20,6 +20,20 @@ const comments = [
     createdAt: '2022-12-10',
     content: '강쥐찾아요 !',
   },
+  {
+    id: 'comment4',
+    postId: 'post2',
+    writerId: 'ramndomda',
+    createdAt: '2022-12-10',
+    content: '강쥐찾아요 !',
+  },
+  {
+    id: 'comment5',
+    postId: 'post4',
+    writerId: 'ramndomda',
+    createdAt: '2022-12-10',
+    content: '시바야 얼른 돌아와 !',
+  },
 ];
 
 module.exports = comments;
