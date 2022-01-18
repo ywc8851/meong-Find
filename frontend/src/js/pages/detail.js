@@ -178,11 +178,16 @@ const fetchPostData = async id => {
         <div class="detail__info-date">${post.createdAt}</div>
       </div>
     `;
-
-    post.images.forEach((img, current) => {
+    console.log(post.images.length);
+    if (post.images.length) {
+      post.images.forEach((img, current) => {
+        $('.carousel__img-container').innerHTML += `
+        <div class="detail__img" style="background-image : url(${img});" ></div>`;
+      });
+    } else {
       $('.carousel__img-container').innerHTML += `
-      <div class="detail__img" style="background-image : url(${img});" ></div>`;
-    });
+        <div class="detail__img" style="background-image : url(https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif);" ></div>`;
+    }
 
     $('.post__detail-list').innerHTML = `
       <div class="detail__etc-info">
