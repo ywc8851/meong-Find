@@ -45,6 +45,13 @@ app.get('/getposts', (req, res) => {
   res.send(posts.get());
 });
 
+// 지정된 게시물의 페이지 가져오기
+app.get('/getposts/:page', (req, res) => {
+  const { page } = req.params;
+  console.log(page);
+  res.send(posts.pageFilter({ page }));
+});
+
 // select 3개로 쿼리문을 날려서 게시물 가져오기
 app.get('/findposts/:city/:district/:animal', (req, res) => {
   const { city, district, animal } = req.params;

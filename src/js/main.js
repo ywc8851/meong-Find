@@ -8,76 +8,15 @@ import _ from 'lodash';
 const $city = $('#city');
 const $district = $('#district');
 
-const count = 6;
-let index = 0;
-let postLength = 0;
-
-//데이터 추가함수
-const loadPosts = async () => {
-  const { data: posts } = await getMainPosts();
-  postLength = posts.length;
-
-  for (let i = index; i < index + count; i++) {
-    if (postLength <= i) {
-      break;
-    }
-
-    const $div = document.createElement('div');
-
-    $div.classList.add('main-posts-posting-list');
-
-    $div.setAttribute('data-id', posts[i].id);
-
-    $div.innerHTML = `
-    <a href="javascript:void(0)">
-    <img src="${posts[i].images[0]}" alt="${posts[i].title} 이미지" />
-    <span class="main-posts-title">${posts[i].title}</span>
-    <span class="main-posts-species species-${
-      posts[i].animal === '강아지' ? 'dog' : posts[i].animal === '고양이' ? 'cat' : 'etc'
-    }">${posts[i].animal}</span>
-    <span class="main-posts-place">${posts[i].city} ${posts[i].district}</span>
-  </a>`;
-
-    $('.main-posts').appendChild($div);
-  }
-
-  index += count;
-};
-
-// IntersectionObserver 갱신 함수
-const observeLastChild = intersectionObserver => {
-  const listChildren = document.querySelectorAll('.main-posts-posting-list');
-
-  listChildren.forEach(el => {
-    if (!el.nextSibling && index < postLength) {
-      intersectionObserver.observe(el); // el에 대하여 관측 시작
-      console.log('관측시작');
-    } else if (index >= postLength) {
-      intersectionObserver.disconnect();
-      console.log('페이지의 끝입니다.');
-    }
-  });
-};
-
-const io = new IntersectionObserver((entries, observe) => {
-  entries.forEach(entry => {
-    // entry.isIntersecting: 특정 요소가 뷰포트와 50%(threshold 0.5) 교차되었으면
-
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        observeLastChild(observe);
-        loadPosts();
-      }, 1000);
-    }
-  });
-});
+let page = 1;
 
 const setPosts = posts => {
-  if (posts) {
-    let postlist = '';
-    posts.map(post => {
-      postlist += `
-      <div data-id="${post.id}" class="main-posts-posting-list">
+  const fragment = document.createDocumentFragment();
+  posts.forEach(post => {
+    const $card = document.createElement('div');
+    $card.classList.add('main-posts-posting-list');
+    $card.setAttribute('data-id', post.id);
+    $card.innerHTML = `
       <a href="javascript:void(0)">
       <img src="${post.images[0]}" alt="${post.title} 이미지" />
       <span class="main-posts-title">${post.title}</span>
@@ -85,19 +24,36 @@ const setPosts = posts => {
         post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
       }">${post.animal}</span>
       <span class="main-posts-place">${post.city} ${post.district}</span>
-      </a>
-      </div>`;
-    });
-    $('.main-posts').innerHTML = postlist;
-  }
+      </a>`;
+
+    console.log($card);
+
+    fragment.appendChild($card);
+  });
+
+  $('.main-posts').appendChild(fragment);
 };
+
+//데이터 추가함수
+const loadPosts = async () => {
+  const { data: posts } = await getMainPosts(page);
+  setPosts(posts);
+  page += 1;
+};
+
+const inetersectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) {
+      return;
+    }
+    loadPosts();
+  });
+});
 
 const render = (() => {
   window.onload = async () => {
     try {
-      const { data: posts } = await getMainPosts();
-      io.observe(document.querySelector('.main-scroll'));
-      loadPosts();
+      inetersectionObserver.observe($('.main-scroll'));
     } catch (e) {
       console.error(e);
     }
@@ -138,7 +94,7 @@ const filterTitle = async inputValue => {
     const { data: posts } = await getSearchTitle(inputValue);
 
     posts.length > 0
-      ? setPosts(posts)
+      ? ($('.main-posts').innerHTML = '' && setPosts(posts))
       : ($('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>');
   } catch (error) {
     console.error(error);

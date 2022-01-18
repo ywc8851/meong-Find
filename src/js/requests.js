@@ -72,9 +72,10 @@ export const getSignOut = async () => {
 };
 
 // main page posting 관리
-export const getMainPosts = async () => {
+export const getMainPosts = async pageNum => {
   try {
-    return await axios.get('/getposts');
+    // return await axios.get('/getposts');
+    return await axios.get(`/getposts/${pageNum}`);
   } catch (error) {
     console.error(error);
   }
