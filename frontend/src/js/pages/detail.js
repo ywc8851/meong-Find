@@ -208,15 +208,20 @@ const fetchPostData = async id => {
       </div>
     `;
 
-    const imageList = [post.images[post.images.length - 1], ...post.images, post.images[0]];
-    imageList.forEach(img => {
-      $('.carousel__img-container').innerHTML += `
+    if (post.images.length) {
+      const imageList = [post.images[post.images.length - 1], ...post.images, post.images[0]];
+      imageList.forEach(img => {
+        $('.carousel__img-container').innerHTML += `
       <div class="detail__img" style="background-image : url(${img});" ></div>`;
-    });
-    imgLength = imageList.length;
-    durationSize = 1 / imgLength;
-    maxCarouselSlideNumber = (imageList.length - 1) * durationSize;
-    $carouselSlider.style.setProperty('--currentSlide', durationSize);
+      });
+      imgLength = imageList.length;
+      durationSize = 1 / imgLength;
+      maxCarouselSlideNumber = (imageList.length - 1) * durationSize;
+      $carouselSlider.style.setProperty('--currentSlide', durationSize);
+    } else {
+      $('.carousel__img-container').innerHTML += `
+        <div class="detail__img" style="background-image : url(https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif);" ></div>`;
+    }
 
     $('.post__detail-list').innerHTML = `
       <div class="detail__etc-info">
