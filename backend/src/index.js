@@ -6,7 +6,7 @@ const upload = require('./upload');
 const bcrypt = require('bcrypt');
 
 const { auth, blockLoginUser } = require('./auth.js');
-const { users, posts, comments } = require('./db');
+const { users, posts, comments } = require('../db');
 
 const { emailOptions, transporter } = require('./mail.js');
 
@@ -14,7 +14,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT;
 
-app.use(express.static('public'));
+app.use(express.static('../public'));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -30,7 +30,7 @@ const getCommentsByPostId = lists =>
 
 // 루트페이지(메인페이지)
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/html/index.html'));
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // 검색 title
@@ -92,9 +92,9 @@ app.get('/mypost/:writerId', (req, res) => {
 // 프로필 정보 수정
 app.patch('/users/:id', (req, res) => {
   const { id } = req.params;
-  req.body.password = bcrypt.hashSync(req.body.password, 10);
+  req.body.user.password = bcrypt.hashSync(req.body.user.password, 10);
   try {
-    users.update(id, req.body);
+    users.update(id, req.body.user);
     res.send();
   } catch (e) {
     console.error(e);
@@ -257,8 +257,11 @@ app.get('/user/email/:email', (req, res) => {
 // 회원가입
 app.post('/users/signup', (req, res) => {
   try {
-    const user = users.create({ ...req.body, password: bcrypt.hashSync(req.body.password, 10), isValid: true });
-    // console.log(user);
+    const user = users.create({
+      ...req.body.user,
+      password: bcrypt.hashSync(req.body.user.password, 10),
+      isValid: true,
+    });
     res.send(user);
   } catch (e) {
     console.error(e);
