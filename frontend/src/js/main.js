@@ -18,7 +18,10 @@ const setPosts = posts => {
     $card.setAttribute('data-id', post.id);
     $card.innerHTML = `
       <a href="javascript:void(0)">
-      <img src="${post.images[0]}" alt="${post.title} 이미지" />
+      <div class="main-posts-img-container">
+        <div class="main-posts-img" style="background-image:url(${post.images[0]});">
+        </div>
+      </div>
       <span class="main-posts-title">${post.title}</span>
       <span class="main-posts-species species-${
         post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
