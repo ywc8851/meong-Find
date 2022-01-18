@@ -55,7 +55,7 @@
             <div class="detail__info-date">${post.createdAt}</div>
           </div> -->
         </div>
-        <div class="carousel__contaier">
+        <div class="carousel__container">
           <div class="carousel__img-container">
             <!-- <img class="detail__img" src="${img}" alt="이미지${current + 1}" -->
           </div>
@@ -74,9 +74,10 @@
         </span>
         <ul class="detail__comment-list">
           <!-- <li>
-            <span class="detail__comment-writer">박샤니</span>
-            <span class="detail__comment-content">강아지 찾아요 제발 ㅠㅠ</span>
-            <div class="detail__comment-edit-del">
+              <span class="detail__comment-writer">${comment.writerNickname}</span>
+              <label for="detail__comment-content" class=" sr-only">댓글</label>
+              <input id="detail__comment-content" class="detail__comment-content" type="text" >
+             <div class="detail__comment-edit-del">
               <button class="comment-edit-btn">수정</button>
               <button class="comment-del-btn">삭제</button>
             </div>
