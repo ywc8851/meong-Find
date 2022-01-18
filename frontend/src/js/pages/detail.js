@@ -44,7 +44,7 @@ const commentRender = (user, comments) => {
                 : ''
               : ''
           }
-          <button class="comment-edit-confirm-btn hidden">확인</button>
+          <button class="comment-edit-confirm-btn hidden">수정하기</button>
         </li>
   `
     )
@@ -102,32 +102,24 @@ const bindEvents = async () => {
   });
 
   $('.detail__comment-list').addEventListener('click', async ({ target }) => {
+    // 수정 클릭
     if (target.classList.contains('comment-edit-btn')) {
       $commentInput = $parent(target.parentElement, '.detail__comment-content');
-      $commentEditButton = $parent(target.parentElement, '.comment-edit-btn');
-      $commentDeleteButton = $parent(target.parentElement, '.comment-del-btn');
       $editConfirmButton = $parent(target.parentElement, '.comment-edit-confirm-btn');
-
-      // console.log(target);
+      console.log($parent(target.parentElement, '.comment-edit-del'));
       $commentInput.removeAttribute('disabled');
       $editConfirmButton.classList.remove('hidden');
-      $commentEditButton.classList.add('hidden');
-      $commentDeleteButton.classList.add('hidden');
-      $parent(target.parentElement, '.comment-bar').classList.add('hidden');
-      // console.log(commentid);
+      $parent(target.parentElement, '.comment-edit-del').classList.add('hidden');
     }
 
     // 수정완료했을 때
     if (target.classList.contains('comment-edit-confirm-btn')) {
       const { id: commentId } = target.parentElement.dataset;
       const { value: commentValue } = $parent(target, '.detail__comment-content');
-
       try {
         await updateComment(commentId, commentValue);
         $commentInput.setAttribute('disabled', true);
-        $commentEditButton.classList.remove('hidden');
-        $commentDeleteButton.classList.remove('hidden');
-        $parent(target.parentElement, '.comment-bar').classList.remove('hidden');
+        $parent(target, '.comment-edit-del').classList.remove('hidden');
         target.classList.add('hidden');
       } catch (error) {
         console.error(error);
