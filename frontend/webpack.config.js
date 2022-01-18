@@ -90,11 +90,13 @@ module.exports = {
   devServer: {
     static: {
       directory: path.join(__dirname, '../backend/public'),
+      watch: true,
     },
     proxy: {
       '/': 'http://localhost:9000',
     },
     open: true,
     port: 'auto',
+    hot: true,
   },
 };
