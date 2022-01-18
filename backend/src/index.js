@@ -6,7 +6,7 @@ const upload = require('./upload');
 const bcrypt = require('bcrypt');
 
 const { auth, blockLoginUser } = require('./auth.js');
-const { users, posts, comments } = require('./db');
+const { users, posts, comments } = require('../db');
 
 const { emailOptions, transporter } = require('./mail.js');
 
@@ -14,7 +14,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT;
 
-app.use(express.static('public'));
+app.use(express.static('../public'));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -30,7 +30,7 @@ const getCommentsByPostId = lists =>
 
 // 루트페이지(메인페이지)
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/html/index.html'));
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // 검색 title
