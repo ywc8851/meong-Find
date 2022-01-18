@@ -1,4 +1,5 @@
 const uniqid = require('uniqid');
+const { createdAt } = require('../src/date');
 
 const users = require('./users');
 const posts = require('./posts');
@@ -11,12 +12,12 @@ const handleData = data => {
       return datas;
     },
     create(newData) {
-      const _newData = { id: uniqid(), ...newData };
+      const _newData = { id: uniqid(), createdAt, ...newData };
       datas = [_newData, ...datas];
       return _newData;
     },
     createBack(newData) {
-      const _newData = { id: uniqid(), ...newData };
+      const _newData = { id: uniqid(), createdAt, ...newData };
       datas = [...datas, _newData];
       return _newData;
     },
@@ -31,17 +32,24 @@ const handleData = data => {
       return filtered;
     },
     update(id, payload) {
-      datas = datas.map(data => (data.id === id ? { ...data, ...payload } : data));
+      datas = datas.map(data =>
+        data.id === id ? { ...data, ...payload } : data
+      );
       return datas.find(data => data.id === id);
     },
     search(payload) {
       return datas.filter(
         data =>
-          data.title.includes(payload.title) || data.animal.includes(payload.title) || data.type.includes(payload.title)
+          data.title.includes(payload.title) ||
+          data.animal.includes(payload.title) ||
+          data.type.includes(payload.title)
       );
     },
     pageFilter(payload) {
-      return datas.filter((_, index) => index >= (payload.page - 1) * 6 && index < payload.page * 6);
+      return datas.filter(
+        (_, index) =>
+          index >= (payload.page - 1) * 6 && index < payload.page * 6
+      );
     },
   };
 };
