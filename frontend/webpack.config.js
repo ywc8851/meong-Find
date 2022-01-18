@@ -27,7 +27,7 @@ module.exports = {
     register: ['./src/js/pages/register.js', './src/scss/index.scss'],
   },
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, '../backend/public'),
     filename: 'js/[name].js',
     clean: true,
   },
@@ -89,7 +89,7 @@ module.exports = {
   devtool: 'source-map',
   devServer: {
     static: {
-      directory: path.join(__dirname, 'public'),
+      directory: path.join(__dirname, '../backend/public'),
     },
     proxy: {
       '/': 'http://localhost:9000',

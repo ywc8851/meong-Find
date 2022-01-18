@@ -41,14 +41,10 @@ export const getSignUpName = async nickname => {
 };
 
 // 회원가입 정보 전송
-export const getSignup = async (nickname, email, password, city, district) => {
+export const getSignup = async user => {
   try {
     return await axios.post('/users/signup', {
-      nickname,
-      email,
-      password,
-      city,
-      district,
+      user,
     });
   } catch (error) {
     console.error(error);
@@ -155,6 +151,15 @@ export const deleteComment = async (postId, commentId) => {
   }
 };
 
+// 페이지 삭제
+export const deletePost = async id => {
+  try {
+    return await axios.delete(`/post/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // mypage 정보
 export const getMyProfile = async () => {
   try {
@@ -165,13 +170,10 @@ export const getMyProfile = async () => {
 };
 
 // profile 변경
-export const changeUserProfile = async (curUserId, nickname, password, city, district) => {
+export const changeUserProfile = async (curUserId, user) => {
   try {
     return await axios.patch(`/users/${curUserId}`, {
-      nickname,
-      password,
-      city,
-      district,
+      user,
     });
   } catch (error) {
     console.error(error);

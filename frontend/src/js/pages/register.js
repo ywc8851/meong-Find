@@ -93,7 +93,10 @@ const setSelectOptionByUser = ({ id, city, district }) => {
 };
 
 const setValueByUser = async user => {
-  if (history.state.prev === 'http://localhost:8080/mypage') {
+  if (
+    history.state.prev === 'http://localhost:8080/mypage' ||
+    history.state.prev.includes('http://localhost:8080/post')
+  ) {
     isEdit = true;
     $('.register-edit-btn').classList.remove('hidden');
     $('.register-submit-btn').classList.add('hidden');
