@@ -13,13 +13,16 @@ let page = 1;
 const setPosts = posts => {
   const fragment = document.createDocumentFragment();
   posts.forEach(post => {
+    // console.log(post.images.length);
     const $card = document.createElement('div');
     $card.classList.add('main-posts-posting-list');
     $card.setAttribute('data-id', post.id);
     $card.innerHTML = `
       <a href="javascript:void(0)">
       <div class="main-posts-img-container">
-        <div class="main-posts-img" style="background-image:url(${post.images[0]});">
+        <div class="main-posts-img" style="background-image:url(${
+          post.images.length ? post.images[0] : 'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif'
+        })">
         </div>
       </div>
       <span class="main-posts-title">${post.title}</span>
@@ -29,7 +32,7 @@ const setPosts = posts => {
       <span class="main-posts-place">${post.city} ${post.district}</span>
       </a>`;
 
-    console.log($card);
+    // console.log($card);
 
     fragment.appendChild($card);
   });
