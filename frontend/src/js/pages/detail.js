@@ -86,15 +86,11 @@ const bindEvents = async () => {
     const commentValue = target.value.trim();
 
     try {
-      $commentEditButton = $parent(target, '.comment-edit-btn');
-      $commentDeleteButton = $parent(target, '.comment-del-btn');
       $editConfirmButton = $parent(target, '.comment-edit-confirm-btn');
 
       target.setAttribute('disabled', true);
-      $commentEditButton.classList.remove('hidden');
-      $commentDeleteButton.classList.remove('hidden');
+      $parent(target, '.comment-edit-del').classList.remove('hidden');
       $editConfirmButton.classList.add('hidden');
-
       await updateComment(commentId, commentValue);
     } catch (error) {
       console.error(error);
@@ -106,7 +102,6 @@ const bindEvents = async () => {
     if (target.classList.contains('comment-edit-btn')) {
       $commentInput = $parent(target.parentElement, '.detail__comment-content');
       $editConfirmButton = $parent(target.parentElement, '.comment-edit-confirm-btn');
-      console.log($parent(target.parentElement, '.comment-edit-del'));
       $commentInput.removeAttribute('disabled');
       $editConfirmButton.classList.remove('hidden');
       $parent(target.parentElement, '.comment-edit-del').classList.add('hidden');

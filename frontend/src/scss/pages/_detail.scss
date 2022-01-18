@@ -113,8 +113,14 @@
 
   &-content {
     font-size: rem(16px);
+    width: 40%;
+    height: rem(30px);
+    padding: rem(15px);
+    border: 1px solid $gray;
+    border-radius: rem(20px);
     position: absolute;
-    right: 45%;
+    bottom: rem(8px);
+    right: rem(280px);
     &:disabled {
       border: none;
       background-color: transparent;
