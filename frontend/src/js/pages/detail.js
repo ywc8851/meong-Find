@@ -37,7 +37,7 @@ const commentRender = (user, comments) => {
                 ? `
                 <div class="comment-edit-del">
                   <button class="comment-edit-btn">수정</button>
-                  <span> | </span>
+                  <span class="comment-bar"> | </span>
                   <button class="comment-del-btn">삭제</button>
                 </div>
                   `
@@ -103,15 +103,17 @@ const bindEvents = async () => {
 
   $('.detail__comment-list').addEventListener('click', async ({ target }) => {
     if (target.classList.contains('comment-edit-btn')) {
-      $commentInput = $parent(target, '.detail__comment-content');
-      $commentEditButton = $parent(target, '.comment-edit-btn');
-      $commentDeleteButton = $parent(target, '.comment-del-btn');
-      $editConfirmButton = $parent(target, '.comment-edit-confirm-btn');
+      $commentInput = $parent(target.parentElement, '.detail__comment-content');
+      $commentEditButton = $parent(target.parentElement, '.comment-edit-btn');
+      $commentDeleteButton = $parent(target.parentElement, '.comment-del-btn');
+      $editConfirmButton = $parent(target.parentElement, '.comment-edit-confirm-btn');
 
+      // console.log(target);
       $commentInput.removeAttribute('disabled');
       $editConfirmButton.classList.remove('hidden');
       $commentEditButton.classList.add('hidden');
       $commentDeleteButton.classList.add('hidden');
+      $parent(target.parentElement, '.comment-bar').classList.add('hidden');
       // console.log(commentid);
     }
 
@@ -125,6 +127,7 @@ const bindEvents = async () => {
         $commentInput.setAttribute('disabled', true);
         $commentEditButton.classList.remove('hidden');
         $commentDeleteButton.classList.remove('hidden');
+        $parent(target.parentElement, '.comment-bar').classList.remove('hidden');
         target.classList.add('hidden');
       } catch (error) {
         console.error(error);
@@ -132,11 +135,12 @@ const bindEvents = async () => {
     }
     // 삭제했을 때
     if (target.classList.contains('comment-del-btn')) {
-      const { id: commentId } = target.parentElement.dataset;
+      const { id: commentId } = target.parentElement.parentElement.dataset;
 
       if (confirm('댓글을 정말 삭제하시겠습니까?')) {
         try {
           const { data: comments } = await deleteComment(postId, commentId);
+
           commentRender(user, comments);
         } catch (error) {
           console.error(error);
