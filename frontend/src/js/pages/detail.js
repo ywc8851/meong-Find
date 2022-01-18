@@ -9,14 +9,18 @@ import {
   deleteComment,
   deletePost,
 } from '../requests';
-import { moveToPage } from '../router';
+import { moveToPage, render } from '../router';
 
 const $commentTextInput = $('.detail__comment-input-tag');
 const $commentSubmitButton = $('.detail__comment-submit');
+const $carouselSlider = $('.carousel__img-container');
 let $commentInput = null;
-let $commentEditButton = null;
-let $commentDeleteButton = null;
 let $editConfirmButton = null;
+
+let imgLength = 0;
+let maxCarouselSlideNumber;
+let durationSize;
+let INITIAL_SLIDE;
 
 const postId = history.state.path.split('/')[2];
 
@@ -159,6 +163,31 @@ const bindEvents = async () => {
       }
     }
   });
+
+  // 이미지 캐러셀
+  let SLIDE_DURATION = 250;
+  $carouselSlider.addEventListener('transitionend', () => {
+    let currentSlide = +getComputedStyle($('.carousel__img-container')).getPropertyValue('--currentSlide');
+
+    if (currentSlide < maxCarouselSlideNumber && currentSlide > 0) return;
+    if (currentSlide >= maxCarouselSlideNumber) currentSlide = durationSize;
+    if (currentSlide <= 0) currentSlide = maxCarouselSlideNumber - durationSize;
+
+    $carouselSlider.style.setProperty('--currentSlide', currentSlide);
+    $carouselSlider.style.setProperty('--duration', 0);
+  });
+  $('.carousel__prev').addEventListener('click', () => {
+    let currentSlide = +getComputedStyle($('.carousel__img-container')).getPropertyValue('--currentSlide');
+    currentSlide -= durationSize;
+    $carouselSlider.style.setProperty('--currentSlide', currentSlide);
+    $carouselSlider.style.setProperty('--duration', SLIDE_DURATION);
+  });
+  $('.carousel__next').addEventListener('click', () => {
+    let currentSlide = +getComputedStyle($('.carousel__img-container')).getPropertyValue('--currentSlide');
+    currentSlide += durationSize;
+    $carouselSlider.style.setProperty('--currentSlide', currentSlide);
+    $carouselSlider.style.setProperty('--duration', SLIDE_DURATION);
+  });
 };
 
 const fetchPostData = async id => {
@@ -178,12 +207,17 @@ const fetchPostData = async id => {
         <div class="detail__info-date">${post.createdAt}</div>
       </div>
     `;
-    console.log(post.images.length);
+
     if (post.images.length) {
-      post.images.forEach((img, current) => {
+      const imageList = [post.images[post.images.length - 1], ...post.images, post.images[0]];
+      imageList.forEach(img => {
         $('.carousel__img-container').innerHTML += `
-        <div class="detail__img" style="background-image : url(${img});" ></div>`;
+      <div class="detail__img" style="background-image : url(${img});" ></div>`;
       });
+      imgLength = imageList.length;
+      durationSize = 1 / imgLength;
+      maxCarouselSlideNumber = (imageList.length - 1) * durationSize;
+      $carouselSlider.style.setProperty('--currentSlide', durationSize);
     } else {
       $('.carousel__img-container').innerHTML += `
         <div class="detail__img" style="background-image : url(https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif);" ></div>`;
@@ -195,6 +229,7 @@ const fetchPostData = async id => {
         <span class="detail__animal species-${
           post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
         }">${post.animal}</span>
+        <span class="detail__type">${post.type}</span>
       </div>
       <div class="detail__posting-content">${post.content}</div>
     `;
@@ -226,6 +261,9 @@ const init = () => {
   const urlpath = location.href.split('/');
   const postid = urlpath[urlpath.length - 1];
   fetchPostData(postid);
+  // window.onload = () => {
+  //   $('.carousel__container').style.opacity = 1;
+  // };
 };
 
 window.addEventListener('DOMContentLoaded', init);
