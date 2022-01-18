@@ -1,6 +1,15 @@
 import header from '../components/header';
 import { $, $parent } from '../helpers/utils';
-import { getPostInfo, getPostComments, getIsUserLogin, postComment, updateComment, deleteComment } from '../requests';
+import {
+  getPostInfo,
+  getPostComments,
+  getIsUserLogin,
+  postComment,
+  updateComment,
+  deleteComment,
+  deletePost,
+} from '../requests';
+import { moveToPage } from '../router';
 
 const $commentTextInput = $('.detail__comment-input-tag');
 const $commentSubmitButton = $('.detail__comment-submit');
@@ -16,7 +25,7 @@ const commentRender = (user, comments) => {
     .map(
       comment =>
         `
-        <li data-id="${comment.id}" class="comment-li">
+        <li data-id="${comment.id}" class="detail__comment-li">
           <span class="detail__comment-writer">${comment.writerNickname}</span>
           <label for="detail__comment-content" class=" sr-only">댓글</label>
           <input id="detail__comment-content" class="detail__comment-content" type="text" value="${
@@ -25,8 +34,13 @@ const commentRender = (user, comments) => {
           ${
             user?.id
               ? user.nickname === comment.writerNickname
-                ? `<button class="comment-edit-btn">수정</button>
-                  <button class="comment-del-btn">삭제</button>`
+                ? `
+                <div class="comment-edit-del">
+                  <button class="comment-edit-btn">수정</button>
+                  <span class="comment-bar"> | </span>
+                  <button class="comment-del-btn">삭제</button>
+                </div>
+                  `
                 : ''
               : ''
           }
@@ -49,15 +63,12 @@ const addComment = async (user, content) => {
 const bindEvents = async () => {
   const user = await header.bindEvents();
 
-  $commentTextInput.addEventListener('keyup', ({ key }) => {
-    if (key !== 'Enter') return;
-
+  $commentTextInput.addEventListener('keydown', ({ key, isComposing }) => {
     const content = $commentTextInput.value.trim();
 
-    if (key !== 'Enter' || content === '') {
-      return;
-    }
+    if (key !== 'Enter' || content === '' || isComposing) return;
     addComment(user, content);
+
     $commentTextInput.value = '';
   });
 
@@ -75,10 +86,14 @@ const bindEvents = async () => {
     const commentValue = target.value.trim();
 
     try {
+      $commentEditButton = $parent(target, '.comment-edit-btn');
+      $commentDeleteButton = $parent(target, '.comment-del-btn');
+      $editConfirmButton = $parent(target, '.comment-edit-confirm-btn');
+
       target.setAttribute('disabled', true);
-      $parent(target, '.comment-edit-btn').classList.remove('hidden');
-      $parent(target, '.comment-del-btn').classList.remove('hidden');
-      $parent(target, '.comment-edit-confirm-btn').classList.add('hidden');
+      $commentEditButton.classList.remove('hidden');
+      $commentDeleteButton.classList.remove('hidden');
+      $editConfirmButton.classList.add('hidden');
 
       await updateComment(commentId, commentValue);
     } catch (error) {
@@ -88,17 +103,20 @@ const bindEvents = async () => {
 
   $('.detail__comment-list').addEventListener('click', async ({ target }) => {
     if (target.classList.contains('comment-edit-btn')) {
-      $commentInput = $parent(target, '.detail__comment-content');
-      $commentEditButton = $parent(target, '.comment-edit-btn');
-      $commentDeleteButton = $parent(target, '.comment-del-btn');
-      $editConfirmButton = $parent(target, '.comment-edit-confirm-btn');
+      $commentInput = $parent(target.parentElement, '.detail__comment-content');
+      $commentEditButton = $parent(target.parentElement, '.comment-edit-btn');
+      $commentDeleteButton = $parent(target.parentElement, '.comment-del-btn');
+      $editConfirmButton = $parent(target.parentElement, '.comment-edit-confirm-btn');
 
+      // console.log(target);
       $commentInput.removeAttribute('disabled');
       $editConfirmButton.classList.remove('hidden');
       $commentEditButton.classList.add('hidden');
       $commentDeleteButton.classList.add('hidden');
+      $parent(target.parentElement, '.comment-bar').classList.add('hidden');
       // console.log(commentid);
     }
+
     // 수정완료했을 때
     if (target.classList.contains('comment-edit-confirm-btn')) {
       const { id: commentId } = target.parentElement.dataset;
@@ -106,9 +124,10 @@ const bindEvents = async () => {
 
       try {
         await updateComment(commentId, commentValue);
-        $parent(target, '.detail__comment-content').setAttribute('disabled', true);
-        $parent(target, '.comment-edit-btn').classList.remove('hidden');
-        $parent(target, '.comment-del-btn').classList.remove('hidden');
+        $commentInput.setAttribute('disabled', true);
+        $commentEditButton.classList.remove('hidden');
+        $commentDeleteButton.classList.remove('hidden');
+        $parent(target.parentElement, '.comment-bar').classList.remove('hidden');
         target.classList.add('hidden');
       } catch (error) {
         console.error(error);
@@ -116,15 +135,39 @@ const bindEvents = async () => {
     }
     // 삭제했을 때
     if (target.classList.contains('comment-del-btn')) {
-      const { id: commentId } = target.parentElement.dataset;
+      const { id: commentId } = target.parentElement.parentElement.dataset;
 
       if (confirm('댓글을 정말 삭제하시겠습니까?')) {
         try {
           const { data: comments } = await deleteComment(postId, commentId);
+
           commentRender(user, comments);
         } catch (error) {
           console.error(error);
         }
+      }
+    }
+  });
+
+  $('.detail__posting-edit-del').addEventListener('click', async e => {
+    if (!e.target.matches('button')) return;
+
+    if (e.target.matches('.posting-edit-btn')) {
+      moveToPage(`/update/${postId}`);
+    }
+    if (e.target.matches('.posting-del-btn')) {
+      try {
+        if (confirm('게시글을 정말 삭제하시겠습니까?')) {
+          try {
+            await deletePost(postId);
+            alert('게시글 삭제 완료!');
+            moveToPage('/');
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
   });
@@ -154,11 +197,13 @@ const fetchPostData = async id => {
     });
 
     $('.post__detail-list').innerHTML = `
-      <span class="detail__city">${post.city} ${post.district}</span>
-      <span class="detail__animal species-${
-        post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
-      }">${post.animal}</span>
-      <div clss="detail__posting-content">${post.content}</div>
+      <div class="detail__etc-info">
+        <span class="detail__city">${post.city} ${post.district}</span>
+        <span class="detail__animal species-${
+          post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
+        }">${post.animal}</span>
+      </div>
+      <div class="detail__posting-content">${post.content}</div>
     `;
 
     $('.detail__comment-num').textContent = `댓글 ${post.comments.length} 개`;
@@ -177,8 +222,6 @@ const fetchPostData = async id => {
       `;
       }
     }
-
-    // 이벤트 모음집 ~
   } catch (e) {
     console.error(e);
   }

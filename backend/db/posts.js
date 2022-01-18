@@ -4,7 +4,7 @@ const posts = [
     writerId: 'ramndomda',
     createdAt: '2021-01-12',
     images: [
-      'https://cdn.mkhealth.co.kr/news/photo/202102/52163_52859_5928.jpg',
+      'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_262/%EC%8D%B8%EB%84%A4%EC%9D%BC.jpg',
       'https://image.msscdn.net/images/goods_img/20191216/1252014/1252014_1_500.jpg',
     ],
     title: '저희 집 강아지 잃어버렸어요',
@@ -26,7 +26,7 @@ const posts = [
     content: '집나간 강아지를 찾습니다',
     city: '서울특별시',
     district: '종로구',
-    comments: ['comment1'],
+    comments: ['comment3', 'comment4'],
   },
   {
     id: 'post3',
@@ -39,7 +39,7 @@ const posts = [
     content: '집나간 강아지를 찾습니다',
     city: '서울특별시',
     district: '강남구',
-    comments: ['comment1'],
+    comments: [],
   },
   {
     id: 'post4',
@@ -54,7 +54,7 @@ const posts = [
     content: '목줄 놓쳤어요',
     city: '서울특별시',
     district: '강남구',
-    comments: ['comment1'],
+    comments: ['comment5'],
   },
   {
     id: 'post5',
@@ -69,7 +69,7 @@ const posts = [
     content: '먹어서 이렇게 생겼어요',
     city: '경기도',
     district: '성남시',
-    comments: ['comment1'],
+    comments: ['comment5'],
   },
   {
     id: 'post6',
@@ -82,7 +82,7 @@ const posts = [
     content: '아련개의 주인공 아롱이 동네 유명인사라 알아보시는 분들 많아요 제발 주인에게 돌려주세요',
     city: '경기도',
     district: '일산서구',
-    comments: ['comment1'],
+    comments: [],
   },
   {
     id: 'post7',
@@ -97,7 +97,7 @@ const posts = [
     content: '아련개의 주인공 아롱이 동네 유명인사라 알아보시는 분들 많아요 제발 주인에게 돌려주세요',
     city: '경기도',
     district: '일산서구',
-    comments: ['comment1'],
+    comments: [],
   },
   {
     id: 'post8',
@@ -112,7 +112,7 @@ const posts = [
     content: '조용우라고 이름은 사람같지만 돼지를 찾아요 아직 새끼라서 너무 걱정되네요',
     city: '서울특별시',
     district: '서초구',
-    comments: ['comment1'],
+    comments: [],
   },
   {
     id: 'post9',
@@ -125,7 +125,7 @@ const posts = [
     content: '오리 너구리 희귀종인데 연락두절이에요',
     city: '경기도',
     district: '남양주시',
-    comments: ['comment1'],
+    comments: [],
   },
   {
     id: 'post10',
@@ -140,7 +140,7 @@ const posts = [
     content: '원래 집에 잘 들오는데 3일째 소식이 없어요 너무 걱정되서 글 올립니다.',
     city: '강원도',
     district: '강릉시',
-    comments: ['comment1'],
+    comments: [],
   },
   {
     id: 'post11',
@@ -155,7 +155,7 @@ const posts = [
     content: '이상하게 스우파만 틀면 날뛰네요; 아랫집 눈치도 보이고 어쩌죠',
     city: '제주특별시',
     district: '서귀포구',
-    comments: ['comment1'],
+    comments: [],
   },
   {
     id: 'post12',
@@ -168,7 +168,7 @@ const posts = [
     content: '새장 청소 해주다가 휘리릭 날아가버리더군요...보신분있으면 댓글 주세요 ㅠ ',
     city: '경기도',
     district: '파주시',
-    comments: ['comment1'],
+    comments: [],
   },
 ];
 
