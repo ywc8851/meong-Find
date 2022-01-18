@@ -1,6 +1,6 @@
 import header from '../components/header';
 import { moveToPage } from '../router';
-import { getMyProfile, getMyPosts } from '../requests';
+import { getMyProfile, getMyPosts, deletePost } from '../requests';
 import { $ } from '../helpers/utils';
 
 let curUserId = '';
@@ -20,9 +20,22 @@ const bindEvents = () => {
   });
 
   // 글 삭제
-  $('.profile__posting-container').addEventListener('click', e => {
-    if (e.target.matches('button')) {
-      const curPostId = e.target.parentNode.dataset.id;
+  $('.profile__posting-container').addEventListener('click', async e => {
+    if (!e.target.matches('button')) return;
+    if (e.target.matches('.profile__posting-del')) {
+      try {
+        if (confirm('게시글을 정말 삭제하시겠습니까?')) {
+          try {
+            await deletePost(e.target.parentNode.dataset.id);
+            alert('게시글 삭제 완료!');
+            moveToPage('/mypage');
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   });
 };
