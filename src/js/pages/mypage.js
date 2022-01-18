@@ -10,8 +10,13 @@ const bindEvents = () => {
 
   // 글 수정
   $('.profile__posting-container').addEventListener('click', ({ target }) => {
-    if (!target.matches('.profile__posting-edit')) return;
-    moveToPage(`/update/${target.parentElement.dataset.id}`);
+    if (target.matches('.profile__posting-edit')) {
+      moveToPage(`/update/${target.parentElement.dataset.id}`);
+    }
+    if (target.matches('.profile__posting-header')) {
+      moveToPage(`/post/${target.parentElement.dataset.id}`);
+    }
+    // 글 자세히보기
   });
 
   // 정보수정으로 이동
