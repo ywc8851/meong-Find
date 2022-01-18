@@ -8,7 +8,7 @@ const $signinbtn = $('.sign-in-btn');
 
 const handlePopup = () => {
   $('.popup').classList.toggle('hidden');
-  $('.cover').classList.toggle('hidden');
+  $('.signin-cover').classList.toggle('hidden');
   $('.popup-find-password').value = '';
   $('.popup-button').setAttribute('disabled', '');
   $('.find-error').classList.add('hidden');
