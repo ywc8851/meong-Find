@@ -40,6 +40,9 @@ const handleData = data => {
           data.title.includes(payload.title) || data.animal.includes(payload.title) || data.type.includes(payload.title)
       );
     },
+    pageFilter(payload) {
+      return datas.filter((_, index) => index >= (payload.page - 1) * 6 && index < payload.page * 6);
+    },
   };
 };
 
