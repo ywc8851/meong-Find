@@ -204,6 +204,8 @@ app.delete('/post/comment/:postId/:commentId', (req, res) => {
 
     const lists = comments.filter({ postId });
     const listsAddedWriter = getCommentsByPostId(lists);
+
+    res.send(listsAddedWriter);
   } catch (error) {
     console.error(error);
   }
