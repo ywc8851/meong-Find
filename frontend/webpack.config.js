@@ -16,7 +16,11 @@ const htmlWebpackPlugins = () =>
 
 module.exports = {
   mode: 'development',
-  plugins: [...htmlWebpackPlugins(), new MiniCssExtractPlugin({ filename: 'css/[name].css' })],
+  plugins: [
+    ...htmlWebpackPlugins(),
+    new HtmlWebpackPlugin({ template: 'src/html/404.html', filename: 'html/404.html' }),
+    new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
+  ],
   entry: {
     main: ['./src/js/main.js', './src/scss/index.scss'],
     signin: ['./src/js/pages/signIn.js', './src/scss/index.scss'],
