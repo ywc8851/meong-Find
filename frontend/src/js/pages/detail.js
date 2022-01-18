@@ -193,7 +193,7 @@ const fetchPostData = async id => {
 
     post.images.forEach((img, current) => {
       $('.carousel__img-container').innerHTML += `
-        <img class="detail__img" src="${img}" alt="이미지${current + 1}" />`;
+      <div class="detail__img" style="background-image : url(${img});" ></div>`;
     });
 
     $('.post__detail-list').innerHTML = `
