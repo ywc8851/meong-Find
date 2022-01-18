@@ -71,9 +71,9 @@ window.addEventListener('DOMContentLoaded', async () => {
     if (myposts) {
       $('.profile__posting-container').innerHTML = myposts
         .map(
-          ({ id, title }, index) => `
+          ({ id, title, createdAt }) => `
       <li class="profile__posting-list" data-id="${id}">
-        <span class="profile__posting-num">${index + 1}</span>
+        <span class="profile__posting-num">${createdAt}</span>
         <span class="profile__posting-header">${title}</span>
         <a href="javascript:void(0)" class="profile__posting-edit">
           <span>수정</span>
