@@ -21,6 +21,7 @@ let $editConfirmButton = null;
 const postId = history.state.path.split('/')[2];
 
 const commentRender = (user, comments) => {
+  $('.detail__comment-num').textContent = `댓글 ${comments.length} 개`;
   $('.detail__comment-list').innerHTML = comments
     .map(
       comment =>
