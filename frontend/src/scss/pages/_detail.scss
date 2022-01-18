@@ -37,6 +37,7 @@
     color: $darkgray;
   }
   &__posting-content {
+    line-height: 1.5;
     color: $darkgray;
     margin: rem(30px) 0 rem(50px) 0;
     padding: rem(40px) rem(30px);
@@ -53,7 +54,8 @@
 // 캐러셀
 .carousel {
   &__container {
-    background-color: blueviolet;
+    // opacity: 0;
+    background-color: whitesmoke;
     width: rem(600px);
     height: rem(450px);
     overflow: hidden;
@@ -61,6 +63,11 @@
   }
   &__img-container {
     display: inline-flex;
+
+    --currentSlide: 0;
+    --duration: 250;
+    transition: transform calc(var(--duration) * 1ms) ease-out;
+    transform: translate3D(calc(var(--currentSlide) * -100%), 0, 0);
 
     > div {
       display: inline-block;

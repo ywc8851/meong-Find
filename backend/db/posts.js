@@ -21,6 +21,8 @@ const posts = [
     createdAt: "2021-01-10",
     images: [
       "https://mblogthumb-phinf.pstatic.net/20151207_258/ian3714_1449418592738XLNcx_JPEG/%B0%B3%B9%CC%C7%D3%B1%E21.jpg?type=w2",
+      "https://image.msscdn.net/images/goods_img/20191216/1252014/1252014_1_500.jpg",
+      "https://newsimg.hankookilbo.com/cms/articlerelease/2021/07/20/c7cf936f-86af-4b22-b4bd-4e08be307bbc.jpg",
     ],
     title: "김효식.. 개미를 먹기 시작..",
     animal: "기타",
@@ -36,6 +38,10 @@ const posts = [
     createdAt: "2020-12-20",
     images: [
       "https://image.msscdn.net/images/goods_img/20191216/1252014/1252014_1_500.jpg",
+      "https://dispatch.cdnser.be/wp-content/uploads/2018/06/20180607225725_f.jpg",
+      "https://ww.namu.la/s/014f57cc6cf03c986fae7e2e1632385b8ed0d21826e5ff1363030ff22089149b34f1d26c950a8c23288db9f079c6c7220eb9d8cde3fd77fceb67cd96e557d6312e631349c70f359f210cf31be3af058dbf7028ce0dcb2564f8af5c8151c4c44cb36e31f93976d3342539b66b1aff2b63",
+      "https://dispatch.cdnser.be/wp-content/uploads/2018/06/20180607225725_f.jpg",
+      "https://cdn.nbntv.co.kr/news/photo/202105/926018_30794_2449.jpg",
     ],
     title: "귀여운 강쥐 찾습니다",
     animal: "강아지",
