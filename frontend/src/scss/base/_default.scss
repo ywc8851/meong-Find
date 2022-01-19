@@ -5,7 +5,10 @@ body {
   font-family: unset;
   font-family: 'Noto Sans', sans-serif;
 }
-
+body > section {
+  min-height: 50vh;
+  height: auto;
+}
 body,
 body::before,
 body::after,
