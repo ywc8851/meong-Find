@@ -7,6 +7,7 @@ button {
 
 // 메인페이지
 .main-posts-species,
+.detail__type,
 .detail__animal {
   text-align: center;
   vertical-align: middle;
@@ -19,10 +20,18 @@ button {
   margin-bottom: rem(15px);
 }
 
-.detail__animal {
+.detail__animal,
+.detail__type {
   display: inline-block;
   width: rem(80px);
   margin: 0;
+}
+
+.detail__type {
+  width: auto;
+  background-color: $darkgray;
+  margin-left: rem(7px);
+  padding: 0 rem(15px);
 }
 
 .species {

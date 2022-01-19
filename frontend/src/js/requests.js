@@ -69,10 +69,25 @@ export const logOutUser = async user => {
   }
 };
 
+export const getAllPosts = async () => {
+  try {
+    return await axios.get('/getposts');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // main page posting 관리
+export const getPrePosts = async pageNum => {
+  try {
+    return await axios.get(`/preposts/${pageNum}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getMainPosts = async pageNum => {
   try {
-    // return await axios.get('/getposts');
     return await axios.get(`/getposts/${pageNum}`);
   } catch (error) {
     console.error(error);

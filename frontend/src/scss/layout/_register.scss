@@ -122,12 +122,24 @@
   }
 }
 
-select {
-  width: rem(100px);
-  padding: rem(5px);
-  border: 1px solid #999;
-  border-radius: 3px;
-  // -webkit-appearance: none;
-  // -moz-appearance: none;
-  appearance: none;
+.posting-option {
+  display: flex;
 }
+
+.animal-select__type {
+  width: rem(250px);
+  height: rem(35px);
+  background-color: $container-gray;
+  border: 1px solid #999;
+  border-radius: rem(10px);
+  text-indent: rem(10px);
+}
+// select {
+//   width: rem(100px);
+//   padding: rem(5px);
+//   border: 1px solid #999;
+//   border-radius: 3px;
+//   -webkit-appearance: none;
+//   -moz-appearance: none;
+//   appearance: none;
+// }
