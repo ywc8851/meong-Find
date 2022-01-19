@@ -24,7 +24,6 @@ const LIMIT = {
 
 const inputs = {
   title: '제목',
-  type: '종류',
   content: '글 본문',
 };
 
@@ -51,6 +50,7 @@ const limitInputLength = ({ type, value, $input, $inputLength }) => {
 
 const checkEmptyInput = () => {
   for (const [key, value] of Object.entries(state)) {
+    if (key === 'type') continue;
     if (key !== 'images' && value === '') {
       alert(`${inputs[key]}의 값을 입력해주세요.`);
       return true;
