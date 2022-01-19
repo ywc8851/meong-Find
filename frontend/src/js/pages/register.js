@@ -24,7 +24,6 @@ const LIMIT = {
 
 const inputs = {
   title: '제목',
-  type: '종류',
   content: '글 본문',
 };
 
@@ -51,6 +50,7 @@ const limitInputLength = ({ type, value, $input, $inputLength }) => {
 
 const checkEmptyInput = () => {
   for (const [key, value] of Object.entries(state)) {
+    if (key === 'type') continue;
     if (key !== 'images' && value === '') {
       alert(`${inputs[key]}의 값을 입력해주세요.`);
       return true;
@@ -67,7 +67,7 @@ const registPost = async e => {
 
     state.title = state.title.trim();
     state.type = state.type.trim();
-    state.content = state.content.trim();
+    state.content = state.content.trim().replaceAll('\n', '<br>');
 
     const hasEmptyInput = checkEmptyInput();
     if (hasEmptyInput) return;
@@ -109,7 +109,7 @@ const setValueByUser = async user => {
     $city.value = post.city;
     $district.value = post.district;
     $animalType.value = post.type;
-    $content.value = post.content;
+    $content.value = post.content.replaceAll('<br>', '\n');
     setImages(post.images);
     state = { ...post };
   } else setSelectOptionByUser(user);

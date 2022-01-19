@@ -15,6 +15,7 @@ let total = 0;
 
 const setPosts = (posts, page) => {
   const fragment = document.createDocumentFragment();
+
   posts.forEach(post => {
     const $card = document.createElement('div');
     $card.classList.add('main-posts-posting-list');
@@ -45,13 +46,9 @@ const setPosts = (posts, page) => {
 
 //데이터 추가함수
 const loadPosts = async page => {
-  console.log('들어옴');
   const { data: posts } = await getMainPosts(page);
   setPosts(posts);
   observeLastItem(inetersectionObserver);
-  // const $observerDiv = document.createElement('div');
-  // $observerDiv.classList.add('main-scroll');
-  // $('.main-posts').appendChild($observerDiv);
 };
 
 const observerOption = {
@@ -68,7 +65,6 @@ const inetersectionObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
-      console.log('관측완료');
       $('.main-posts').removeChild($('.main-scroll'));
       if (Math.ceil(total / 6) >= page) {
         loadPosts(++page);
@@ -109,7 +105,7 @@ $searchInput.onkeypress = ({ key }) => {
   }
   $navSearchButton.disabled = false;
 
-  $searchInput.value = '';
+  // $searchInput.value = '';
   filterTitle(content);
 };
 $navSearchButton.onclick = () => {
@@ -137,21 +133,33 @@ $findButton.onclick = async () => {
   const [city, district, species] = [$city.value, $district.value, $('#kind').value];
   try {
     const { data: posts } = await findPosts(city, district, species);
-    if (posts) {
+    if (posts.length > 0) {
       let postlist = '';
-      console.log(postlist);
+
       posts.map(post => {
         postlist += `
         <div data-id="${post.id}" class="main-posts-posting-list">
           <a href="javascript:void(0)">
-            <img src="${post.images[0]}" alt="" />
-            <span class="main-posts-title">${post.title}</span>
-            <span class="main-posts-species species-dog">${post.animal}</span>
-            <span class="main-posts-place">${post.city} ${post.district}</span>
-        </a>
+          <div class="main-posts-img-container">
+            <div class="main-posts-img" style="background-image:url(${
+              post.images.length
+                ? post.images[0]
+                : 'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif'
+            })">
+            </div>
+          </div>
+          <span class="main-posts-title">${post.title}</span>
+          <span class="main-posts-species species-${
+            post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
+          }">${post.animal}</span>
+          <span class="main-posts-place">${post.city} ${post.district}</span>
+          </a>
         </div>`;
       });
+
       $('.main-posts').innerHTML = postlist;
+    } else {
+      $('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>';
     }
   } catch (e) {
     console.error(e);
@@ -163,6 +171,7 @@ $('.main-posts').onclick = ({ target }) => {
   try {
     sessionStorage.setItem('pageNow', page);
     sessionStorage.setItem('scrollPosition', window.scrollY);
+
     moveToPage(`/post/${target.dataset.id}`);
   } catch (error) {
     console.log(error);
