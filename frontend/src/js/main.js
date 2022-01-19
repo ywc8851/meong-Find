@@ -13,10 +13,10 @@ let PAGE_NUM = 6;
 let total = 0;
 
 const setPosts = posts => {
-  console.log(posts);
+  $('.main-scroll').classList.remove('hidden');
   const fragment = document.createDocumentFragment();
+
   posts.forEach(post => {
-    // console.log(post.images.length);
     const $card = document.createElement('div');
     $card.classList.add('main-posts-posting-list');
     $card.setAttribute('data-id', post.id);
@@ -132,24 +132,37 @@ const filterTitle = async inputValue => {
 const $findButton = $('.main-nav-find-btn');
 
 $findButton.onclick = async () => {
+  $('.main-scroll').classList.add('hidden');
   const [city, district, species] = [$city.value, $district.value, $('#kind').value];
   try {
     const { data: posts } = await findPosts(city, district, species);
-    if (posts) {
+    if (posts.length > 0) {
       let postlist = '';
-      console.log(postlist);
+
       posts.map(post => {
         postlist += `
         <div data-id="${post.id}" class="main-posts-posting-list">
           <a href="javascript:void(0)">
-            <img src="${post.images[0]}" alt="" />
-            <span class="main-posts-title">${post.title}</span>
-            <span class="main-posts-species species-dog">${post.animal}</span>
-            <span class="main-posts-place">${post.city} ${post.district}</span>
-        </a>
+          <div class="main-posts-img-container">
+            <div class="main-posts-img" style="background-image:url(${
+              post.images.length
+                ? post.images[0]
+                : 'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif'
+            })">
+            </div>
+          </div>
+          <span class="main-posts-title">${post.title}</span>
+          <span class="main-posts-species species-${
+            post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
+          }">${post.animal}</span>
+          <span class="main-posts-place">${post.city} ${post.district}</span>
+          </a>
         </div>`;
       });
+
       $('.main-posts').innerHTML = postlist;
+    } else {
+      $('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>';
     }
   } catch (e) {
     console.error(e);
@@ -161,6 +174,7 @@ $('.main-posts').onclick = ({ target }) => {
   try {
     sessionStorage.setItem('pageNow', page);
     sessionStorage.setItem('scrollPosition', window.scrollY);
+
     moveToPage(`/post/${target.dataset.id}`);
   } catch (error) {
     console.log(error);
