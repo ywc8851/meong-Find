@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "concurrently \"npm run watch --prefix frontend\" \"npm run start --prefix frontend\" \"npm run start --prefix backend\""
+    "start": "concurrently \"npm run watch --prefix frontend\" \"npm run start --prefix frontend\" \"npm run start --prefix backend\"",
+    "fast": "concurrently \"npm run build --prefix frontend\" \"npm run start --prefix frontend\" \"npm run start --prefix backend\""
   },
   "devDependencies": {},
   "dependencies": {
