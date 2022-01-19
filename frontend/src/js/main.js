@@ -22,9 +22,10 @@ const setPosts = (posts, page) => {
     $card.innerHTML = `
       <a href="javascript:void(0)">
       <div class="main-posts-img-container">
-      <div class="main-posts-img" style="background-image:url(${
-        post.images.length ? post.images[0] : 'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif'
-      })">
+        <div class="main-posts-img" style="background-image:url(${
+          post.images.length ? post.images[0] : 'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif'
+        })">
+        </div>
       </div>
       <span class="main-posts-title">${post.title}</span>
       <span class="main-posts-species species-${
