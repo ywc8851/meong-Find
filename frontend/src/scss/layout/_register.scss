@@ -127,7 +127,12 @@
 }
 
 .animal-select__type {
-  width: rem(200px);
+  width: rem(250px);
+  height: rem(35px);
+  background-color: $container-gray;
+  border: 1px solid #999;
+  border-radius: rem(10px);
+  text-indent: rem(10px);
 }
 // select {
 //   width: rem(100px);
