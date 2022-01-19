@@ -67,10 +67,25 @@ export const getSignOut = async () => {
   }
 };
 
+export const getAllPosts = async () => {
+  try {
+    return await axios.get('/getposts');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // main page posting 관리
+export const getPrePosts = async pageNum => {
+  try {
+    return await axios.get(`/preposts/${pageNum}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getMainPosts = async pageNum => {
   try {
-    // return await axios.get('/getposts');
     return await axios.get(`/getposts/${pageNum}`);
   } catch (error) {
     console.error(error);
@@ -122,12 +137,8 @@ export const getPostComments = async _comments => {
 
 // 상세페이지 댓글 달기
 export const postComment = async (postId, writerId, content) => {
-  // UTC 계산 (PC와 관계 없이 한국 시간으로)
-  const currentDate = new Date();
-  const createdAt = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
-
   try {
-    return await axios.post('/comment', { postId, writerId, createdAt, content });
+    return await axios.post('/comment', { postId, writerId, content });
   } catch (error) {
     console.error(error);
   }

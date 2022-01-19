@@ -29,7 +29,7 @@ const blockLoginUser = (req, res, next) => {
     }
     next();
   } catch (error) {
-    res.redirect('/signin');
+    next();
   }
 };
 
