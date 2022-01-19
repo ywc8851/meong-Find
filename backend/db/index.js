@@ -1,4 +1,5 @@
 const uniqid = require('uniqid');
+const { createdAt } = require('../src/date');
 
 const users = require('./users');
 const posts = require('./posts');
@@ -11,12 +12,12 @@ const handleData = (data) => {
       return datas;
     },
     create(newData) {
-      const _newData = { id: uniqid(), ...newData };
+      const _newData = { id: uniqid(), createdAt, ...newData };
       datas = [_newData, ...datas];
       return _newData;
     },
     createBack(newData) {
-      const _newData = { id: uniqid(), ...newData };
+      const _newData = { id: uniqid(), createdAt, ...newData };
       datas = [...datas, _newData];
       return _newData;
     },

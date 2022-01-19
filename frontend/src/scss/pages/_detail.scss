@@ -4,6 +4,7 @@
   width: rem(930px);
   margin-left: auto;
   margin-right: auto;
+  position: relative;
 
   &__info {
     display: flex;
@@ -36,6 +37,7 @@
     color: $darkgray;
   }
   &__posting-content {
+    line-height: 1.5;
     color: $darkgray;
     margin: rem(30px) 0 rem(50px) 0;
     padding: rem(40px) rem(30px);
@@ -52,8 +54,39 @@
 // 캐러셀
 .carousel {
   &__container {
-    margin-top: rem(30px);
-    margin-bottom: rem(30px);
+    // opacity: 0;
+    background-color: whitesmoke;
+    width: rem(600px);
+    height: rem(450px);
+    overflow: hidden;
+    margin: rem(40px) auto rem(30px) auto;
+  }
+  &__img-container {
+    display: inline-flex;
+
+    --currentSlide: 0;
+    --duration: 250;
+    transition: transform calc(var(--duration) * 1ms) ease-out;
+    transform: translate3D(calc(var(--currentSlide) * -100%), 0, 0);
+
+    > div {
+      display: inline-block;
+      width: rem(600px);
+      height: rem(450px);
+      background: no-repeat center;
+      background-size: cover;
+    }
+  }
+  &__prev,
+  &__next {
+    position: absolute;
+    top: 250px;
+  }
+  &__prev {
+    left: rem(80px);
+  }
+  &__next {
+    right: rem(99px);
   }
 }
 
@@ -69,6 +102,7 @@
     margin: rem(20px) 0 rem(15px) 0;
     padding-bottom: rem(15px);
     border-bottom: 1px solid $gray;
+    position: relative;
 
     &:last-child {
       border-bottom: none;
@@ -86,7 +120,14 @@
 
   &-content {
     font-size: rem(16px);
-    margin-left: 30%;
+    width: 40%;
+    height: rem(30px);
+    padding: rem(15px);
+    border: 1px solid $gray;
+    border-radius: rem(20px);
+    position: absolute;
+    bottom: rem(8px);
+    right: rem(280px);
     &:disabled {
       border: none;
       background-color: transparent;

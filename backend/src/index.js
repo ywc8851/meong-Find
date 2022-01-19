@@ -377,7 +377,7 @@ app.post('/upload', upload.array('img', 4), (req, res) => {
 
 // 존재하는 페이지가 아니라면 , 404 뜨게하세요.
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(__dirname, '../public/html/404.html'));
 });
 
 app.listen(PORT, () => {

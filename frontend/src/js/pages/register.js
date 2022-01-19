@@ -4,6 +4,7 @@ import { handleSelectOptions } from '../helpers/select';
 import { bindImageEvents, uploadImage, setImages } from '../helpers/inputImageFile';
 import { addNewPost, updatePost, getPostInfo } from '../requests';
 import { moveToPage } from '../router';
+import { WEBPACK_DEV_SERVER } from '../config';
 
 const $inputFile = $('.register-upload__input');
 const $registerUpload = $('.register-upload');
@@ -94,8 +95,8 @@ const setSelectOptionByUser = ({ id, city, district }) => {
 
 const setValueByUser = async user => {
   if (
-    history.state.prev === 'http://localhost:8080/mypage' ||
-    history.state.prev.includes('http://localhost:8080/post')
+    history.state.prev === `${WEBPACK_DEV_SERVER}/mypage` ||
+    history.state.prev.includes(`${WEBPACK_DEV_SERVER}/post`)
   ) {
     isEdit = true;
     $('.register-edit-btn').classList.remove('hidden');

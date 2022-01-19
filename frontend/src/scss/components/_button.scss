@@ -7,6 +7,7 @@ button {
 
 // 메인페이지
 .main-posts-species,
+.detail__type,
 .detail__animal {
   text-align: center;
   vertical-align: middle;
@@ -19,10 +20,18 @@ button {
   margin-bottom: rem(15px);
 }
 
-.detail__animal {
+.detail__animal,
+.detail__type {
   display: inline-block;
   width: rem(80px);
   margin: 0;
+}
+
+.detail__type {
+  width: auto;
+  background-color: $darkgray;
+  margin-left: rem(7px);
+  padding: 0 rem(15px);
 }
 
 .species {
@@ -48,13 +57,20 @@ button {
   border-radius: rem(10px);
   background-color: $navy;
   padding: 0;
+  opacity: 0.7;
 
-  font-size: rem(30px);
+  font-size: rem(20px);
   font-weight: 500;
   color: $white;
 
   &:disabled {
     background-color: #d7d7d7;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &:hover {
+    opacity: 1;
   }
 }
 .sign-up-link {
@@ -120,6 +136,14 @@ button {
   margin-top: rem(30px);
 }
 
+.profile-delete-btn {
+  background-color: rgb(225, 94, 85);
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 // 상세페이지
 .detail__comment-submit {
   width: rem(70px);
@@ -150,4 +174,9 @@ button {
 }
 .posting-del-btn {
   background-color: $red;
+}
+
+.comment-edit-confirm-btn {
+  float: right;
+  margin-right: rem(50px);
 }

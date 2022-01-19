@@ -9,18 +9,23 @@ import {
   deleteComment,
   deletePost,
 } from '../requests';
-import { moveToPage } from '../router';
+import { moveToPage, render } from '../router';
 
 const $commentTextInput = $('.detail__comment-input-tag');
 const $commentSubmitButton = $('.detail__comment-submit');
+const $carouselSlider = $('.carousel__img-container');
 let $commentInput = null;
-let $commentEditButton = null;
-let $commentDeleteButton = null;
 let $editConfirmButton = null;
+
+let imgLength = 0;
+let maxCarouselSlideNumber;
+let durationSize;
+let INITIAL_SLIDE;
 
 const postId = history.state.path.split('/')[2];
 
 const commentRender = (user, comments) => {
+  $('.detail__comment-num').textContent = `댓글 ${comments.length} 개`;
   $('.detail__comment-list').innerHTML = comments
     .map(
       comment =>
@@ -44,7 +49,7 @@ const commentRender = (user, comments) => {
                 : ''
               : ''
           }
-          <button class="comment-edit-confirm-btn hidden">확인</button>
+          <button class="comment-edit-confirm-btn hidden">수정하기</button>
         </li>
   `
     )
@@ -86,15 +91,11 @@ const bindEvents = async () => {
     const commentValue = target.value.trim();
 
     try {
-      $commentEditButton = $parent(target, '.comment-edit-btn');
-      $commentDeleteButton = $parent(target, '.comment-del-btn');
       $editConfirmButton = $parent(target, '.comment-edit-confirm-btn');
 
       target.setAttribute('disabled', true);
-      $commentEditButton.classList.remove('hidden');
-      $commentDeleteButton.classList.remove('hidden');
+      $parent(target, '.comment-edit-del').classList.remove('hidden');
       $editConfirmButton.classList.add('hidden');
-
       await updateComment(commentId, commentValue);
     } catch (error) {
       console.error(error);
@@ -102,32 +103,23 @@ const bindEvents = async () => {
   });
 
   $('.detail__comment-list').addEventListener('click', async ({ target }) => {
+    // 수정 클릭
     if (target.classList.contains('comment-edit-btn')) {
       $commentInput = $parent(target.parentElement, '.detail__comment-content');
-      $commentEditButton = $parent(target.parentElement, '.comment-edit-btn');
-      $commentDeleteButton = $parent(target.parentElement, '.comment-del-btn');
       $editConfirmButton = $parent(target.parentElement, '.comment-edit-confirm-btn');
-
-      // console.log(target);
       $commentInput.removeAttribute('disabled');
       $editConfirmButton.classList.remove('hidden');
-      $commentEditButton.classList.add('hidden');
-      $commentDeleteButton.classList.add('hidden');
-      $parent(target.parentElement, '.comment-bar').classList.add('hidden');
-      // console.log(commentid);
+      $parent(target.parentElement, '.comment-edit-del').classList.add('hidden');
     }
 
     // 수정완료했을 때
     if (target.classList.contains('comment-edit-confirm-btn')) {
       const { id: commentId } = target.parentElement.dataset;
       const { value: commentValue } = $parent(target, '.detail__comment-content');
-
       try {
         await updateComment(commentId, commentValue);
         $commentInput.setAttribute('disabled', true);
-        $commentEditButton.classList.remove('hidden');
-        $commentDeleteButton.classList.remove('hidden');
-        $parent(target.parentElement, '.comment-bar').classList.remove('hidden');
+        $parent(target, '.comment-edit-del').classList.remove('hidden');
         target.classList.add('hidden');
       } catch (error) {
         console.error(error);
@@ -171,6 +163,31 @@ const bindEvents = async () => {
       }
     }
   });
+
+  // 이미지 캐러셀
+  let SLIDE_DURATION = 250;
+  $carouselSlider.addEventListener('transitionend', () => {
+    let currentSlide = +getComputedStyle($('.carousel__img-container')).getPropertyValue('--currentSlide');
+
+    if (currentSlide < maxCarouselSlideNumber && currentSlide > 0) return;
+    if (currentSlide >= maxCarouselSlideNumber) currentSlide = durationSize;
+    if (currentSlide <= 0) currentSlide = maxCarouselSlideNumber - durationSize;
+
+    $carouselSlider.style.setProperty('--currentSlide', currentSlide);
+    $carouselSlider.style.setProperty('--duration', 0);
+  });
+  $('.carousel__prev').addEventListener('click', () => {
+    let currentSlide = +getComputedStyle($('.carousel__img-container')).getPropertyValue('--currentSlide');
+    currentSlide -= durationSize;
+    $carouselSlider.style.setProperty('--currentSlide', currentSlide);
+    $carouselSlider.style.setProperty('--duration', SLIDE_DURATION);
+  });
+  $('.carousel__next').addEventListener('click', () => {
+    let currentSlide = +getComputedStyle($('.carousel__img-container')).getPropertyValue('--currentSlide');
+    currentSlide += durationSize;
+    $carouselSlider.style.setProperty('--currentSlide', currentSlide);
+    $carouselSlider.style.setProperty('--duration', SLIDE_DURATION);
+  });
 };
 
 const fetchPostData = async id => {
@@ -191,10 +208,20 @@ const fetchPostData = async id => {
       </div>
     `;
 
-    post.images.forEach((img, current) => {
+    if (post.images.length) {
+      const imageList = [post.images[post.images.length - 1], ...post.images, post.images[0]];
+      imageList.forEach(img => {
+        $('.carousel__img-container').innerHTML += `
+      <div class="detail__img" style="background-image : url(${img});" ></div>`;
+      });
+      imgLength = imageList.length;
+      durationSize = 1 / imgLength;
+      maxCarouselSlideNumber = (imageList.length - 1) * durationSize;
+      $carouselSlider.style.setProperty('--currentSlide', durationSize);
+    } else {
       $('.carousel__img-container').innerHTML += `
-        <img class="detail__img" src="${img}" alt="이미지${current + 1}" />`;
-    });
+        <div class="detail__img" style="background-image : url(https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif);" ></div>`;
+    }
 
     $('.post__detail-list').innerHTML = `
       <div class="detail__etc-info">
@@ -202,6 +229,7 @@ const fetchPostData = async id => {
         <span class="detail__animal species-${
           post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
         }">${post.animal}</span>
+        <span class="detail__type">${post.type}</span>
       </div>
       <div class="detail__posting-content">${post.content}</div>
     `;
@@ -233,6 +261,9 @@ const init = () => {
   const urlpath = location.href.split('/');
   const postid = urlpath[urlpath.length - 1];
   fetchPostData(postid);
+  // window.onload = () => {
+  //   $('.carousel__container').style.opacity = 1;
+  // };
 };
 
 window.addEventListener('DOMContentLoaded', init);
