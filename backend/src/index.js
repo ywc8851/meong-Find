@@ -18,12 +18,13 @@ app.use(express.static('../public'));
 app.use(express.json());
 app.use(cookieParser());
 
-const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
+const createToken = (email, expirePeriod) =>
+  jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
 const urls = ['/signin', '/signup', '/detail', '/mypage', '/mypageEdit'];
 
-const getCommentsByPostId = lists =>
-  lists.map(list => {
+const getCommentsByPostId = (lists) =>
+  lists.map((list) => {
     const [{ nickname }] = users.filter({ id: list.writerId });
     return { ...list, writerNickname: nickname };
   });
@@ -38,6 +39,18 @@ app.get('/search/:title', (req, res) => {
   const { title } = req.params;
   const searchPosts = posts.search({ title });
   res.send(searchPosts);
+});
+
+// 뒤로가기 페이지 가져오기
+app.get('/preposts/:page', (req, res) => {
+  const { page } = req.params;
+  res.send(posts.pageReloadFilter({ page }));
+});
+
+// 지정된 게시물의 페이지 가져오기
+app.get('/getposts/:page', (req, res) => {
+  const { page } = req.params;
+  res.send(posts.pageFilter({ page }));
 });
 
 // 모든 게시물 가져오기
@@ -152,7 +165,7 @@ app.get('/comments/:idList', (req, res) => {
   const commentList = JSON.parse(id);
 
   try {
-    const lists = commentList.map(id => comments.filter({ id })[0]);
+    const lists = commentList.map((id) => comments.filter({ id })[0]);
     const listsAddedWriter = getCommentsByPostId(lists);
 
     res.send(listsAddedWriter);
@@ -206,7 +219,7 @@ app.delete('/post/comment/:postId/:commentId', (req, res) => {
     comments.delete(commentId);
 
     const [post] = posts.filter({ id: postId });
-    const deletedComments = post.comments.filter(comment => comment !== commentId);
+    const deletedComments = post.comments.filter((comment) => comment !== commentId);
     posts.update(postId, { comments: deletedComments });
 
     const lists = comments.filter({ postId });
@@ -225,7 +238,7 @@ app.delete('/post/:id', (req, res) => {
     posts.delete(id);
 
     // post id에 따른 comment 삭제
-    comments.filter({ postId: id }).map(comment => comments.delete(comment.id));
+    comments.filter({ postId: id }).map((comment) => comments.delete(comment.id));
     res.send();
   } catch (error) {
     console.error(error);

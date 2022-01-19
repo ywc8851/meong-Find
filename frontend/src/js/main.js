@@ -1,6 +1,6 @@
 import header from './components/header';
 import { moveToPage } from './router';
-import { getMainPosts, findPosts, getSearchTitle } from './requests';
+import { getMainPosts, findPosts, getSearchTitle, getAllPosts, getPrePosts } from './requests';
 import { $ } from './helpers/utils';
 import { handleSelectOptions } from './helpers/select';
 import _ from 'lodash';
@@ -9,8 +9,11 @@ const $city = $('#city');
 const $district = $('#district');
 
 let page = 1;
+let PAGE_NUM = 6;
+let total = 0;
 
 const setPosts = posts => {
+  console.log(posts);
   const fragment = document.createDocumentFragment();
   posts.forEach(post => {
     const $card = document.createElement('div');
@@ -26,8 +29,6 @@ const setPosts = posts => {
       <span class="main-posts-place">${post.city} ${post.district}</span>
       </a>`;
 
-    console.log($card);
-
     fragment.appendChild($card);
   });
 
@@ -35,33 +36,51 @@ const setPosts = posts => {
 };
 
 //데이터 추가함수
-const loadPosts = async () => {
+const loadPosts = async page => {
   const { data: posts } = await getMainPosts(page);
   setPosts(posts);
-  page += 1;
+  console.log('loadPosts', page);
 };
 
-const inetersectionObserver = new IntersectionObserver(entries => {
+const observerOption = {
+  root: null,
+  rootMargin: '0px 0px 0px 0px',
+  threshold: 1.0,
+};
+
+const observeLastChild = intersectionObserver => {
+  if (page * PAGE_NUM <= total) {
+    inetersectionObserver.observe($('.main-scroll'));
+  } else {
+    intersectionObserver.disconnect();
+  }
+};
+
+const inetersectionObserver = new IntersectionObserver((entries, observe) => {
   entries.forEach(entry => {
-    if (!entry.isIntersecting) {
-      return;
+    if (entry.isIntersecting) {
+      if (page * PAGE_NUM <= total) {
+        loadPosts(page++);
+      }
+      observeLastChild(observe);
     }
-    loadPosts();
   });
-});
+}, observerOption);
 
 const render = (() => {
   window.onload = async () => {
     try {
-      inetersectionObserver.observe($('.main-scroll'));
+      observeLastChild(inetersectionObserver);
     } catch (e) {
       console.error(e);
     }
   };
 })();
 
-const bindEvents = () => {
+const bindEvents = async () => {
   header.bindEvents();
+  const { data: posts } = await getAllPosts();
+  total = posts.length;
 };
 
 $city.onchange = () => {
@@ -93,9 +112,12 @@ const filterTitle = async inputValue => {
   try {
     const { data: posts } = await getSearchTitle(inputValue);
 
-    posts.length > 0
-      ? ($('.main-posts').innerHTML = '' && setPosts(posts))
-      : ($('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>');
+    if (posts.length > 0) {
+      $('.main-posts').innerHTML = '';
+      setPosts(posts);
+    } else {
+      $('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>';
+    }
   } catch (error) {
     console.error(error);
   }
@@ -131,6 +153,8 @@ $findButton.onclick = async () => {
 $('.main-posts').onclick = ({ target }) => {
   if (target.classList.contains('main-posts')) return;
   try {
+    sessionStorage.setItem('pageNow', page);
+    sessionStorage.setItem('scrollPosition', window.scrollY);
     moveToPage(`/post/${target.dataset.id}`);
   } catch (error) {
     console.log(error);
@@ -146,7 +170,7 @@ $('.arrow-up').onclick = () => {
 };
 
 window.onscroll = _.throttle(() => {
-  $('.arrow-up').classList.toggle('hidden', window.pageYOffset <= 300);
+  $('.arrow-up').classList.toggle('hidden', window.pageYOffset <= 150);
 }, 100);
 
 $('.main-nav-find').addEventListener('change', e => {
@@ -155,6 +179,18 @@ $('.main-nav-find').addEventListener('change', e => {
     $('.main-nav-find-btn').removeAttribute('disabled');
   } else {
     $('.main-nav-find-btn').setAttribute('disabled', '');
+  }
+});
+
+window.addEventListener('pageshow', async e => {
+  if (e.persisted || window.performance) {
+    if (sessionStorage.getItem('pageNow')) {
+      page = JSON.parse(sessionStorage.getItem('pageNow'));
+      const { data: posts } = await getPrePosts(page);
+      $('.main-posts').innerHTML = '';
+      setPosts(posts);
+      window.scroll(0, JSON.parse(sessionStorage.getItem('scrollPosition')));
+    }
   }
 });
 
