@@ -32,12 +32,14 @@
     right: rem(10px);
   }
 }
+
 select {
   width: rem(150px);
   height: rem(35px);
-
+  margin-right: rem(10px);
   background-color: $container-gray;
-  border: none;
+  // border: none;
+  border: 1px solid #999;
   border-radius: rem(10px);
   text-indent: rem(10px);
 }

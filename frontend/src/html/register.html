@@ -65,39 +65,41 @@
             <p class="limit-images">이미지는 4장까지 업로드 할 수 있습니다.</p>
           </div>
           <div class="register-preview"></div>
-          <div class="area">
-            <select name="city" id="city">
-              <option value="si" selected disabled>지역</option>
-              <option>강원도</option>
-              <option>경기도</option>
-              <option>경상남도</option>
-              <option>경상북도</option>
-              <option>광주광역시</option>
-              <option>대구광역시</option>
-              <option>대전광역시</option>
-              <option>부산광역시</option>
-              <option>서울특별시</option>
-              <option>세종특별자치시</option>
-              <option>울산광역시</option>
-              <option>인천광역시</option>
-              <option>전라남도</option>
-              <option>전라북도</option>
-              <option>제주특별자치도</option>
-              <option>충청남도</option>
-              <option>충청북도</option>
-            </select>
-            <select name="district" id="district">
-              <option value="gu">시/군/구</option>
-            </select>
-          </div>
-          <div class="animal-select">
-            <select name="animal" id="animal">
-              <option>강아지</option>
-              <option>고양이</option>
-              <option>기타</option>
-            </select>
-            <label for="animalType" class="sr-only">종류</label>
-            <input type="text" id="animalType" class="animal-select__type" placeholder="종류" />
+          <div class="posting-option">
+            <div class="area">
+              <select name="city" id="city">
+                <option value="si" selected disabled>지역</option>
+                <option>강원도</option>
+                <option>경기도</option>
+                <option>경상남도</option>
+                <option>경상북도</option>
+                <option>광주광역시</option>
+                <option>대구광역시</option>
+                <option>대전광역시</option>
+                <option>부산광역시</option>
+                <option>서울특별시</option>
+                <option>세종특별자치시</option>
+                <option>울산광역시</option>
+                <option>인천광역시</option>
+                <option>전라남도</option>
+                <option>전라북도</option>
+                <option>제주특별자치도</option>
+                <option>충청남도</option>
+                <option>충청북도</option>
+              </select>
+              <select name="district" id="district">
+                <option value="gu">시/군/구</option>
+              </select>
+            </div>
+            <div class="animal-select">
+              <select name="animal" id="animal">
+                <option>강아지</option>
+                <option>고양이</option>
+                <option>기타</option>
+              </select>
+              <label for="animalType" class="sr-only">종류</label>
+              <input type="text" id="animalType" class="animal-select__type" placeholder="종류를 입력하세요 ex) 시츄" />
+            </div>
           </div>
           <div class="register-textcontent">
             <label for="content" class="sr-only">본문 입력란</label>
