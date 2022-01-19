@@ -257,7 +257,6 @@ const fetchPostData = async id => {
       $('.carousel__img-container').innerHTML += `
         <div class="detail__img" style="background-image : url(https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif);" ></div>`;
     }
-
     $('.post__detail-list').innerHTML = `
       <div class="detail__etc-info">
         <span class="detail__city">${post.city} ${post.district}</span>
@@ -268,6 +267,8 @@ const fetchPostData = async id => {
       </div>
       <div class="detail__posting-content">${post.content}</div>
     `;
+
+    if (post.type === '') $('.detail__type').classList.add('hidden');
 
     $('.detail__comment-num').textContent = `댓글 ${post.comments.length} 개`;
 
