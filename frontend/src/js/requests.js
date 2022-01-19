@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { KAKAO_HOST, KAKAO_REDIRECT_URI } from './helpers/oAuth';
 
 export const fetchHtml = async url => {
   try {
@@ -51,26 +52,42 @@ export const getSignup = async user => {
   }
 };
 
-export const postSignIn = async (email, password, autoLogin) => {
+export const logInUser = async (email, password, autoLogin) => {
   try {
-    return await axios.post('/user/signin', { email, password, autoLogin });
+    return await axios.post('/user/login', { email, password, autoLogin });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const getSignOut = async () => {
+export const logOutUser = async user => {
+  console.log(user);
   try {
-    return await axios.get('/user/signout');
+    return await axios.post('/user/logout', user);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAllPosts = async () => {
+  try {
+    return await axios.get('/getposts');
   } catch (error) {
     console.error(error);
   }
 };
 
 // main page posting 관리
+export const getPrePosts = async pageNum => {
+  try {
+    return await axios.get(`/preposts/${pageNum}`);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getMainPosts = async pageNum => {
   try {
-    // return await axios.get('/getposts');
     return await axios.get(`/getposts/${pageNum}`);
   } catch (error) {
     console.error(error);
@@ -227,3 +244,31 @@ export const updatePost = async payload => {
     console.error(error);
   }
 };
+
+export const getKakaoRestApiKey = async () => {
+  try {
+    return await axios.get('/user/login/restapikey/kakao');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const kakaoLogin = async authCode => {
+  try {
+    return await axios.get(`/kakao/login/token/${authCode}`, {
+      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// export const getKakaoToken = async url => {
+//   try {
+//     return await axios.get(url);
+//   } catch (error) {
+//     {
+//       console.error(error);
+//     }
+//   }
+// };

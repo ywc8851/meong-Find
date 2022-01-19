@@ -13,9 +13,10 @@ import { moveToPage } from '../router';
 
 const $commentTextInput = $('.detail__comment-input-tag');
 const $commentSubmitButton = $('.detail__comment-submit');
+const $carouselSliderMultiImg = $('.carousel__multi');
+const $carouselSliderSingleImg = $('.carousel__single');
+
 let $commentInput = null;
-let $commentEditButton = null;
-let $commentDeleteButton = null;
 let $editConfirmButton = null;
 
 const postId = history.state.path.split('/')[2];
@@ -61,6 +62,81 @@ const addComment = async (user, content) => {
   }
 };
 
+const carouselSlide = imageList => {
+  const SLIDE_DURATION = 250;
+  let maxCarouselSlide,
+    canSlide = true;
+
+  const renderCarousel = (imageList, isSingleImage) => {
+    if (isSingleImage) {
+      $carouselSliderMultiImg.classList.add('hidden');
+
+      $carouselSliderSingleImg.innerHTML += `
+      <div class="detail__img" style="background-image : url(${imageList[0]});" ></div>
+      `;
+    }
+
+    if (!isSingleImage) {
+      $carouselSliderSingleImg.classList.add('hidden');
+
+      imageList.forEach(img => {
+        $carouselSliderMultiImg.innerHTML += `
+           <div class="detail__img" style="background-image : url(${img});" ></div>`;
+      });
+
+      $('.carousel__prev-next').innerHTML += `
+          <button class="carousel__prev" type="button">
+            <i class="fas fa-chevron-left fa-2x"></i>
+          </button>
+          <button class="carousel__next" type="button">
+          <i class="fas fa-chevron-right fa-2x"></i>
+          </button>
+      `;
+    }
+  };
+  // 업로드한 이미지가 한 개 일 때
+  if (imageList.length === 1) {
+    renderCarousel(imageList, true);
+  } else {
+    const imageListForCarousel = [imageList[imageList.length - 1], ...imageList, imageList[0]];
+    maxCarouselSlide = imageListForCarousel.length - 1;
+    renderCarousel(imageListForCarousel, false);
+  }
+
+  const setCarouselStyle = (currentSlide, duration) => {
+    $carouselSliderMultiImg.style.setProperty('--currentSlide', currentSlide);
+    $carouselSliderMultiImg.style.setProperty('--duration', duration);
+  };
+
+  let currentSlide = +getComputedStyle($carouselSliderMultiImg).getPropertyValue('--currentSlide');
+
+  $carouselSliderMultiImg.addEventListener('transitionend', () => {
+    if (currentSlide < maxCarouselSlide && currentSlide > 0) return;
+
+    if (currentSlide >= maxCarouselSlide) currentSlide = 1;
+    if (currentSlide <= 0) currentSlide = maxCarouselSlide - 1;
+
+    setCarouselStyle(currentSlide, 0);
+  });
+
+  $('.carousel__prev-next').addEventListener('click', ({ target }) => {
+    if (canSlide) {
+      canSlide = false;
+      setTimeout(() => {
+        canSlide = true;
+      }, SLIDE_DURATION + 50);
+
+      if (target.classList.contains('carousel__prev')) {
+        currentSlide -= 1;
+      }
+      if (target.classList.contains('carousel__next')) {
+        currentSlide += 1;
+      }
+      setCarouselStyle(currentSlide, SLIDE_DURATION);
+    }
+  });
+};
+
 const bindEvents = async () => {
   const user = await header.bindEvents();
 
@@ -75,6 +151,7 @@ const bindEvents = async () => {
 
   $commentSubmitButton.addEventListener('click', () => {
     if (!$commentTextInput.value) return;
+
     addComment(user, $commentTextInput.value.trim());
     $commentTextInput.value = '';
   });
@@ -121,6 +198,7 @@ const bindEvents = async () => {
         console.error(error);
       }
     }
+
     // 삭제했을 때
     if (target.classList.contains('comment-del-btn')) {
       const { id: commentId } = target.parentElement.parentElement.dataset;
@@ -178,26 +256,26 @@ const fetchPostData = async id => {
         <div class="detail__info-date">${post.createdAt}</div>
       </div>
     `;
-    console.log(post.images.length);
+
     if (post.images.length) {
-      post.images.forEach((img, current) => {
-        $('.carousel__img-container').innerHTML += `
-        <div class="detail__img" style="background-image : url(${img});" ></div>`;
-      });
+      carouselSlide(post.images);
     } else {
+      $carouselSliderMultiImg.classList.add('hidden');
       $('.carousel__img-container').innerHTML += `
         <div class="detail__img" style="background-image : url(https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif);" ></div>`;
     }
-
     $('.post__detail-list').innerHTML = `
       <div class="detail__etc-info">
         <span class="detail__city">${post.city} ${post.district}</span>
         <span class="detail__animal species-${
           post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
         }">${post.animal}</span>
+        <span class="detail__type">${post.type}</span>
       </div>
       <div class="detail__posting-content">${post.content}</div>
     `;
+
+    if (post.type === '') $('.detail__type').classList.add('hidden');
 
     $('.detail__comment-num').textContent = `댓글 ${post.comments.length} 개`;
 

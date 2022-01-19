@@ -1,10 +1,12 @@
 import header from '../components/header';
-import { moveToPage, handleHistory } from '../router';
+import { moveToPage } from '../router';
 import { $ } from '../helpers/utils';
 import validate from '../helpers/validate';
-import { postSignIn, changePassword, getUserId } from '../requests';
+import { logInUser, changePassword, getUserId, getKakaoRestApiKey } from '../requests';
+import { KAKAO_HOST, KAKAO_REDIRECT_URI } from '../helpers/oAuth';
 
 const $signinbtn = $('.sign-in-btn');
+const $kakaoLoginBtn = $('.sign-in-kakao');
 
 const handlePopup = () => {
   $('.popup').classList.toggle('hidden');
@@ -39,7 +41,7 @@ const bindEvents = () => {
         $('#auto__login').checked,
       ];
 
-      const user = await postSignIn(email, password, autoLogin);
+      const user = await logInUser(email, password, autoLogin);
       console.log(user);
       if (user) {
         await moveToPage('/');
@@ -88,6 +90,12 @@ const bindEvents = () => {
   });
 
   $('.login-exit').addEventListener('click', handlePopup);
+
+  $kakaoLoginBtn.addEventListener('click', async () => {
+    const { data: REST_API_KEY } = await getKakaoRestApiKey();
+    const tokenRequestUrl = `https://${KAKAO_HOST}/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+    location.href = tokenRequestUrl;
+  });
 };
 
 window.addEventListener('DOMContentLoaded', bindEvents);

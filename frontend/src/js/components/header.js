@@ -1,10 +1,12 @@
 import { $ } from '../helpers/utils';
-import { moveToPage, handleHistory } from '../router';
-import { getSignOut, getIsUserLogin } from '../requests';
+import { moveToPage, handleHistory, createDocument } from '../router';
+import { logOutUser, getIsUserLogin, getKakaoRestApiKey } from '../requests';
+import { KAKAO_HOST, KAKAO_LOGOUT_REDIRECT_URI } from '../helpers/oAuth';
 
 const header = {
   async bindEvents() {
     window.addEventListener('popstate', handleHistory);
+    let user = null;
 
     $('.logo-container').addEventListener('click', async () => {
       try {
@@ -39,13 +41,19 @@ const header = {
     });
 
     $('.login__logout-btn').addEventListener('click', async () => {
-      console.log('logout');
       try {
-        const { status } = await getSignOut();
+        if (user?.isKakaoUser) {
+          const { data: REST_API_KEY } = await getKakaoRestApiKey();
+          location.href = `https://${KAKAO_HOST}/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${KAKAO_LOGOUT_REDIRECT_URI}`;
+          return;
+        }
+
+        const { data, status } = await logOutUser(user);
         if (status === 200) {
           alert('로그아웃 되었습니다.');
+          createDocument(data);
+          history.pushState({ path: '/', prev: location.href }, '', '/');
         }
-        moveToPage('/');
       } catch (error) {
         console.error(error);
       }
@@ -70,7 +78,7 @@ const header = {
         console.log('user not login');
       }
     };
-    const user = await updateHeaderIfUserLogin();
+    user = await updateHeaderIfUserLogin();
     return user;
   },
 };

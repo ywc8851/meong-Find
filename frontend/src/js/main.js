@@ -1,6 +1,6 @@
 import header from './components/header';
 import { moveToPage } from './router';
-import { getMainPosts, findPosts, getSearchTitle } from './requests';
+import { getMainPosts, findPosts, getSearchTitle, getAllPosts, getPrePosts } from './requests';
 import { $ } from './helpers/utils';
 import { handleSelectOptions } from './helpers/select';
 import _ from 'lodash';
@@ -9,21 +9,22 @@ const $city = $('#city');
 const $district = $('#district');
 
 let page = 1;
+let PAGE_NUM = 6;
+let total = 0;
 
-const setPosts = posts => {
+const setPosts = (posts, page) => {
   const fragment = document.createDocumentFragment();
+
   posts.forEach(post => {
-    // console.log(post.images.length);
     const $card = document.createElement('div');
     $card.classList.add('main-posts-posting-list');
     $card.setAttribute('data-id', post.id);
     $card.innerHTML = `
       <a href="javascript:void(0)">
       <div class="main-posts-img-container">
-        <div class="main-posts-img" style="background-image:url(${
-          post.images.length ? post.images[0] : 'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif'
-        })">
-        </div>
+      <div class="main-posts-img" style="background-image:url(${
+        post.images.length ? post.images[0] : 'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif'
+      })">
       </div>
       <span class="main-posts-title">${post.title}</span>
       <span class="main-posts-species species-${
@@ -32,42 +33,56 @@ const setPosts = posts => {
       <span class="main-posts-place">${post.city} ${post.district}</span>
       </a>`;
 
-    // console.log($card);
-
     fragment.appendChild($card);
   });
 
   $('.main-posts').appendChild(fragment);
+  const $observerDiv = document.createElement('div');
+  $observerDiv.classList.add('main-scroll');
+  $('.main-posts').appendChild($observerDiv);
 };
 
 //데이터 추가함수
-const loadPosts = async () => {
+const loadPosts = async page => {
   const { data: posts } = await getMainPosts(page);
   setPosts(posts);
-  page += 1;
+  observeLastItem(inetersectionObserver);
 };
 
-const inetersectionObserver = new IntersectionObserver(entries => {
+const observerOption = {
+  root: null,
+  rootMargin: '0px 0px 0px 0px',
+  threshold: 0.5,
+};
+
+const observeLastItem = intersectionObserver => {
+  intersectionObserver.observe($('.main-scroll'));
+};
+
+const inetersectionObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
-    if (!entry.isIntersecting) {
-      return;
+    if (entry.isIntersecting) {
+      observer.unobserve(entry.target);
+      $('.main-posts').removeChild($('.main-scroll'));
+      if (Math.ceil(total / 6) >= page) {
+        loadPosts(++page);
+      }
     }
-    loadPosts();
   });
-});
+}, observerOption);
 
-const render = (() => {
-  window.onload = async () => {
-    try {
-      inetersectionObserver.observe($('.main-scroll'));
-    } catch (e) {
-      console.error(e);
-    }
-  };
-})();
+window.onload = async () => {
+  try {
+    loadPosts(page);
+  } catch (e) {
+    console.error(e);
+  }
+};
 
-const bindEvents = () => {
+const bindEvents = async () => {
   header.bindEvents();
+  const { data: posts } = await getAllPosts();
+  total = posts.length;
 };
 
 $city.onchange = () => {
@@ -88,7 +103,7 @@ $searchInput.onkeypress = ({ key }) => {
   }
   $navSearchButton.disabled = false;
 
-  $searchInput.value = '';
+  // $searchInput.value = '';
   filterTitle(content);
 };
 $navSearchButton.onclick = () => {
@@ -99,9 +114,12 @@ const filterTitle = async inputValue => {
   try {
     const { data: posts } = await getSearchTitle(inputValue);
 
-    posts.length > 0
-      ? ($('.main-posts').innerHTML = '' && setPosts(posts))
-      : ($('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>');
+    if (posts.length > 0) {
+      $('.main-posts').innerHTML = '';
+      setPosts(posts);
+    } else {
+      $('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>';
+    }
   } catch (error) {
     console.error(error);
   }
@@ -113,21 +131,33 @@ $findButton.onclick = async () => {
   const [city, district, species] = [$city.value, $district.value, $('#kind').value];
   try {
     const { data: posts } = await findPosts(city, district, species);
-    if (posts) {
+    if (posts.length > 0) {
       let postlist = '';
-      console.log(postlist);
+
       posts.map(post => {
         postlist += `
         <div data-id="${post.id}" class="main-posts-posting-list">
           <a href="javascript:void(0)">
-            <img src="${post.images[0]}" alt="" />
-            <span class="main-posts-title">${post.title}</span>
-            <span class="main-posts-species species-dog">${post.animal}</span>
-            <span class="main-posts-place">${post.city} ${post.district}</span>
-        </a>
+          <div class="main-posts-img-container">
+            <div class="main-posts-img" style="background-image:url(${
+              post.images.length
+                ? post.images[0]
+                : 'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif'
+            })">
+            </div>
+          </div>
+          <span class="main-posts-title">${post.title}</span>
+          <span class="main-posts-species species-${
+            post.animal === '강아지' ? 'dog' : post.animal === '고양이' ? 'cat' : 'etc'
+          }">${post.animal}</span>
+          <span class="main-posts-place">${post.city} ${post.district}</span>
+          </a>
         </div>`;
       });
+
       $('.main-posts').innerHTML = postlist;
+    } else {
+      $('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>';
     }
   } catch (e) {
     console.error(e);
@@ -137,6 +167,9 @@ $findButton.onclick = async () => {
 $('.main-posts').onclick = ({ target }) => {
   if (target.classList.contains('main-posts')) return;
   try {
+    sessionStorage.setItem('pageNow', page);
+    sessionStorage.setItem('scrollPosition', window.scrollY);
+
     moveToPage(`/post/${target.dataset.id}`);
   } catch (error) {
     console.log(error);
@@ -152,7 +185,7 @@ $('.arrow-up').onclick = () => {
 };
 
 window.onscroll = _.throttle(() => {
-  $('.arrow-up').classList.toggle('hidden', window.pageYOffset <= 300);
+  $('.arrow-up').classList.toggle('hidden', window.pageYOffset <= 150);
 }, 100);
 
 $('.main-nav-find').addEventListener('change', e => {
@@ -161,6 +194,19 @@ $('.main-nav-find').addEventListener('change', e => {
     $('.main-nav-find-btn').removeAttribute('disabled');
   } else {
     $('.main-nav-find-btn').setAttribute('disabled', '');
+  }
+});
+
+window.addEventListener('pageshow', async e => {
+  if (e.persisted || window.performance) {
+    if (sessionStorage.getItem('pageNow')) {
+      page = JSON.parse(sessionStorage.getItem('pageNow'));
+      const { data: posts } = await getPrePosts(page);
+      $('.main-posts').innerHTML = '';
+      setPosts(posts);
+      observeLastItem(inetersectionObserver);
+      window.scroll(0, JSON.parse(sessionStorage.getItem('scrollPosition')));
+    }
   }
 });
 
