@@ -1,11 +1,15 @@
 import { fetchHtml } from './requests';
 
+export const createDocument = html => {
+  document.open();
+  document.write(html);
+  document.close();
+};
+
 export const render = async path => {
   try {
     const { data } = await fetchHtml(path);
-    document.open();
-    document.write(data);
-    document.close();
+    createDocument(data);
   } catch (error) {
     history.back();
     console.error(error);
@@ -14,7 +18,7 @@ export const render = async path => {
 
 export const handleHistory = async event => {
   try {
-    await render(event.state ? event.state.path : '/');
+    await render(event?.state?.path || '/');
   } catch (err) {
     console.error(err);
   }

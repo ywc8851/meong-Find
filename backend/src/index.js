@@ -5,7 +5,7 @@ const path = require('path');
 const upload = require('./upload');
 const bcrypt = require('bcrypt');
 
-const { auth, blockLoginUser } = require('./auth.js');
+const { auth, blockLoginUser, kakaoLogin } = require('./auth.js');
 const { users, posts, comments } = require('../db');
 
 const { emailOptions, transporter } = require('./mail.js');
@@ -31,6 +31,7 @@ const getCommentsByPostId = lists =>
 
 // 루트페이지(메인페이지)
 app.get('/', (req, res) => {
+  console.log('root');
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
@@ -279,7 +280,7 @@ app.post('/users/signup', (req, res) => {
 });
 
 //로그인
-app.post('/user/signin', (req, res) => {
+app.post('/user/login', (req, res) => {
   const { email, password, autoLogin } = req.body;
   const [user] = users.filter({ email, isValid: true });
   let iscorrectPwd;
@@ -301,8 +302,12 @@ app.post('/user/signin', (req, res) => {
   res.send();
 });
 
+app.get('/user/logout/oauth/kakao', (req, res) => {
+  res.clearCookie('accessToken').clearCookie('kakaoAccessToken').redirect('/');
+});
+
 //로그아웃
-app.get('/user/signout', (req, res) => {
+app.post('/user/logout', (req, res) => {
   res.clearCookie('accessToken').redirect('/');
 });
 
@@ -319,7 +324,6 @@ app.post('/users/delete/:id', (req, res) => {
   } else {
     users.update(id, { isValid: false });
     res.clearCookie('accessToken').sendStatus(204);
-    res.send();
   }
 });
 
@@ -363,6 +367,27 @@ app.get('/user/login', auth, (req, res) => {
 app.post('/upload', upload.array('img', 4), (req, res) => {
   console.log('UPLOAD SUCCESS!', req.files);
   res.json({ success: true, files: req.files });
+});
+
+app.get('/user/login/restapikey/kakao', (req, res) => {
+  res.send(process.env.KAKAO_REST_API_KEY);
+});
+
+app.get('/user/login/oauth/kakao', kakaoLogin, (req, res) => {
+  const { email } = req.user;
+  const { access_token, expires_in } = req.access_token;
+  const accessToken = createToken(email, '1d');
+
+  res
+    .cookie('accessToken', accessToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
+      httpOnly: true,
+    })
+    .cookie('kakaoAccessToken', access_token, {
+      maxAge: expires_in,
+      httpOnly: true,
+    })
+    .redirect('/');
 });
 
 // 존재하는 페이지가 아니라면 , 404 뜨게하세요.

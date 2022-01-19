@@ -133,7 +133,11 @@ const options = {
 };
 
 export const handleSelectOptions = ({ $city, $district }) => {
-  const city = $city.options[$city.selectedIndex].textContent;
+  let city = $city?.options[$city?.selectedIndex]?.textContent;
+  if (!city) {
+    city = '서울특별시';
+    $city.value = '서울특별시';
+  }
   $district.innerHTML = `<option selected disabled>구</option>${options[city]
     .map(district => `<option>${district}</option>`)
     .join()}`;
