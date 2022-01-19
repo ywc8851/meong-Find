@@ -67,7 +67,7 @@ const registPost = async e => {
 
     state.title = state.title.trim();
     state.type = state.type.trim();
-    state.content = state.content.trim();
+    state.content = state.content.trim().replaceAll('\n', '<br>');
 
     const hasEmptyInput = checkEmptyInput();
     if (hasEmptyInput) return;
@@ -109,7 +109,7 @@ const setValueByUser = async user => {
     $city.value = post.city;
     $district.value = post.district;
     $animalType.value = post.type;
-    $content.value = post.content;
+    $content.value = post.content.replaceAll('<br>', '\n');
     setImages(post.images);
     state = { ...post };
   } else setSelectOptionByUser(user);
