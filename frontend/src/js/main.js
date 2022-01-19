@@ -3,8 +3,7 @@ import { moveToPage } from './router';
 import { getMainPosts, findPosts, getSearchTitle, getAllPosts, getPrePosts } from './requests';
 import { $ } from './helpers/utils';
 import { handleSelectOptions } from './helpers/select';
-import _, { last } from 'lodash';
-import posts from '../../../backend/db/posts';
+import _ from 'lodash';
 
 const $city = $('#city');
 const $district = $('#district');
