@@ -122,12 +122,19 @@
   }
 }
 
-select {
-  width: rem(100px);
-  padding: rem(5px);
-  border: 1px solid #999;
-  border-radius: 3px;
-  // -webkit-appearance: none;
-  // -moz-appearance: none;
-  appearance: none;
+.posting-option {
+  display: flex;
 }
+
+.animal-select__type {
+  width: rem(200px);
+}
+// select {
+//   width: rem(100px);
+//   padding: rem(5px);
+//   border: 1px solid #999;
+//   border-radius: 3px;
+//   -webkit-appearance: none;
+//   -moz-appearance: none;
+//   appearance: none;
+// }
