@@ -54,7 +54,7 @@
 // 캐러셀
 .carousel {
   &__container {
-    // opacity: 0;
+    opacity: 1;
     background-color: whitesmoke;
     width: rem(600px);
     height: rem(450px);
@@ -64,11 +64,6 @@
   &__img-container {
     display: inline-flex;
 
-    --currentSlide: 0;
-    --duration: 250;
-    transition: transform calc(var(--duration) * 1ms) ease-out;
-    transform: translate3D(calc(var(--currentSlide) * -100%), 0, 0);
-
     > div {
       display: inline-block;
       width: rem(600px);
@@ -77,8 +72,18 @@
       background-size: cover;
     }
   }
+  &__multi {
+    --currentSlide: 1;
+    --duration: 0;
+
+    transition: transform calc(var(--duration) * 1ms) ease-out;
+    transform: translate3D(calc(var(--currentSlide) * rem(-600px)), 0, 0);
+  }
   &__prev,
   &__next {
+    width: rem(30px);
+    height: rem(30px);
+    display: flex;
     position: absolute;
     top: 250px;
   }
@@ -87,6 +92,10 @@
   }
   &__next {
     right: rem(99px);
+  }
+  &__prev > i,
+  &__next > i {
+    pointer-events: none;
   }
 }
 
