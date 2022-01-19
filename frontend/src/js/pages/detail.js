@@ -13,14 +13,11 @@ import { moveToPage, render } from '../router';
 
 const $commentTextInput = $('.detail__comment-input-tag');
 const $commentSubmitButton = $('.detail__comment-submit');
-const $carouselSlider = $('.carousel__img-container');
+const $carouselSliderMultiImg = $('.carousel__multi');
+const $carouselSliderSingleImg = $('.carousel__single');
+
 let $commentInput = null;
 let $editConfirmButton = null;
-
-let imgLength = 0;
-let maxCarouselSlideNumber;
-let durationSize;
-let INITIAL_SLIDE;
 
 const postId = history.state.path.split('/')[2];
 
@@ -63,6 +60,76 @@ const addComment = async (user, content) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const carouselSlide = imageList => {
+  const SLIDE_DURATION = 250;
+  let maxCarouselSlide,
+    canSlide = true;
+
+  const renderCarousel = (imageList, isSingleImage) => {
+    if (isSingleImage) {
+      $carouselSliderMultiImg.classList.add('hidden');
+      $carouselSliderSingleImg.innerHTML += `
+      <div class="detail__img" style="background-image : url(${imageList[0]});" ></div>
+      `;
+    }
+    if (!isSingleImage) {
+      $carouselSliderSingleImg.classList.add('hidden');
+
+      imageList.forEach(img => {
+        $carouselSliderMultiImg.innerHTML += `
+           <div class="detail__img" style="background-image : url(${img});" ></div>`;
+      });
+      $('.carousel__prev-next').innerHTML += `
+          <button class="carousel__prev" type="button">
+            <i class="fas fa-chevron-left fa-2x"></i>
+          </button>
+          <button class="carousel__next" type="button">
+          <i class="fas fa-chevron-right fa-2x"></i>
+          </button>
+      `;
+    }
+  };
+  // 업로드한 이미지가 한 개 일 때
+  if (imageList.length === 1) {
+    renderCarousel(imageList, true);
+  } else {
+    const imageListForCarousel = [imageList[imageList.length - 1], ...imageList, imageList[0]];
+    maxCarouselSlide = imageListForCarousel.length - 1;
+    renderCarousel(imageListForCarousel, false);
+  }
+
+  const setCarouselStyle = (currentSlide, duration) => {
+    $carouselSliderMultiImg.style.setProperty('--currentSlide', currentSlide);
+    $carouselSliderMultiImg.style.setProperty('--duration', duration);
+  };
+
+  let currentSlide = +getComputedStyle($carouselSliderMultiImg).getPropertyValue('--currentSlide');
+  $carouselSliderMultiImg.addEventListener('transitionend', () => {
+    if (currentSlide < maxCarouselSlide && currentSlide > 0) return;
+
+    if (currentSlide >= maxCarouselSlide) currentSlide = 1;
+    if (currentSlide <= 0) currentSlide = maxCarouselSlide - 1;
+
+    setCarouselStyle(currentSlide, 0);
+  });
+
+  $('.carousel__prev-next').addEventListener('click', ({ target }) => {
+    if (canSlide) {
+      canSlide = false;
+      setTimeout(() => {
+        canSlide = true;
+      }, SLIDE_DURATION + 50);
+      if (target.classList.contains('carousel__prev')) {
+        currentSlide -= 1;
+      }
+      if (target.classList.contains('carousel__next')) {
+        currentSlide += 1;
+      }
+      setCarouselStyle(currentSlide, SLIDE_DURATION);
+    }
+  });
 };
 
 const bindEvents = async () => {
@@ -163,31 +230,6 @@ const bindEvents = async () => {
       }
     }
   });
-
-  // 이미지 캐러셀
-  let SLIDE_DURATION = 250;
-  $carouselSlider.addEventListener('transitionend', () => {
-    let currentSlide = +getComputedStyle($('.carousel__img-container')).getPropertyValue('--currentSlide');
-
-    if (currentSlide < maxCarouselSlideNumber && currentSlide > 0) return;
-    if (currentSlide >= maxCarouselSlideNumber) currentSlide = durationSize;
-    if (currentSlide <= 0) currentSlide = maxCarouselSlideNumber - durationSize;
-
-    $carouselSlider.style.setProperty('--currentSlide', currentSlide);
-    $carouselSlider.style.setProperty('--duration', 0);
-  });
-  $('.carousel__prev').addEventListener('click', () => {
-    let currentSlide = +getComputedStyle($('.carousel__img-container')).getPropertyValue('--currentSlide');
-    currentSlide -= durationSize;
-    $carouselSlider.style.setProperty('--currentSlide', currentSlide);
-    $carouselSlider.style.setProperty('--duration', SLIDE_DURATION);
-  });
-  $('.carousel__next').addEventListener('click', () => {
-    let currentSlide = +getComputedStyle($('.carousel__img-container')).getPropertyValue('--currentSlide');
-    currentSlide += durationSize;
-    $carouselSlider.style.setProperty('--currentSlide', currentSlide);
-    $carouselSlider.style.setProperty('--duration', SLIDE_DURATION);
-  });
 };
 
 const fetchPostData = async id => {
@@ -209,16 +251,9 @@ const fetchPostData = async id => {
     `;
 
     if (post.images.length) {
-      const imageList = [post.images[post.images.length - 1], ...post.images, post.images[0]];
-      imageList.forEach(img => {
-        $('.carousel__img-container').innerHTML += `
-      <div class="detail__img" style="background-image : url(${img});" ></div>`;
-      });
-      imgLength = imageList.length;
-      durationSize = 1 / imgLength;
-      maxCarouselSlideNumber = (imageList.length - 1) * durationSize;
-      $carouselSlider.style.setProperty('--currentSlide', durationSize);
+      carouselSlide(post.images);
     } else {
+      $carouselSliderMultiImg.classList.add('hidden');
       $('.carousel__img-container').innerHTML += `
         <div class="detail__img" style="background-image : url(https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/1/no_image.gif);" ></div>`;
     }
@@ -262,9 +297,6 @@ const init = () => {
   const urlpath = location.href.split('/');
   const postid = urlpath[urlpath.length - 1];
   fetchPostData(postid);
-  // window.onload = () => {
-  //   $('.carousel__container').style.opacity = 1;
-  // };
 };
 
 window.addEventListener('DOMContentLoaded', init);
