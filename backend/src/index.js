@@ -23,8 +23,8 @@ const createToken = (email, expirePeriod) =>
 
 const urls = ['/signin', '/signup', '/detail', '/mypage', '/mypageEdit'];
 
-const getCommentsByPostId = (lists) =>
-  lists.map((list) => {
+const getCommentsByPostId = lists =>
+  lists.map(list => {
     const [{ nickname }] = users.filter({ id: list.writerId });
     return { ...list, writerNickname: nickname };
   });
@@ -166,7 +166,7 @@ app.get('/comments/:idList', (req, res) => {
   const commentList = JSON.parse(id);
 
   try {
-    const lists = commentList.map((id) => comments.filter({ id })[0]);
+    const lists = commentList.map(id => comments.filter({ id })[0]);
     const listsAddedWriter = getCommentsByPostId(lists);
 
     res.send(listsAddedWriter);
@@ -220,7 +220,9 @@ app.delete('/post/comment/:postId/:commentId', (req, res) => {
     comments.delete(commentId);
 
     const [post] = posts.filter({ id: postId });
-    const deletedComments = post.comments.filter((comment) => comment !== commentId);
+    const deletedComments = post.comments.filter(
+      comment => comment !== commentId
+    );
     posts.update(postId, { comments: deletedComments });
 
     const lists = comments.filter({ postId });
@@ -239,7 +241,7 @@ app.delete('/post/:id', (req, res) => {
     posts.delete(id);
 
     // post id에 따른 comment 삭제
-    comments.filter({ postId: id }).map((comment) => comments.delete(comment.id));
+    comments.filter({ postId: id }).map(comment => comments.delete(comment.id));
     res.send();
   } catch (error) {
     console.error(error);
@@ -402,6 +404,7 @@ app.get('/user/login/oauth/kakao', kakaoLogin, (req, res) => {
 
 // 존재하는 페이지가 아니라면 , 404 뜨게하세요.
 app.get('*', (req, res) => {
+  console.log('???');
   res.sendFile(path.join(__dirname, '../public/html/404.html'));
 });
 
