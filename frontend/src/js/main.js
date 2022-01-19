@@ -3,7 +3,8 @@ import { moveToPage } from './router';
 import { getMainPosts, findPosts, getSearchTitle, getAllPosts, getPrePosts } from './requests';
 import { $ } from './helpers/utils';
 import { handleSelectOptions } from './helpers/select';
-import _ from 'lodash';
+import _, { last } from 'lodash';
+import posts from '../../../backend/db/posts';
 
 const $city = $('#city');
 const $district = $('#district');
@@ -12,8 +13,7 @@ let page = 1;
 let PAGE_NUM = 6;
 let total = 0;
 
-const setPosts = posts => {
-  $('.main-scroll').classList.remove('hidden');
+const setPosts = (posts, page) => {
   const fragment = document.createDocumentFragment();
 
   posts.forEach(post => {
@@ -39,49 +39,47 @@ const setPosts = posts => {
   });
 
   $('.main-posts').appendChild(fragment);
+  const $observerDiv = document.createElement('div');
+  $observerDiv.classList.add('main-scroll');
+  $('.main-posts').appendChild($observerDiv);
 };
 
 //데이터 추가함수
 const loadPosts = async page => {
   const { data: posts } = await getMainPosts(page);
   setPosts(posts);
-  console.log('loadPosts', page);
+  observeLastItem(inetersectionObserver);
 };
 
 const observerOption = {
   root: null,
   rootMargin: '0px 0px 0px 0px',
-  threshold: 1.0,
+  threshold: 0.5,
 };
 
-const observeLastChild = intersectionObserver => {
-  if (page * PAGE_NUM <= total) {
-    inetersectionObserver.observe($('.main-scroll'));
-  } else {
-    intersectionObserver.disconnect();
-  }
+const observeLastItem = intersectionObserver => {
+  intersectionObserver.observe($('.main-scroll'));
 };
 
-const inetersectionObserver = new IntersectionObserver((entries, observe) => {
+const inetersectionObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      if (page * PAGE_NUM <= total) {
-        loadPosts(page++);
+      observer.unobserve(entry.target);
+      $('.main-posts').removeChild($('.main-scroll'));
+      if (Math.ceil(total / 6) >= page) {
+        loadPosts(++page);
       }
-      observeLastChild(observe);
     }
   });
 }, observerOption);
 
-const render = (() => {
-  window.onload = async () => {
-    try {
-      observeLastChild(inetersectionObserver);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-})();
+window.onload = async () => {
+  try {
+    loadPosts(page);
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 const bindEvents = async () => {
   header.bindEvents();
@@ -107,7 +105,7 @@ $searchInput.onkeypress = ({ key }) => {
   }
   $navSearchButton.disabled = false;
 
-  $searchInput.value = '';
+  // $searchInput.value = '';
   filterTitle(content);
 };
 $navSearchButton.onclick = () => {
@@ -132,7 +130,6 @@ const filterTitle = async inputValue => {
 const $findButton = $('.main-nav-find-btn');
 
 $findButton.onclick = async () => {
-  $('.main-scroll').classList.add('hidden');
   const [city, district, species] = [$city.value, $district.value, $('#kind').value];
   try {
     const { data: posts } = await findPosts(city, district, species);
@@ -209,6 +206,7 @@ window.addEventListener('pageshow', async e => {
       const { data: posts } = await getPrePosts(page);
       $('.main-posts').innerHTML = '';
       setPosts(posts);
+      observeLastItem(inetersectionObserver);
       window.scroll(0, JSON.parse(sessionStorage.getItem('scrollPosition')));
     }
   }
