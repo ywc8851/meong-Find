@@ -219,6 +219,7 @@ const bindEvents = async () => {
     if (!e.target.matches('button')) return;
 
     if (e.target.matches('.posting-edit-btn')) {
+      sessionStorage.setItem('isEditingPost', true);
       moveToPage(`/update/${postId}`);
     }
     if (e.target.matches('.posting-del-btn')) {

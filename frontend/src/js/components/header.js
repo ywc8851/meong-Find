@@ -60,6 +60,7 @@ const header = {
     });
 
     $('.login__posting-btn').addEventListener('click', () => {
+      sessionStorage.setItem('isEditingPost', false);
       moveToPage('/register');
     });
 
