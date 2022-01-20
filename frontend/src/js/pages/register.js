@@ -93,7 +93,7 @@ const setSelectOptionByUser = ({ id, city, district }) => {
 };
 
 const setValueByUser = async user => {
-  if (sessionStorage.getItem('isEditingPost')) {
+  if (JSON.parse(sessionStorage.getItem('isEditingPost'))) {
     isEdit = true;
     $('.register-edit-btn').classList.remove('hidden');
     $('.register-submit-btn').classList.add('hidden');
