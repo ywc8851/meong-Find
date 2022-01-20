@@ -145,10 +145,31 @@ const carouselSlide = imageList => {
 const bindEvents = async () => {
   const user = await header.bindEvents();
 
+  $('.detail__comment-input-tag').addEventListener('keydown', e => {
+    if (!((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10))) return;
+
+    addComment(user, e.target.value.trim().replaceAll('\n', '<br>'));
+    e.target.value = '';
+  });
+
   $commentSubmitButton.addEventListener('click', () => {
     if (!$commentTextInput.value) return;
     addComment(user, $commentTextInput.value.trim().replaceAll('\n', '<br>'));
     $commentTextInput.value = '';
+  });
+
+  $('.detail__comment-list').addEventListener('keydown', async e => {
+    if (!e.target.matches('.detail__comment-edit-content')) return;
+    if (!((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10))) return;
+    const { id: commentId } = e.target.parentElement.dataset;
+    const commentValue = e.target.value.trim().replaceAll('\n', '<br>');
+
+    try {
+      const { data: comments } = await updateComment(commentId, commentValue);
+      commentRender(user, comments);
+    } catch (error) {
+      console.error(error);
+    }
   });
 
   $('.detail__comment-list').addEventListener('click', async ({ target }) => {
@@ -171,11 +192,6 @@ const bindEvents = async () => {
       try {
         const { data: comments } = await updateComment(commentId, commentValue.trim().replaceAll('\n', '<br>'));
         commentRender(user, comments);
-
-        $commentInput.classList.remove('hidden');
-        $commentEditInput.classList.add('hidden');
-        target.classList.add('hidden');
-        $parent(target, '.comment-edit-del').classList.remove('hidden');
       } catch (error) {
         console.error(error);
       }
