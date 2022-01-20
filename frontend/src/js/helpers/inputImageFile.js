@@ -17,7 +17,7 @@ const createImage = (image, index) =>
   </div>`;
 
 const renderImage = () => {
-  $imagePreview.innerHTML = images.map((image, i) => createImage(image, i)).join();
+  $imagePreview.innerHTML = images.map((image, i) => createImage(image, i)).join('');
 };
 
 const restrictImages = _images => {

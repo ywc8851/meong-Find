@@ -9,7 +9,7 @@ import {
   deleteComment,
   deletePost,
 } from '../requests';
-import { moveToPage, render } from '../router';
+import { moveToPage } from '../router';
 
 const $commentTextInput = $('.detail__comment-input-tag');
 const $commentSubmitButton = $('.detail__comment-submit');
@@ -75,10 +75,12 @@ const carouselSlide = imageList => {
   const renderCarousel = (imageList, isSingleImage) => {
     if (isSingleImage) {
       $carouselSliderMultiImg.classList.add('hidden');
+
       $carouselSliderSingleImg.innerHTML += `
       <div class="detail__img" style="background-image : url(${imageList[0]});" ></div>
       `;
     }
+
     if (!isSingleImage) {
       $carouselSliderSingleImg.classList.add('hidden');
 
@@ -86,6 +88,7 @@ const carouselSlide = imageList => {
         $carouselSliderMultiImg.innerHTML += `
            <div class="detail__img" style="background-image : url(${img});" ></div>`;
       });
+
       $('.carousel__prev-next').innerHTML += `
           <button class="carousel__prev" type="button">
             <i class="fas fa-chevron-left fa-2x"></i>
@@ -111,6 +114,7 @@ const carouselSlide = imageList => {
   };
 
   let currentSlide = +getComputedStyle($carouselSliderMultiImg).getPropertyValue('--currentSlide');
+
   $carouselSliderMultiImg.addEventListener('transitionend', () => {
     if (currentSlide < maxCarouselSlide && currentSlide > 0) return;
 
@@ -126,6 +130,7 @@ const carouselSlide = imageList => {
       setTimeout(() => {
         canSlide = true;
       }, SLIDE_DURATION + 50);
+
       if (target.classList.contains('carousel__prev')) {
         currentSlide -= 1;
       }
@@ -175,6 +180,7 @@ const bindEvents = async () => {
         console.error(error);
       }
     }
+
     // 삭제했을 때
     if (target.classList.contains('comment-del-btn')) {
       const { id: commentId } = target.parentElement.parentElement.dataset;

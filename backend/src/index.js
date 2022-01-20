@@ -5,8 +5,8 @@ const path = require("path");
 const upload = require("./upload");
 const bcrypt = require("bcrypt");
 
-const { auth, blockLoginUser } = require("./auth.js");
-const { users, posts, comments } = require("../db");
+const { auth, blockLoginUser, kakaoLogin } = require('./auth.js');
+const { users, posts, comments } = require('../db');
 
 const { emailOptions, transporter } = require("./mail.js");
 
@@ -23,8 +23,8 @@ const createToken = (email, expirePeriod) =>
 
 const urls = ["/signin", "/signup", "/detail", "/mypage", "/mypageEdit"];
 
-const getCommentsByPostId = (lists) =>
-  lists.map((list) => {
+const getCommentsByPostId = lists =>
+  lists.map(list => {
     const [{ nickname }] = users.filter({ id: list.writerId });
     return { ...list, writerNickname: nickname };
   });
@@ -165,7 +165,7 @@ app.get("/comments/:idList", (req, res) => {
   const commentList = JSON.parse(id);
 
   try {
-    const lists = commentList.map((id) => comments.filter({ id })[0]);
+    const lists = commentList.map(id => comments.filter({ id })[0]);
     const listsAddedWriter = getCommentsByPostId(lists);
 
     res.send(listsAddedWriter);
@@ -227,7 +227,7 @@ app.delete("/post/comment/:postId/:commentId", (req, res) => {
 
     const [post] = posts.filter({ id: postId });
     const deletedComments = post.comments.filter(
-      (comment) => comment !== commentId
+      comment => comment !== commentId
     );
     posts.update(postId, { comments: deletedComments });
 
@@ -247,9 +247,7 @@ app.delete("/post/:id", (req, res) => {
     posts.delete(id);
 
     // post id에 따른 comment 삭제
-    comments
-      .filter({ postId: id })
-      .map((comment) => comments.delete(comment.id));
+    comments.filter({ postId: id }).map(comment => comments.delete(comment.id));
     res.send();
   } catch (error) {
     console.error(error);
@@ -300,7 +298,7 @@ app.post("/users/signup", (req, res) => {
 });
 
 //로그인
-app.post("/user/signin", (req, res) => {
+app.post('/user/login', (req, res) => {
   const { email, password, autoLogin } = req.body;
   const [user] = users.filter({ email, isValid: true });
   let iscorrectPwd;
@@ -322,9 +320,13 @@ app.post("/user/signin", (req, res) => {
   res.send();
 });
 
+app.get('/user/logout/oauth/kakao', (req, res) => {
+  res.clearCookie('accessToken').clearCookie('kakaoAccessToken').redirect('/');
+});
+
 //로그아웃
-app.get("/user/signout", (req, res) => {
-  res.clearCookie("accessToken").redirect("/");
+app.post('/user/logout', (req, res) => {
+  res.clearCookie('accessToken').redirect('/');
 });
 
 // 회원탈퇴를 위해 비밀번호 확인
@@ -339,8 +341,7 @@ app.post("/users/delete/:id", (req, res) => {
     return res.status(401).send("비밀번호가 일치하지 않습니다.");
   } else {
     users.update(id, { isValid: false });
-    res.clearCookie("accessToken").sendStatus(204);
-    res.send();
+    res.clearCookie('accessToken').sendStatus(204);
   }
 });
 
@@ -384,6 +385,27 @@ app.get("/user/login", auth, (req, res) => {
 app.post("/upload", upload.array("img", 4), (req, res) => {
   console.log("UPLOAD SUCCESS!", req.files);
   res.json({ success: true, files: req.files });
+});
+
+app.get('/user/login/restapikey/kakao', (req, res) => {
+  res.send(process.env.KAKAO_REST_API_KEY);
+});
+
+app.get('/user/login/oauth/kakao', kakaoLogin, (req, res) => {
+  const { email } = req.user;
+  const { access_token, expires_in } = req.access_token;
+  const accessToken = createToken(email, '1d');
+
+  res
+    .cookie('accessToken', accessToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
+      httpOnly: true,
+    })
+    .cookie('kakaoAccessToken', access_token, {
+      maxAge: expires_in,
+      httpOnly: true,
+    })
+    .redirect('/');
 });
 
 // 존재하는 페이지가 아니라면 , 404 뜨게하세요.

@@ -107,6 +107,7 @@ const setValueByUser = async user => {
 
     $title.value = post.title;
     $city.value = post.city;
+    handleSelectOptions({ $city, $district });
     $district.value = post.district;
     $animalType.value = post.type;
     $content.value = post.content.replaceAll('<br>', '\n');
