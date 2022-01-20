@@ -11,6 +11,7 @@ const header = {
     $('.logo-container').addEventListener('click', async () => {
       try {
         moveToPage('/');
+        sessionStorage.removeItem('filterOption');
       } catch (error) {
         console.error(error);
       }
