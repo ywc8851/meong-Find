@@ -12,7 +12,7 @@ const $searchInput = $('.search-input');
 const $navSearchButton = $('.main-nav-search-btn');
 
 let page = 1;
-let PAGE_NUM = 6;
+const PAGE_NUM = 6;
 let total = 0;
 
 const setPosts = (posts, page) => {
@@ -93,7 +93,7 @@ const inetersectionObserver = new IntersectionObserver((entries, observer) => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
       $('.main-posts').removeChild($('.main-scroll'));
-      if (Math.ceil(total / 6) >= page) {
+      if (Math.ceil(total / PAGE_NUM) >= page) {
         page += 1;
         loadPosts();
       }
@@ -132,14 +132,11 @@ $searchInput.onkeypress = ({ key }) => {
   }
   $navSearchButton.disabled = false;
 
-  // $searchInput.value = '';
   filterTitle(content);
-  sessionStorage.setItem('filterOption', JSON.stringify({ search: $searchInput.value }));
 };
 
 $navSearchButton.onclick = () => {
   filterTitle($searchInput.value);
-  sessionStorage.setItem('filterOption', JSON.stringify({ search: $searchInput.value }));
 };
 
 const filterTitle = async inputValue => {
@@ -149,6 +146,7 @@ const filterTitle = async inputValue => {
     if (posts.length > 0) {
       $('.main-posts').innerHTML = '';
       setPosts(posts);
+      sessionStorage.setItem('filterOption', JSON.stringify({ search: $searchInput.value }));
     } else {
       $('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>';
     }
