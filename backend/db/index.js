@@ -5,7 +5,7 @@ const users = require('./users');
 const posts = require('./posts');
 const comments = require('./comments');
 
-const handleData = (data) => {
+const handleData = data => {
   let datas = data;
   return {
     get() {
@@ -22,31 +22,27 @@ const handleData = (data) => {
       return _newData;
     },
     delete(id) {
-      datas = datas.filter((data) => data.id !== id);
+      datas = datas.filter(data => data.id !== id);
     },
     filter(payload) {
       let filtered = datas;
-      Object.keys(payload).forEach((key) => {
-        filtered = filtered.filter((data) => data[key] === payload[key]);
+      Object.keys(payload).forEach(key => {
+        filtered = filtered.filter(data => data[key] === payload[key]);
       });
       return filtered;
     },
     update(id, payload) {
-      datas = datas.map((data) => (data.id === id ? { ...data, ...payload } : data));
-      return datas.find((data) => data.id === id);
+      datas = datas.map(data => (data.id === id ? { ...data, ...payload } : data));
+      return datas.find(data => data.id === id);
     },
     search(payload) {
       return datas.filter(
-        (data) =>
-          data.title.includes(payload.title) ||
-          data.animal.includes(payload.title) ||
-          data.type.includes(payload.title)
+        data =>
+          data.title.includes(payload.title) || data.animal.includes(payload.title) || data.type.includes(payload.title)
       );
     },
-    pageFilter(payload) {
-      return datas.filter(
-        (_, index) => index >= (payload.page - 1) * 6 && index < payload.page * 6
-      );
+    pageFilter(page, posts = datas) {
+      return posts.filter((_, index) => index >= (page - 1) * 6 && index < page * 6);
     },
     pageReloadFilter(payload) {
       return datas.filter((_, index) => index < payload.page * 6);

@@ -3,13 +3,16 @@ import { moveToPage } from './router';
 import { getMainPosts, findPosts, getSearchTitle, getAllPosts, getPrePosts } from './requests';
 import { $ } from './helpers/utils';
 import { handleSelectOptions } from './helpers/select';
+import { setPostType } from './helpers/setPostType';
 import _ from 'lodash';
 
 const $city = $('#city');
 const $district = $('#district');
+const $searchInput = $('.search-input');
+const $navSearchButton = $('.main-nav-search-btn');
 
 let page = 1;
-let PAGE_NUM = 6;
+const PAGE_NUM = 6;
 let total = 0;
 
 const setPosts = (posts, page) => {
@@ -43,11 +46,36 @@ const setPosts = (posts, page) => {
   $('.main-posts').appendChild($observerDiv);
 };
 
+const postApiTypes = {
+  all: {
+    parmas: null,
+    api: getMainPosts,
+  },
+  search: {
+    params: '',
+    api: getSearchTitle,
+  },
+  find: {
+    params: {
+      city: '',
+      district: '',
+      kind: '',
+    },
+    api: findPosts,
+  },
+};
+
+const getApi = async (api, ...params) => await api(page, ...params);
+
 //데이터 추가함수
-const loadPosts = async page => {
-  const { data: posts } = await getMainPosts(page);
+const loadPosts = async () => {
+  const apiType = postApiTypes[setPostType()?.type];
+  const { data: posts } = await getApi(apiType?.api, apiType?.params);
   setPosts(posts);
-  observeLastItem(inetersectionObserver);
+
+  if (setPostType()?.type === 'all') {
+    observeLastItem(inetersectionObserver);
+  }
 };
 
 const observerOption = {
@@ -65,8 +93,9 @@ const inetersectionObserver = new IntersectionObserver((entries, observer) => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
       $('.main-posts').removeChild($('.main-scroll'));
-      if (Math.ceil(total / 6) >= page) {
-        loadPosts(++page);
+      if (Math.ceil(total / PAGE_NUM) >= page) {
+        page += 1;
+        loadPosts();
       }
     }
   });
@@ -74,7 +103,9 @@ const inetersectionObserver = new IntersectionObserver((entries, observer) => {
 
 window.onload = async () => {
   try {
-    loadPosts(page);
+    const apiType = setPostType().type;
+    postApiTypes[apiType].params = setPostType().value;
+    loadPosts();
   } catch (e) {
     console.error(e);
   }
@@ -90,9 +121,6 @@ $city.onchange = () => {
   handleSelectOptions({ $city, $district });
 };
 
-const $searchInput = $('.search-input');
-const $navSearchButton = $('.main-nav-search-btn');
-
 $searchInput.onkeypress = ({ key }) => {
   if (key !== 'Enter') return;
 
@@ -104,20 +132,21 @@ $searchInput.onkeypress = ({ key }) => {
   }
   $navSearchButton.disabled = false;
 
-  // $searchInput.value = '';
   filterTitle(content);
 };
+
 $navSearchButton.onclick = () => {
   filterTitle($searchInput.value);
 };
 
 const filterTitle = async inputValue => {
   try {
-    const { data: posts } = await getSearchTitle(inputValue);
+    const { data: posts } = await getSearchTitle(null, { search: inputValue });
 
     if (posts.length > 0) {
       $('.main-posts').innerHTML = '';
       setPosts(posts);
+      sessionStorage.setItem('filterOption', JSON.stringify({ search: $searchInput.value }));
     } else {
       $('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>';
     }
@@ -157,6 +186,7 @@ $findButton.onclick = async () => {
       });
 
       $('.main-posts').innerHTML = postlist;
+      sessionStorage.setItem('filterOption', JSON.stringify({ city, district, species }));
     } else {
       $('.main-posts').innerHTML = '<div class="search-error">해당하는 게시물이 존재하지 않습니다.</div>';
     }
@@ -205,17 +235,17 @@ $('.main-nav-find').addEventListener('change', e => {
   }
 });
 
-window.addEventListener('pageshow', async e => {
-  if (e.persisted || window.performance) {
-    if (sessionStorage.getItem('pageNow')) {
-      page = JSON.parse(sessionStorage.getItem('pageNow'));
-      const { data: posts } = await getPrePosts(page);
-      $('.main-posts').innerHTML = '';
-      setPosts(posts);
-      observeLastItem(inetersectionObserver);
-      window.scroll(0, JSON.parse(sessionStorage.getItem('scrollPosition')));
-    }
-  }
-});
+// window.addEventListener('pageshow', async e => {
+//   if (e.persisted || window.performance) {
+//     if (sessionStorage.getItem('pageNow')) {
+//       page = JSON.parse(sessionStorage.getItem('pageNow'));
+//       const { data: posts } = await getPrePosts(page);
+//       $('.main-posts').innerHTML = '';
+//       setPosts(posts);
+//       observeLastItem(inetersectionObserver);
+//       window.scroll(0, JSON.parse(sessionStorage.getItem('scrollPosition')));
+//     }
+//   }
+// });
 
 window.addEventListener('DOMContentLoaded', bindEvents);
