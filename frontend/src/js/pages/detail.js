@@ -18,7 +18,7 @@ const $carouselSliderSingleImg = $('.carousel__single');
 
 let $commentInput = null;
 let $editConfirmButton = null;
-
+let $commentEditInput = null;
 const postId = history.state.path.split('/')[2];
 
 const commentRender = (user, comments) => {
@@ -29,10 +29,15 @@ const commentRender = (user, comments) => {
         `
         <li data-id="${comment.id}" class="detail__comment-li">
           <span class="detail__comment-writer">${comment.writerNickname}</span>
+          <span class="detail__comment-date">${comment.createdAt}</span>
           <label for="detail__comment-content" class=" sr-only">댓글</label>
-          <input id="detail__comment-content" class="detail__comment-content" type="text" value="${
-            comment.content
-          }" disabled />
+          <p class="detail__comment-content">${comment.content}</p>
+          <textarea
+          name="detail__comment-edit-content" 
+          id="detail__comment-edit-content"
+          class="detail__comment-edit-content hidden"
+          cols="30"
+          rows="5">${comment.content.replaceAll('<br>', '\n')}</textarea>
           ${
             user?.id
               ? user.nickname === comment.writerNickname
@@ -140,36 +145,28 @@ const carouselSlide = imageList => {
 const bindEvents = async () => {
   const user = await header.bindEvents();
 
-  $commentTextInput.addEventListener('keydown', ({ key, isComposing }) => {
-    const content = $commentTextInput.value.trim();
+  $('.detail__comment-input-tag').addEventListener('keydown', e => {
+    if (!((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10))) return;
 
-    if (key !== 'Enter' || content === '' || isComposing) return;
-    addComment(user, content);
-
-    $commentTextInput.value = '';
+    addComment(user, e.target.value.trim().replaceAll('\n', '<br>'));
+    e.target.value = '';
   });
 
   $commentSubmitButton.addEventListener('click', () => {
     if (!$commentTextInput.value) return;
-
-    addComment(user, $commentTextInput.value.trim());
+    addComment(user, $commentTextInput.value.trim().replaceAll('\n', '<br>'));
     $commentTextInput.value = '';
   });
 
-  $('.detail__comment-list').addEventListener('keydown', async ({ target, key, isComposing }) => {
-    if (!target.matches('.detail__comment-content')) return;
-    if (key !== 'Enter' || target.value === '' || isComposing) return;
-
-    const { id: commentId } = target.parentElement.dataset;
-    const commentValue = target.value.trim();
+  $('.detail__comment-list').addEventListener('keydown', async e => {
+    if (!e.target.matches('.detail__comment-edit-content')) return;
+    if (!((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10))) return;
+    const { id: commentId } = e.target.parentElement.dataset;
+    const commentValue = e.target.value.trim().replaceAll('\n', '<br>');
 
     try {
-      $editConfirmButton = $parent(target, '.comment-edit-confirm-btn');
-
-      target.setAttribute('disabled', true);
-      $parent(target, '.comment-edit-del').classList.remove('hidden');
-      $editConfirmButton.classList.add('hidden');
-      await updateComment(commentId, commentValue);
+      const { data: comments } = await updateComment(commentId, commentValue);
+      commentRender(user, comments);
     } catch (error) {
       console.error(error);
     }
@@ -180,7 +177,10 @@ const bindEvents = async () => {
     if (target.classList.contains('comment-edit-btn')) {
       $commentInput = $parent(target.parentElement, '.detail__comment-content');
       $editConfirmButton = $parent(target.parentElement, '.comment-edit-confirm-btn');
-      $commentInput.removeAttribute('disabled');
+      $commentEditInput = $parent(target.parentElement, '.detail__comment-edit-content');
+
+      $commentInput.classList.add('hidden');
+      $commentEditInput.classList.remove('hidden');
       $editConfirmButton.classList.remove('hidden');
       $parent(target.parentElement, '.comment-edit-del').classList.add('hidden');
     }
@@ -188,12 +188,10 @@ const bindEvents = async () => {
     // 수정완료했을 때
     if (target.classList.contains('comment-edit-confirm-btn')) {
       const { id: commentId } = target.parentElement.dataset;
-      const { value: commentValue } = $parent(target, '.detail__comment-content');
+      const { value: commentValue } = $parent(target, '.detail__comment-edit-content');
       try {
-        await updateComment(commentId, commentValue);
-        $commentInput.setAttribute('disabled', true);
-        $parent(target, '.comment-edit-del').classList.remove('hidden');
-        target.classList.add('hidden');
+        const { data: comments } = await updateComment(commentId, commentValue.trim().replaceAll('\n', '<br>'));
+        commentRender(user, comments);
       } catch (error) {
         console.error(error);
       }
@@ -206,7 +204,6 @@ const bindEvents = async () => {
       if (confirm('댓글을 정말 삭제하시겠습니까?')) {
         try {
           const { data: comments } = await deleteComment(postId, commentId);
-
           commentRender(user, comments);
         } catch (error) {
           console.error(error);
@@ -247,8 +244,6 @@ const fetchPostData = async id => {
   try {
     const { data: post } = await getPostInfo(id);
     const { data: commentList } = await getPostComments(post.comments);
-
-    // 작성자 정보 모두 받아서 Post 해준다.
 
     $('.detail__info').innerHTML = `
       <span class="detail__info-title">${post.title}</span>

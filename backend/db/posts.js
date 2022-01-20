@@ -30,7 +30,7 @@ const posts = [
     content: "집나간 강아지를 찾습니다",
     city: "서울특별시",
     district: "종로구",
-    comments: [],
+    comments: ["comment3", "comment4"],
   },
   {
     id: "post3",
