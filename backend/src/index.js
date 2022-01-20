@@ -18,8 +18,7 @@ app.use(express.static('../public'));
 app.use(express.json());
 app.use(cookieParser());
 
-const createToken = (email, expirePeriod) =>
-  jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
+const createToken = (email, expirePeriod) => jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: expirePeriod });
 
 const urls = ['/signin', '/signup', '/detail', '/mypage', '/mypageEdit'];
 
@@ -220,9 +219,7 @@ app.delete('/post/comment/:postId/:commentId', (req, res) => {
     comments.delete(commentId);
 
     const [post] = posts.filter({ id: postId });
-    const deletedComments = post.comments.filter(
-      comment => comment !== commentId
-    );
+    const deletedComments = post.comments.filter(comment => comment !== commentId);
     posts.update(postId, { comments: deletedComments });
 
     const lists = comments.filter({ postId });
@@ -402,7 +399,6 @@ app.get('/user/login/oauth/kakao', kakaoLogin, (req, res) => {
     .redirect('/');
 });
 
-// 존재하는 페이지가 아니라면 , 404 뜨게하세요.
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/404.html'));
 });
