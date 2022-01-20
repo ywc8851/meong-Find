@@ -37,6 +37,7 @@ app.get('/', (req, res) => {
 app.get('/search/:title', (req, res) => {
   const { title } = req.params;
   const searchPosts = posts.search({ title });
+
   res.send(searchPosts);
 });
 
@@ -60,7 +61,7 @@ app.get('/getposts', (req, res) => {
 // 지정된 게시물의 페이지 가져오기
 app.get('/getposts/:page', (req, res) => {
   const { page } = req.params;
-  console.log(page);
+  // console.log(page);
   res.send(posts.pageFilter(page));
 });
 
@@ -124,6 +125,7 @@ app.post('/post', (req, res) => {
   try {
     const newPost = req.body;
     const post = posts.create({ ...newPost, comments: [] });
+
     res.send(post);
   } catch (error) {
     console.error(error);
@@ -138,6 +140,7 @@ app.get('/update/:id', (req, res) => {
 app.put('/update', (req, res) => {
   const { body } = req;
   const updatedPost = posts.update(body.id, body);
+
   res.send(updatedPost);
 });
 
@@ -149,9 +152,11 @@ app.get('/post/:id', (req, res) => {
 // 상세페이지 posting 정보 가져오기
 app.get('/detail/:id', (req, res) => {
   const { id } = req.params;
+
   try {
     const [postInfo] = posts.filter({ id });
     const [writerInfo] = users.filter({ id: postInfo.writerId });
+
     res.send({ ...postInfo, writer: writerInfo.nickname });
   } catch (error) {
     console.error(error);
@@ -185,9 +190,8 @@ app.post('/comment', (req, res) => {
   try {
     // const id = `comment${comments.get().length + 1}`;
     const comment = comments.createBack(req.body);
-
-    // post에 comments 정보 추가
     const [post] = posts.filter({ id: postId });
+
     posts.update(postId, { comments: [...post.comments, comment.id] });
 
     const lists = comments.filter({ postId });
@@ -202,12 +206,12 @@ app.post('/comment', (req, res) => {
 // 상세페이지 comment 수정
 app.patch('/post/comment', (req, res) => {
   const { id, content } = req.body;
+
   try {
     comments.update(id, { content });
 
     const [comment] = comments.filter({ id });
     const [post] = posts.filter({ id: comment.postId });
-
     const lists = comments.filter({ postId: post.id });
     const listsAddedWriter = getCommentsByPostId(lists);
 
@@ -226,6 +230,7 @@ app.delete('/post/comment/:postId/:commentId', (req, res) => {
 
     const [post] = posts.filter({ id: postId });
     const deletedComments = post.comments.filter(comment => comment !== commentId);
+
     posts.update(postId, { comments: deletedComments });
 
     const lists = comments.filter({ postId });
@@ -242,8 +247,6 @@ app.delete('/post/:id', (req, res) => {
 
   try {
     posts.delete(id);
-
-    // post id에 따른 comment 삭제
     comments.filter({ postId: id }).map(comment => comments.delete(comment.id));
     res.send();
   } catch (error) {
@@ -254,9 +257,11 @@ app.delete('/post/:id', (req, res) => {
 // 닉네임 중복검사
 app.get('/user/name/:nickname', (req, res) => {
   const { nickname } = req.params;
+
   try {
     const [user] = users.filter({ nickname });
     const nicknameDuplication = !!user;
+
     res.send({
       nicknameDuplication,
     });
@@ -272,6 +277,7 @@ app.get('/user/email/:email', (req, res) => {
   try {
     const [user] = users.filter({ email });
     const emailDuplication = !!user;
+
     res.send({
       emailDuplication,
     });
@@ -288,6 +294,7 @@ app.post('/users/signup', (req, res) => {
       password: bcrypt.hashSync(req.body.user.password, 10),
       isValid: true,
     });
+
     res.send(user);
   } catch (e) {
     console.error(e);
@@ -299,15 +306,17 @@ app.post('/user/login', (req, res) => {
   const { email, password, autoLogin } = req.body;
   const [user] = users.filter({ email, isValid: true });
   let iscorrectPwd;
+
   if (!user) {
     return res.status(401).send('등록되지 않은 사용자입니다.');
   } else {
     iscorrectPwd = bcrypt.compareSync(password, user.password);
   }
+
   if (!iscorrectPwd) {
     return res.status(401).send('등록되지 않은 사용자입니다.');
   }
-  const accessToken = createToken(email, autoLogin ? '1d' : '1d');
+  const accessToken = createToken(email, autoLogin ? '1d' : '3h');
 
   res.cookie('accessToken', accessToken, {
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
@@ -326,14 +335,12 @@ app.post('/user/logout', (req, res) => {
   res.clearCookie('accessToken').redirect('/');
 });
 
-// 회원탈퇴를 위해 비밀번호 확인
-
 // 회원탈퇴
 app.post('/users/delete/:id', (req, res) => {
   const { id } = req.params;
   const [user] = users.filter({ id, isValid: true });
-
   const iscorrectPwd = bcrypt.compareSync(req.body.password, user.password);
+
   if (!iscorrectPwd) {
     return res.status(401).send('비밀번호가 일치하지 않습니다.');
   } else {
@@ -380,7 +387,7 @@ app.get('/user/login', auth, (req, res) => {
 });
 
 app.post('/upload', upload.array('img', 4), (req, res) => {
-  console.log('UPLOAD SUCCESS!', req.files);
+  // console.log('UPLOAD SUCCESS!', req.files);
   res.json({ success: true, files: req.files });
 });
 
