@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const urls = ['index', 'signin', 'signup', 'mypage', 'detail', 'mypageEdit', 'register'];
+const urls = ['index', 'signin', 'signup', 'mypage', 'detail', 'mypageEdit', 'register', '404'];
 const htmlWebpackPlugins = () =>
   urls.map(
     url =>
@@ -16,11 +16,7 @@ const htmlWebpackPlugins = () =>
 
 module.exports = {
   mode: 'development',
-  plugins: [
-    ...htmlWebpackPlugins(),
-    new HtmlWebpackPlugin({ template: 'src/html/404.html', filename: 'html/404.html' }),
-    new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
-  ],
+  plugins: [...htmlWebpackPlugins(), new MiniCssExtractPlugin({ filename: 'css/[name].css' })],
   entry: {
     main: ['./src/js/main.js', './src/scss/index.scss'],
     signin: ['./src/js/pages/signIn.js', './src/scss/index.scss'],
@@ -29,6 +25,7 @@ module.exports = {
     detail: ['./src/js/pages/detail.js', './src/scss/index.scss'],
     mypageEdit: ['./src/js/pages/mypageEdit.js', './src/scss/index.scss'],
     register: ['./src/js/pages/register.js', './src/scss/index.scss'],
+    404: ['./src/css/404.css'],
   },
   output: {
     path: path.resolve(__dirname, '../backend/public'),
@@ -74,7 +71,7 @@ module.exports = {
             },
           },
         ],
-        include: [path.resolve(__dirname, 'src/scss')],
+        include: [path.resolve(__dirname, 'src/scss'), path.resolve(__dirname, 'src/css')],
       },
       {
         test: /\.js$/,

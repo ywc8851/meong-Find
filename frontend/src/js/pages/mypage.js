@@ -11,6 +11,7 @@ const bindEvents = () => {
   // 글 수정
   $('.profile__posting-container').addEventListener('click', ({ target }) => {
     if (target.matches('.profile__posting-edit')) {
+      sessionStorage.setItem('isEditingPost', true);
       moveToPage(`/update/${target.parentElement.dataset.id}`);
     }
     if (target.matches('.profile__posting-header')) {
