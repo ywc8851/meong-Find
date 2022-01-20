@@ -52,7 +52,7 @@ button {
 .sign-in-btn,
 .sign-up-link {
   width: rem(401px);
-  height: rem(71px);
+  height: rem(60px);
   border: none;
   border-radius: rem(10px);
   background-color: $navy;
@@ -73,12 +73,18 @@ button {
     opacity: 1;
   }
 }
+
 .sign-up-link {
   text-align: center;
   a {
     color: $white;
   }
 }
+
+.sign-in-kakao > a > img {
+  width: rem(401px);
+}
+
 .check-duplicated {
   background-color: $navy;
   width: rem(85px);

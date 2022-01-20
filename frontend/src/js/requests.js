@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { KAKAO_HOST, KAKAO_REDIRECT_URI } from './helpers/oAuth';
 
 export const fetchHtml = async url => {
   try {
@@ -8,9 +9,9 @@ export const fetchHtml = async url => {
   }
 };
 
-export const getSearchTitle = async searchValue => {
+export const getSearchTitle = async (page, { search }) => {
   try {
-    return await axios.get(`/search/${searchValue}`);
+    return await axios.get(`/search/${search}`);
   } catch (error) {
     console.error(error);
   }
@@ -51,17 +52,18 @@ export const getSignup = async user => {
   }
 };
 
-export const postSignIn = async (email, password, autoLogin) => {
+export const logInUser = async (email, password, autoLogin) => {
   try {
-    return await axios.post('/user/signin', { email, password, autoLogin });
+    return await axios.post('/user/login', { email, password, autoLogin });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const getSignOut = async () => {
+export const logOutUser = async user => {
+  console.log(user);
   try {
-    return await axios.get('/user/signout');
+    return await axios.post('/user/logout', user);
   } catch (error) {
     console.error(error);
   }
@@ -95,10 +97,6 @@ export const getMainPosts = async pageNum => {
 // select에 따른 글찾기
 export const findPosts = async (city, district, animal) => {
   return await axios.get(`/findposts/${city}/${district}/${animal}`);
-};
-
-export const searchTitile = async title => {
-  return await axios.get(`/findposts/${title}`);
 };
 
 // 이메일 주소로 아이디 찾기
@@ -242,3 +240,31 @@ export const updatePost = async payload => {
     console.error(error);
   }
 };
+
+export const getKakaoRestApiKey = async () => {
+  try {
+    return await axios.get('/user/login/restapikey/kakao');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const kakaoLogin = async authCode => {
+  try {
+    return await axios.get(`/kakao/login/token/${authCode}`, {
+      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// export const getKakaoToken = async url => {
+//   try {
+//     return await axios.get(url);
+//   } catch (error) {
+//     {
+//       console.error(error);
+//     }
+//   }
+// };

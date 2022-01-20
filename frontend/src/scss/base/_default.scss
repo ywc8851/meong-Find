@@ -5,7 +5,10 @@ body {
   font-family: unset;
   font-family: 'Noto Sans', sans-serif;
 }
-
+body > section {
+  min-height: 50vh;
+  height: auto;
+}
 body,
 body::before,
 body::after,
@@ -17,10 +20,14 @@ body *::after {
 
 header + main,
 header + section {
-  margin-top: rem(62px);
+  margin-top: rem(50px);
 }
 
 a,
 button {
   cursor: pointer;
+}
+
+textarea {
+  resize: none;
 }

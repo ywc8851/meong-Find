@@ -6,7 +6,16 @@
     "start": "concurrently \"npm run watch --prefix frontend\" \"npm run start --prefix frontend\" \"npm run start --prefix backend\"",
     "fast": "concurrently \"npm run build --prefix frontend\" \"npm run start --prefix frontend\" \"npm run start --prefix backend\""
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/eslint-parser": "^7.16.5",
+    "eslint": "^8.7.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-html": "^6.2.0",
+    "eslint-plugin-import": "^2.25.4",
+    "prettier": "^2.5.1"
+  },
   "dependencies": {
     "concurrently": "^7.0.0"
   }

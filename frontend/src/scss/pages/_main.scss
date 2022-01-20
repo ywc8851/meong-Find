@@ -11,6 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: rem(50px);
 
   button {
     width: rem(75px);
@@ -99,11 +100,11 @@
     margin-bottom: rem(40px);
     width: rem(346px);
 
-    a,
-    img,
-    span {
-      pointer-events: none;
-    }
+    // a,
+    // img,
+    // span {
+    //   pointer-events: none;
+    // }
 
     &:nth-child(3n) {
       margin-right: 0;
@@ -113,6 +114,8 @@
 
 .search-error {
   @include autoMargin();
+  height: 50vh;
+  padding-top: 10%;
   font-size: rem(20px);
   margin-top: rem(30px);
 }
