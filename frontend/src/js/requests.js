@@ -9,9 +9,9 @@ export const fetchHtml = async url => {
   }
 };
 
-export const getSearchTitle = async searchValue => {
+export const getSearchTitle = async (page, { search }) => {
   try {
-    return await axios.get(`/search/${searchValue}`);
+    return await axios.get(`/search/${search}`);
   } catch (error) {
     console.error(error);
   }
@@ -97,10 +97,6 @@ export const getMainPosts = async pageNum => {
 // select에 따른 글찾기
 export const findPosts = async (city, district, animal) => {
   return await axios.get(`/findposts/${city}/${district}/${animal}`);
-};
-
-export const searchTitile = async title => {
-  return await axios.get(`/findposts/${title}`);
 };
 
 // 이메일 주소로 아이디 찾기

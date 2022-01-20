@@ -50,7 +50,7 @@ app.get('/preposts/:page', (req, res) => {
 // 지정된 게시물의 페이지 가져오기
 app.get('/getposts/:page', (req, res) => {
   const { page } = req.params;
-  res.send(posts.pageFilter({ page }));
+  res.send(posts.pageFilter(page));
 });
 
 // 모든 게시물 가져오기
@@ -62,7 +62,7 @@ app.get('/getposts', (req, res) => {
 app.get('/getposts/:page', (req, res) => {
   const { page } = req.params;
   console.log(page);
-  res.send(posts.pageFilter({ page }));
+  res.send(posts.pageFilter(page));
 });
 
 // select 3개로 쿼리문을 날려서 게시물 가져오기
