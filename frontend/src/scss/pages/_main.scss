@@ -100,11 +100,11 @@
     margin-bottom: rem(40px);
     width: rem(346px);
 
-    a,
-    img,
-    span {
-      pointer-events: none;
-    }
+    // a,
+    // img,
+    // span {
+    //   pointer-events: none;
+    // }
 
     &:nth-child(3n) {
       margin-right: 0;

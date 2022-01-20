@@ -166,12 +166,19 @@ $findButton.onclick = async () => {
 };
 
 $('.main-posts').onclick = ({ target }) => {
-  if (target.classList.contains('main-posts')) return;
   try {
     sessionStorage.setItem('pageNow', page);
     sessionStorage.setItem('scrollPosition', window.scrollY);
 
-    moveToPage(`/post/${target.dataset.id}`);
+    let $post = target;
+    while (true) {
+      $post = $post.parentElement;
+      if ($post.matches('body')) return;
+      if ($post.matches('.main-posts-posting-list')) {
+        break;
+      }
+    }
+    moveToPage(`/post/${$post.dataset.id}`);
   } catch (error) {
     console.log(error);
   }
