@@ -20,10 +20,14 @@ body *::after {
 
 header + main,
 header + section {
-  margin-top: rem(62px);
+  margin-top: rem(50px);
 }
 
 a,
 button {
   cursor: pointer;
+}
+
+textarea {
+  resize: none;
 }
