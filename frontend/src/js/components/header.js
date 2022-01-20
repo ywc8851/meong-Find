@@ -12,6 +12,7 @@ const header = {
       try {
         moveToPage('/');
         sessionStorage.removeItem('filterOption');
+        sessionStorage.removeItem('scrollPosition');
       } catch (error) {
         console.error(error);
       }
@@ -19,6 +20,7 @@ const header = {
 
     $('.no-login__signin-btn').addEventListener('click', async () => {
       try {
+        sessionStorage.removeItem('scrollPosition');
         moveToPage('/signin');
       } catch (error) {
         console.error(error);
@@ -27,6 +29,7 @@ const header = {
 
     $('.no-login__signup-btn').addEventListener('click', async () => {
       try {
+        sessionStorage.removeItem('scrollPosition');
         moveToPage('/signup');
       } catch (error) {
         console.error(error);
@@ -35,6 +38,7 @@ const header = {
 
     $('.login__mypage-btn').addEventListener('click', async () => {
       try {
+        sessionStorage.removeItem('scrollPosition');
         moveToPage('/mypage');
       } catch (error) {
         console.error(error);
@@ -55,6 +59,7 @@ const header = {
           createDocument(data);
           history.pushState({ path: '/', prev: location.href }, '', '/');
         }
+        sessionStorage.removeItem('scrollPosition');
       } catch (error) {
         console.error(error);
       }
