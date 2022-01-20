@@ -16,6 +16,7 @@
       font-weight: 700;
       letter-spacing: rem(-1px);
     }
+
     &-container {
       color: $darkgray;
     }
@@ -123,25 +124,44 @@
 
   &-writer {
     margin-left: rem(20px);
-    font-weight: 600;
-    font-size: rem(18px);
+    font-weight: 700;
+    font-size: rem(20px);
+  }
+  &-date {
+    color: #9d9d9d;
+    margin-left: rem(10px);
+  }
+  &-content {
+    margin-top: rem(15px);
+    margin-left: rem(20px);
+    color: $lightblack;
+  }
+  &-edit-content {
+    font-family: 'Noto Sans', sans-serif;
+    width: rem(800px);
+    margin-top: rem(15px);
+    margin-left: rem(20px);
+    display: block;
+    padding: rem(10px);
+    border: 1px solid #e3e3e3;
+    border-radius: rem(20px);
   }
 
-  &-content {
-    font-size: rem(16px);
-    width: 40%;
-    height: rem(30px);
-    padding: rem(15px);
-    border: 1px solid $gray;
-    border-radius: rem(20px);
-    position: absolute;
-    bottom: rem(8px);
-    right: rem(280px);
-    &:disabled {
-      border: none;
-      background-color: transparent;
-    }
-  }
+  // &-content {
+  //   font-size: rem(16px);
+  //   width: 40%;
+  //   height: rem(30px);
+  //   padding: rem(15px);
+  //   border: 1px solid $gray;
+  //   border-radius: rem(20px);
+  //   position: absolute;
+  //   bottom: rem(8px);
+  //   right: rem(280px);
+  //   &:disabled {
+  //     border: none;
+  //     background-color: transparent;
+  //   }
+  // }
 
   &-input {
     display: flex;
@@ -150,15 +170,30 @@
 
     &-tag {
       width: 90%;
-      height: rem(50px);
+      // height: rem(50px);
       padding: rem(15px);
-      border: 1px solid $gray;
+      background-color: #f5f1f1;
+      border: none;
+      // border: 1px solid $gray;
       border-radius: rem(20px);
     }
   }
 }
+.comment-edit-confirm-btn {
+  position: absolute;
+  top: rem(-3px);
+  left: 85%;
+  font-size: rem(16px);
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+    font-weight: 600;
+  }
+}
 .comment-edit-del {
-  float: right;
+  position: absolute;
+  top: rem(-3px);
+  left: 80%;
   font-size: rem(20px);
   margin-right: rem(10px);
 }

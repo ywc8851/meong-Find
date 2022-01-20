@@ -6,8 +6,8 @@
   width: 100%;
   height: rem(145px);
   margin-top: rem(100px);
-  // position: fixed;
-  // bottom: 0;
+  position: relative;
+  // transform: translateY(-100%);
 
   &__info {
     display: flex;
