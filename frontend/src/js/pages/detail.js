@@ -146,7 +146,7 @@ const bindEvents = async () => {
   const user = await header.bindEvents();
 
   $('.detail__comment-input-tag').addEventListener('keydown', e => {
-    if (!((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10))) return;
+    if (!((e.ctrlKey || e.metaKey) && e.keyCode == 13)) return;
 
     addComment(user, e.target.value.trim().replaceAll('\n', '<br>'));
     e.target.value = '';
