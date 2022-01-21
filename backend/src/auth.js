@@ -7,14 +7,14 @@ const auth = (req, res, next) => {
   try {
     const { email } = jwt.verify(accessToken, process.env.SECRET_KEY);
     if (!email) {
-      return res.redirect('back');
+      return res.clearCookie('accessToken').redirect('back');
     }
     if (req.url === '/user/login') {
       req.email = email;
     }
     next();
   } catch (e) {
-    return res.redirect('back');
+    return res.clearCookie('accessToken').redirect('back');
   }
 };
 
@@ -69,9 +69,7 @@ const kakaoLogin = async (req, res, next) => {
     });
 
     const [user] = users.filter({ email, isValid: true });
-    req.user =
-      user ||
-      users.create({ email, nickname, isValid: true, isKakaoUser: true });
+    req.user = user || users.create({ email, nickname, isValid: true, isKakaoUser: true });
     req.access_token = {
       access_token,
       expires_in,

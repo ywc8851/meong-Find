@@ -72,7 +72,7 @@ const loadPosts = async () => {
   const apiType = postApiTypes[setPostType()?.type];
   const { data: posts } = await getApi(apiType?.api, apiType?.params);
   setPosts(posts);
-
+  if (sessionStorage.getItem('scrollPosition')) window.scroll(0, JSON.parse(sessionStorage.getItem('scrollPosition')));
   if (setPostType()?.type === 'all') {
     observeLastItem(inetersectionObserver);
   }
