@@ -261,6 +261,19 @@ const posts = [
     district: '종로구',
     comments: ['comment3', 'comment4'],
   },
+  {
+    id: 'post18',
+    writerId: 'asdffffwee',
+    createdAt: '2021-01-10',
+    images: ['http://t1.daumcdn.net/liveboard/petzzi/4793b1340b5a4ee48e358787e37b7dd9.PNG'],
+    title: '냥이가 사라졌어요',
+    animal: '고양이',
+    type: '페르시안',
+    content: '집나간 고양이를 찾습니다',
+    city: '경상북도',
+    district: '구미시',
+    comments: ['comment3', 'comment4'],
+  },
 ];
 
 module.exports = posts;
