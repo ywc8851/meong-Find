@@ -94,9 +94,7 @@ const posts = [
     id: 'post7',
     writerId: 'asdffffwee',
     createdAt: '2020-01-09',
-    images: [
-      'https://ww.namu.la/s/014f57cc6cf03c986fae7e2e1632385b8ed0d21826e5ff1363030ff22089149b34f1d26c950a8c23288db9f079c6c7220eb9d8cde3fd77fceb67cd96e557d6312e631349c70f359f210cf31be3af058dbf7028ce0dcb2564f8af5c8151c4c44cb36e31f93976d3342539b66b1aff2b63',
-    ],
+    images: ['http://img.etoday.co.kr/pto_db/2020/07/20200723014524_1488335_400_267.png'],
     title: '중성화 수술한 초롱이 찾아요',
     animal: '강아지',
     type: '시츄',
