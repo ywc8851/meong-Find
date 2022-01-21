@@ -409,7 +409,7 @@ app.get('/user/login/oauth/kakao', kakaoLogin, (req, res) => {
       maxAge: expires_in,
       httpOnly: true,
     })
-    .redirect('/mypageEdit');
+    .redirect(req.newUser ? '/mypageEdit' : '/');
 });
 
 app.get('/img/:img', (req, res) => {
