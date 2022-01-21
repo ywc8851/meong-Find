@@ -100,12 +100,6 @@
     margin-bottom: rem(40px);
     width: rem(346px);
 
-    // a,
-    // img,
-    // span {
-    //   pointer-events: none;
-    // }
-
     &:nth-child(3n) {
       margin-right: 0;
     }
@@ -118,17 +112,6 @@
   padding-top: 10%;
   font-size: rem(20px);
   margin-top: rem(30px);
-}
-
-.arrow-up {
-  position: fixed;
-  bottom: rem(70px);
-  right: rem(70px);
-  z-index: 99;
-  color: $darkgray;
-  border-radius: 50%;
-  border: 0;
-  background: none;
 }
 
 .spinner {
