@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
+const uniqid = require('uniqid');
 const { users } = require('../db');
 
 const auth = (req, res, next) => {
@@ -69,7 +70,8 @@ const kakaoLogin = async (req, res, next) => {
     });
 
     const [user] = users.filter({ email, isValid: true });
-    req.user = user || users.create({ email, nickname, isValid: true, isKakaoUser: true });
+    req.newUser = !!user;
+    req.user = user || users.create({ id: uniqid(), email, nickname, isValid: true, isKakaoUser: true });
     req.access_token = {
       access_token,
       expires_in,
