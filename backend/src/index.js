@@ -412,6 +412,11 @@ app.get('/user/login/oauth/kakao', kakaoLogin, (req, res) => {
     .redirect('/mypageEdit');
 });
 
+app.get('/img/:img', (req, res) => {
+  const { img } = req.params;
+  res.sendFile(path.join(__dirname, `../public/img/${img}`));
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/html/404.html'));
 });
