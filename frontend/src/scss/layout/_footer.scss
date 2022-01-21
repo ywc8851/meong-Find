@@ -39,3 +39,21 @@
     border-right: 2px solid white;
   }
 }
+
+.arrow-up {
+  position: fixed;
+  width: rem(50px);
+  height: rem(50px);
+  bottom: rem(70px);
+  right: rem(70px);
+  z-index: 99;
+  color: $darkgray;
+  border-radius: 50%;
+  background-color: $white;
+  border: 1px solid $darkgray;
+
+  &:hover {
+    background: $darkgray;
+    color: $white;
+  }
+}
