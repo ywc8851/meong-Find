@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>찾아줄개</title>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous" />
+  </head>
+  <body>
+    <!-- 헤더 -->
+    <h1 class="sr-only">찾아줄개</h1>
+    <header>
+      <a class="logo-container" href="javascript:void(0)">
+        <img src="../assets/logo.svg" class="logo" alt="찾아줄개 로고" />
+      </a>
+      <div class="login hidden">
+        <a href="javascript:void(0)" class="login__posting-btn">글 작성</a>
+        <div class="login__msg">
+          <span class="user-nickname"></span>
+          <span class="bold">님, 반갑습니다!</span>
+        </div>
+        <div class="login__mypage-container">
+          <i class="fas fa-user-circle fa-lg"></i>
+          <a href="javascript:void(0)" class="login__mypage-btn">마이페이지</a>
+        </div>
+        <div class="login__logout">
+          <i class="fas fa-sign-out-alt fa-lg"></i>
+          <button class="login__logout-btn">로그아웃</button>
+        </div>
+      </div>
+      <div class="no-login">
+        <div class="no-login__signin">
+          <i class="fas fa-lock fa-lg"></i>
+          <a href="javascript:void(0)" class="no-login__signin-btn">로그인</a>
+        </div>
+        <div class="no-login__signup">
+          <i class="fas fa-user fa-lg"></i>
+          <a href="javascript:void(0)" class="no-login__signup-btn">회원가입</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="detail">
+      <h2 class="sr-only">상세페이지</h2>
+      <section class="detail__posting">
+        <div class="detail__info">
+          <!-- <span class="detail__info-title">${post.title}</span>
+          <div class="detail__info-container">
+            <div class="detail__info-writer">${post.writerNickname}</div>
+            <div class="detail__info-date">${post.createdAt}</div>
+          </div> -->
+        </div>
+        <div class="carousel__container">
+          <div class="carousel__img-container carousel__single"></div>
+          <div class="carousel__img-container carousel__multi">
+            <!-- <img class="detail__img" src="${img}" alt="이미지${current + 1}" -->
+          </div>
+          <div class="carousel__prev-next">
+            <!-- <button class="carousel__prev" type="button">
+              <i class="fas fa-chevron-left fa-2x"></i>
+            </button>
+            <button class="carousel__next" type="button">
+              <i class="fas fa-chevron-right fa-2x"></i>
+            </button> -->
+          </div>
+        </div>
+        <div class="post__detail-list"></div>
+      </section>
+      <section class="detail__comment">
+        <span class="detail__comment-num">
+          <!-- 댓글 갯수 -->
+        </span>
+        <ul class="detail__comment-list">
+          <!-- <li>
+              <span class="detail__comment-writer">${comment.writerNickname}</span>
+              <label for="detail__comment-content" class=" sr-only">댓글</label>
+              <input id="detail__comment-content" class="detail__comment-content" type="text" >
+             <div class="detail__comment-edit-del">
+              <button class="comment-edit-btn">수정</button>
+              <button class="comment-del-btn">삭제</button>
+            </div>
+          </li> -->
+        </ul>
+        <div class="detail__comment-input">
+          <label for="detail__comment-input-tag" class="sr-only">댓글 입력</label>
+          <textarea
+            name="detail__comment-input-tag"
+            id="detail__comment-input-tag"
+            class="detail__comment-input-tag"
+            cols="30"
+            rows="5"
+            placeholder="댓글을 입력하세요"></textarea>
+          <!-- <input type="text" id="comment" class="detail__comment-input-tag" placeholder="댓글을 입력하세요." /> -->
+          <button class="detail__comment-submit" type="button">등록</button>
+        </div>
+        <div class="detail__posting-edit-del">
+          <!-- <button class="posting-edit-btn">수정</button>
+          <button class="posting-del-btn">삭제</button> -->
+        </div>
+      </section>
+    </section>
+    <footer class="footer">
+      <div class="footer__info">
+        <span class="footer__contact">
+          contact us | <a href="https://github.com/MeongFind/meong-Find">https://github.com/MeongFind/meong-Find</a>
+        </span>
+        <small class="footer__copyright"> Copyright since &copy; meong-find </small>
+        <ul class="footer__list">
+          <li><a href="https://www.animal.go.kr/front/index.do">동물보호관리 시스템</a></li>
+          <li><a href="http://pawinhand.kr/">포인핸드</a></li>
+          <li><a href="https://dmanimal.co.kr/">도그마루</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

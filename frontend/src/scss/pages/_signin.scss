@@ -1,0 +1,119 @@
+@use '../utils' as *;
+
+.sign-in {
+  width: rem(694px);
+  height: rem(699px);
+  text-align: center;
+  @include autoMargin();
+
+  .error {
+    position: absolute;
+    top: rem(50px);
+    left: rem(140px);
+    font-size: rem(15px);
+  }
+
+  &-auto__login {
+    font-size: rem(15px);
+  }
+
+  .sign-in-form-auto-find {
+    display: flex;
+    justify-content: space-between;
+    color: $darkgray;
+    font-size: rem(20px);
+    margin-bottom: rem(70px);
+    position: relative;
+
+    .error {
+      left: 0;
+      color: $red;
+      font-size: rem(18px);
+    }
+
+    .find-password {
+      border: none;
+      font-size: rem(15px);
+      background-color: transparent;
+      color: $darkgray;
+    }
+  }
+
+  .sign-in-form-btns {
+    button {
+      display: block;
+      margin-top: rem(20px);
+      @include autoMargin();
+    }
+  }
+}
+
+.signin-cover {
+  width: 100vw;
+  height: 152vh;
+  position: absolute;
+  background: #000;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.cover {
+  width: 100vw;
+  height: 180vh;
+  position: absolute;
+  background: #000;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $gray;
+  z-index: 10;
+  border-radius: 3%;
+  position: absolute;
+  top: 30%;
+  right: 50%;
+  transform: translateX(50%);
+  width: 30rem;
+  height: 16rem;
+
+  * {
+    @include marginY(5);
+  }
+
+  &-button {
+    height: rem(50px);
+    width: rem(96px);
+    border-radius: rem(10px);
+    color: $white;
+    background-color: $navy;
+    margin-top: rem(10px);
+  }
+
+  &-find-password {
+    height: rem(40px);
+    width: rem(400px);
+    text-indent: 10px;
+  }
+}
+
+.button__reset {
+  @include pos($t: rem(2px), $r: rem(40px));
+}
+
+.popup-button:disabled {
+  background-color: $darkgray;
+}
+
+.find-error {
+  color: $red;
+  font-size: rem(15px);
+}
+
+.auto-login {
+  text-align: center;
+}

@@ -1,0 +1,212 @@
+@use '../utils/' as *;
+
+.detail {
+  width: rem(930px);
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    &-title {
+      font-size: rem(30px);
+      color: $lightblack;
+      font-weight: 700;
+      letter-spacing: rem(-1px);
+    }
+
+    &-container {
+      color: $darkgray;
+    }
+    &-writer {
+      text-align: center;
+      margin-bottom: rem(5px);
+    }
+  }
+  //city, 종
+  &__etc-info {
+    display: flex;
+    align-items: center;
+  }
+  &__city {
+    font-size: rem(25px);
+    font-weight: 700;
+
+    margin-right: rem(20px);
+    color: $darkgray;
+  }
+  &__posting-content {
+    line-height: 1.5;
+    color: $darkgray;
+    margin: rem(30px) 0 rem(50px) 0;
+    padding: rem(40px) rem(30px);
+    border: 1px solid $gray;
+    border-radius: rem(20px);
+  }
+  &__posting-edit-del {
+    margin-top: rem(45px);
+    display: flex;
+    justify-content: right;
+  }
+}
+
+// 캐러셀
+.carousel {
+  &__container {
+    opacity: 1;
+    background-color: whitesmoke;
+    width: rem(600px);
+    height: rem(450px);
+    overflow: hidden;
+    margin: rem(40px) auto rem(30px) auto;
+  }
+  &__img-container {
+    display: inline-flex;
+
+    > div {
+      display: inline-block;
+      width: rem(600px);
+      height: rem(450px);
+      background: no-repeat center;
+      background-size: cover;
+    }
+  }
+  &__multi {
+    --currentSlide: 1;
+    --duration: 0;
+
+    transition: transform calc(var(--duration) * 1ms) ease-out;
+    transform: translate3D(calc(var(--currentSlide) * rem(-600px)), 0, 0);
+  }
+  &__prev,
+  &__next {
+    width: rem(30px);
+    height: rem(30px);
+    display: flex;
+    position: absolute;
+    top: 250px;
+  }
+  &__prev {
+    left: rem(80px);
+  }
+  &__next {
+    right: rem(99px);
+  }
+  &__prev > i,
+  &__next > i {
+    pointer-events: none;
+  }
+}
+
+// 코멘트 영역
+.detail__comment {
+  &-num {
+    color: $darkgray;
+    font-weight: 600;
+    font-size: rem(18px);
+  }
+
+  &-li {
+    margin: rem(20px) 0 rem(15px) 0;
+    padding-bottom: rem(15px);
+    border-bottom: 1px solid $gray;
+    position: relative;
+
+    &:last-child {
+      border-bottom: none;
+    }
+    &:first-child {
+      margin-top: rem(40px);
+    }
+  }
+
+  &-writer {
+    margin-left: rem(20px);
+    font-weight: 700;
+    font-size: rem(20px);
+  }
+  &-date {
+    color: #9d9d9d;
+    margin-left: rem(10px);
+  }
+  &-content {
+    margin-top: rem(15px);
+    margin-left: rem(20px);
+    color: $lightblack;
+  }
+  &-edit-content {
+    font-family: 'Noto Sans', sans-serif;
+    width: rem(800px);
+    margin-top: rem(15px);
+    margin-left: rem(20px);
+    display: block;
+    padding: rem(10px);
+    border: 1px solid #e3e3e3;
+    border-radius: rem(20px);
+  }
+
+  // &-content {
+  //   font-size: rem(16px);
+  //   width: 40%;
+  //   height: rem(30px);
+  //   padding: rem(15px);
+  //   border: 1px solid $gray;
+  //   border-radius: rem(20px);
+  //   position: absolute;
+  //   bottom: rem(8px);
+  //   right: rem(280px);
+  //   &:disabled {
+  //     border: none;
+  //     background-color: transparent;
+  //   }
+  // }
+
+  &-input {
+    display: flex;
+    justify-content: space-between;
+    margin: rem(20px) rem(20px);
+
+    &-tag {
+      width: 90%;
+      // height: rem(50px);
+      padding: rem(15px);
+      background-color: #f5f1f1;
+      border: none;
+      // border: 1px solid $gray;
+      border-radius: rem(20px);
+    }
+  }
+}
+.comment-edit-confirm-btn {
+  position: absolute;
+  top: rem(-3px);
+  left: 85%;
+  font-size: rem(16px);
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+    font-weight: 600;
+  }
+}
+.comment-edit-del {
+  position: absolute;
+  top: rem(-3px);
+  left: 80%;
+  font-size: rem(20px);
+  margin-right: rem(10px);
+}
+.comment-edit-del > span {
+  opacity: 0.6;
+}
+.comment-edit-btn,
+.comment-del-btn {
+  margin: 0 rem(10px);
+  opacity: 0.6;
+
+  &:hover {
+    opacity: 1;
+    font-weight: 600;
+  }
+}

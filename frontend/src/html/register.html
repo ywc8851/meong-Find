@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>찾아줄개</title>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous" />
+  </head>
+  <body>
+    <!-- 헤더 -->
+    <h1 class="sr-only">찾아줄개</h1>
+    <header>
+      <a class="logo-container" href="javascript:void(0)">
+        <img src="../assets/logo.svg" class="logo" alt="찾아줄개 로고" />
+      </a>
+      <div class="login hidden">
+        <a href="javascript:void(0)" class="login__posting-btn">글 작성</a>
+        <div class="login__msg">
+          <span class="user-nickname"></span>
+          <span class="bold">님, 반갑습니다!</span>
+        </div>
+        <div class="login__mypage-container">
+          <i class="fas fa-user-circle fa-lg"></i>
+          <a href="javascript:void(0)" class="login__mypage-btn">마이페이지</a>
+        </div>
+        <div class="login__logout">
+          <i class="fas fa-sign-out-alt fa-lg"></i>
+          <button class="login__logout-btn">로그아웃</button>
+        </div>
+      </div>
+      <div class="no-login">
+        <div class="no-login__signin">
+          <i class="fas fa-lock fa-lg"></i>
+          <a href="javascript:void(0)" class="no-login__signin-btn">로그인</a>
+        </div>
+        <div class="no-login__signup">
+          <i class="fas fa-user fa-lg"></i>
+          <a href="javascript:void(0)" class="no-login__signup-btn">회원가입</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="register">
+        <form class="register-form">
+          <div class="register-title">
+            <label for="title" class="sr-only">제목</label>
+            <input id="title" type="text" class="register-title-input" placeholder="제목을 입력해주세요 (50자 이내)" />
+            <div class="register-title__length">
+              <span class="register-title__length__filled">0</span> /
+              <span class="register-title__length__limit">50</span>
+            </div>
+          </div>
+          <div class="register-upload">
+            <label for="file" class="sr-only">파일 업로드</label>
+            <input
+              id="file"
+              class="register-upload__input sr-only"
+              type="file"
+              multiple
+              accept=".jpg,.jpeg,.png,.gif,.svg" />
+            <button type="button" class="register-upload__btn">
+              <i class="fas fa-plus-circle fa-3x"></i>
+            </button>
+            <p class="limit-images">이미지는 4장까지 업로드 할 수 있습니다.</p>
+          </div>
+          <div class="register-preview"></div>
+          <div class="posting-option">
+            <div class="area">
+              <select name="city" id="city">
+                <option value="si" selected disabled>지역</option>
+                <option>강원도</option>
+                <option>경기도</option>
+                <option>경상남도</option>
+                <option>경상북도</option>
+                <option>광주광역시</option>
+                <option>대구광역시</option>
+                <option>대전광역시</option>
+                <option>부산광역시</option>
+                <option>서울특별시</option>
+                <option>세종특별자치시</option>
+                <option>울산광역시</option>
+                <option>인천광역시</option>
+                <option>전라남도</option>
+                <option>전라북도</option>
+                <option>제주특별자치도</option>
+                <option>충청남도</option>
+                <option>충청북도</option>
+              </select>
+              <select name="district" id="district">
+                <option value="gu">시/군/구</option>
+              </select>
+            </div>
+            <div class="animal-select">
+              <select name="animal" id="animal">
+                <option>강아지</option>
+                <option>고양이</option>
+                <option>기타</option>
+              </select>
+              <label for="animalType" class="sr-only">종류</label>
+              <input type="text" id="animalType" class="animal-select__type" placeholder="종류를 입력하세요 ex) 시츄" />
+            </div>
+          </div>
+          <div class="register-textcontent">
+            <label for="content" class="sr-only">본문 입력란</label>
+            <textarea
+              id="content"
+              name="content"
+              class="register-textcontent__content"
+              value=""
+              placeholder="본문을 작성해주세요 (1000자 이내)"></textarea>
+            <div class="register-textcontent__length">
+              <span class="register-textcontent__length__filled">0</span> /
+              <span class="register-textcontent__length__limit">1000</span>
+            </div>
+          </div>
+          <div class="register-form-btns">
+            <button type="submit" class="register-edit-btn register__btn hidden">수정</button>
+            <button type="submit" class="register-submit-btn register__btn">등록</button>
+          </div>
+        </form>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="footer__info">
+        <span class="footer__contact">
+          contact us | <a href="https://github.com/MeongFind/meong-Find">https://github.com/MeongFind/meong-Find</a>
+        </span>
+        <small class="footer__copyright"> Copyright since &copy; meong-find </small>
+        <ul class="footer__list">
+          <li><a href="https://www.animal.go.kr/front/index.do">동물보호관리 시스템</a></li>
+          <li><a href="http://pawinhand.kr/">포인핸드</a></li>
+          <li><a href="https://dmanimal.co.kr/">도그마루</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

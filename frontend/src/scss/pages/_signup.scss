@@ -1,0 +1,47 @@
+@use '../utils' as *;
+
+.sign-up {
+  width: rem(694px);
+  height: rem(699px);
+  text-align: center;
+  @include autoMargin();
+
+  .error {
+    position: absolute;
+    top: rem(50px);
+    left: rem(140px);
+    font-size: rem(15px);
+  }
+}
+
+.check-duplicated {
+  position: absolute;
+  right: 10%;
+  top: -5%;
+  cursor: pointer;
+  background-color: rgb(70, 121, 178);
+  opacity: 0.7;
+}
+
+#area {
+  display: inline-block;
+  margin-bottom: rem(30px);
+  margin-right: rem(150px);
+
+  select {
+    margin-left: rem(20px);
+    display: inline-block;
+    width: rem(100px);
+    height: rem(30px);
+  }
+}
+
+.sign-up-btn {
+  margin-top: rem(47px);
+}
+
+.sign-up-form-info {
+  input {
+    padding-left: rem(150px) !important;
+  }
+}
