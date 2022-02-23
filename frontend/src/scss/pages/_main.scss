@@ -1,0 +1,130 @@
+@use '../utils' as *;
+
+.mainpage {
+  position: relative;
+  width: rem(1188px);
+  //   height: rem(699px);
+  //   text-align: center;
+  @include autoMargin();
+}
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: rem(50px);
+
+  button {
+    width: rem(75px);
+    height: rem(42px);
+    background: $navy;
+    margin-left: rem(5px);
+    margin-top: rem(5px);
+    border-radius: rem(20px);
+    border: none;
+    font-weight: 600;
+    font-size: rem(20px);
+    color: $white;
+    &:disabled {
+      background-color: #d8d8d8;
+    }
+  }
+  &-search {
+    input {
+      width: rem(392px);
+      height: rem(45px);
+      background-color: #f2f2f2;
+      border-radius: rem(20px);
+      text-indent: rem(20px);
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
+    input::placeholder {
+      color: #8d8c8c;
+      text-indent: rem(20px);
+    }
+  }
+
+  // &-find {
+  //   select {
+  //     width: rem(150px);
+  //     height: rem(35px);
+
+  //     background-color: $container-gray;
+  //     border: none;
+  //     border-radius: rem(10px);
+  //     text-indent: rem(10px);
+  //   }
+  // }
+}
+
+.main-posts {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: rem(20px);
+
+  &-img-container {
+    width: rem(346px);
+    height: rem(379px);
+    overflow: hidden;
+  }
+
+  &-img {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-size: cover !important;
+    background: no-repeat center;
+  }
+
+  span {
+    display: block;
+  }
+
+  &-title {
+    font-weight: 600;
+    font-size: rem(25px);
+    line-height: 41px;
+    letter-spacing: rem(-1px);
+    color: $darkgray;
+  }
+  &-place {
+    height: rem(27px);
+    font-size: rem(20px);
+    color: $darkgray;
+  }
+  &-posting-list {
+    margin-right: 6%;
+    margin-bottom: rem(40px);
+    width: rem(346px);
+
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+  }
+}
+
+.search-error {
+  @include autoMargin();
+  height: 50vh;
+  padding-top: 10%;
+  font-size: rem(20px);
+  margin-top: rem(30px);
+}
+
+.spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate3D(-50%, 0, 0);
+  width: 50px;
+  text-align: center;
+}
+
+.main-scroll {
+  // background-color: green;
+  width: 7px;
+  height: 7px;
+}

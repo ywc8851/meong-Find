@@ -1,0 +1,162 @@
+@use '../utils' as *;
+
+.register {
+  width: rem(816px);
+  @include autoMargin();
+
+  &-title {
+    margin-bottom: rem(34px);
+
+    &-input {
+      height: rem(65px);
+      width: rem(814px);
+      // border-radius: rem(10px);
+      color: $lightblack;
+      border: none;
+      border-bottom: rem(1px) solid $gray;
+      font-size: rem(25px);
+      text-indent: rem(10px);
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &-upload {
+    height: rem(369px);
+    width: rem(814px);
+    background-color: #eeeeee;
+    border-radius: rem(20px);
+    margin-bottom: rem(20px);
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+
+    &__btn {
+      color: $lightblack;
+      border: 0;
+      background: none;
+      @include pos($t: 40%, $r: 55%);
+    }
+
+    .limit-images {
+      color: $lightblack;
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: rem(20px);
+    }
+  }
+
+  &-preview {
+    display: flex;
+    margin-bottom: rem(22px);
+
+    &-image {
+      position: relative;
+      width: rem(180px);
+      height: rem(160px);
+      margin-right: rem(20px);
+      background: no-repeat center;
+      background-size: cover;
+
+      &__delete {
+        border: 0;
+        background: none;
+        @include pos($t: rem(-2px), $r: rem(10px));
+      }
+    }
+  }
+
+  &-textcontent {
+    margin-top: rem(30px);
+    margin-bottom: rem(35px);
+
+    &__content {
+      font-family: 'Noto Sans', sans-serif;
+      padding: rem(10px);
+      width: rem(816px);
+      height: rem(341px);
+      border-radius: rem(10px);
+      border: rem(1px) solid $gray;
+      padding: rem(10px);
+      resize: none;
+      font-size: rem(18px);
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &-title,
+  &-textcontent {
+    &__length {
+      color: $darkgray;
+      margin-top: rem(5px);
+      text-align: right;
+    }
+  }
+
+  &-title__length {
+    float: right;
+  }
+  &-form-btns {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__btn {
+    height: rem(50px);
+    width: rem(96px);
+    border-radius: 30px;
+    color: $white;
+    border: 0;
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &-edit-btn,
+  &-submit-btn {
+    background-color: $navy;
+  }
+}
+
+.animal-select {
+  margin-bottom: rem(10px);
+  // border: 10px;
+
+  &__type {
+    width: rem(100px);
+    padding: rem(5px);
+    border: 1px solid #999;
+    border-radius: 3px;
+  }
+}
+
+.posting-option {
+  display: flex;
+}
+
+.animal-select__type {
+  width: rem(250px);
+  height: rem(35px);
+  background-color: $container-gray;
+  border: 1px solid #d8d8d8;
+  border-radius: rem(10px);
+  text-indent: rem(10px);
+}
+// select {
+//   width: rem(100px);
+//   padding: rem(5px);
+//   border: 1px solid #999;
+//   border-radius: 3px;
+//   -webkit-appearance: none;
+//   -moz-appearance: none;
+//   appearance: none;
+// }

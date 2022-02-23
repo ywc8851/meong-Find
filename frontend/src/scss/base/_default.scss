@@ -1,0 +1,33 @@
+@use '../utils' as *;
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap);
+
+body {
+  font-family: unset;
+  font-family: 'Noto Sans', sans-serif;
+}
+body > section {
+  min-height: 50vh;
+  height: auto;
+}
+body,
+body::before,
+body::after,
+body *,
+body *::before,
+body *::after {
+  box-sizing: border-box;
+}
+
+header + main,
+header + section {
+  margin-top: rem(50px);
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+textarea {
+  resize: none;
+}

@@ -1,0 +1,111 @@
+@use '../utils' as *;
+
+header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  @include paddingY(45px);
+}
+
+a {
+  text-decoration: none;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.logo-container {
+  margin-left: rem(75px);
+}
+.login {
+  width: rem(600px);
+  height: 30%;
+}
+.no-login {
+  width: rem(250px);
+  height: 30%;
+}
+.login,
+.no-login {
+  margin-right: rem(20px);
+  font-size: rem(20px);
+  display: flex;
+  align-items: center;
+  color: $darkgray;
+  @include pos($t: rem(55px), $r: rem(40px));
+  justify-content: space-between;
+}
+
+.login {
+  &__msg {
+    line-height: rem(23px);
+    margin: 0 rem(10px);
+  }
+  &__mypage {
+    &-container {
+      display: flex;
+      text-align: right;
+      justify-items: center;
+      align-items: center;
+      color: $darkgray;
+      &:hover {
+        color: $navy;
+      }
+    }
+    &-btn {
+      color: inherit;
+      font-weight: 600;
+      margin-left: rem(30px);
+      line-height: rem(23px);
+    }
+  }
+  &__logout {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    &:hover {
+      color: $navy;
+    }
+    &-btn {
+      font-size: rem(20px);
+      font-weight: 600;
+      letter-spacing: rem(-1px);
+      padding: none;
+      color: inherit;
+      margin-left: rem(30px);
+    }
+  }
+}
+.no-login {
+  &__signin,
+  &__signup {
+    &-btn {
+      font-size: rem(20px);
+      font-weight: 600;
+      color: inherit;
+      margin-left: rem(30px);
+      padding: none;
+    }
+  }
+}
+// .no-login {
+//   display: flex;
+//   flex-direction: row;
+//   &__signin {
+//     margin-right: rem(20px);
+//   }
+//   &__login-btn,
+//   &__signup-btn {
+//     padding-left: rem(20px);
+//   }
+// }
+.login__posting-btn {
+  background-color: #888080;
+  color: $white;
+  border-radius: rem(10px);
+  width: rem(100px);
+  height: rem(40px);
+  text-align: center;
+  line-height: rem(40px);
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>찾아줄개</title>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous" />
+  </head>
+  <body>
+    <div class="signin-cover hidden"></div>
+    <h1 class="sr-only">찾아줄개</h1>
+    <header>
+      <a class="logo-container" href="javascript:void(0)">
+        <img src="../assets/logo.svg" class="logo" alt="찾아줄개 로고" />
+      </a>
+      <div class="login hidden">
+        <a href="javascript:void(0)" class="login__posting-btn">글 작성</a>
+        <div class="login__msg">
+          <span class="user-nickname"></span>
+          <span class="bold">님, 반갑습니다!</span>
+        </div>
+        <div class="login__mypage-container">
+          <i class="fas fa-user-circle fa-lg"></i>
+          <a href="javascript:void(0)" class="login__mypage-btn">마이페이지</a>
+        </div>
+        <div class="login__logout">
+          <i class="fas fa-sign-out-alt fa-lg"></i>
+          <button class="login__logout-btn">로그아웃</button>
+        </div>
+      </div>
+      <div class="no-login">
+        <div class="no-login__signin">
+          <i class="fas fa-lock fa-lg"></i>
+          <a href="javascript:void(0)" class="no-login__signin-btn">로그인</a>
+        </div>
+        <div class="no-login__signup">
+          <i class="fas fa-user fa-lg"></i>
+          <a href="javascript:void(0)" class="no-login__signup-btn">회원가입</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- 로그인 -->
+    <section class="sign-in">
+      <h2 class="sign-title">로그인</h2>
+      <form class="sign-in-form">
+        <fieldset>
+          <legend class="sr-only">로그인 폼</legend>
+          <div class="sign-in-form-info sign-in-form-email">
+            <label for="email" class="sign-in-form-label">이메일</label>
+            <input id="email" type="email" class="sign-in-form-input" required />
+            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
+            <div class="error"></div>
+          </div>
+          <div class="sign-in-form-info sign-in-form-password">
+            <label for="password" class="sign-in-form-label">비밀번호</label>
+            <input id="password" type="password" class="sign-in-form-input" required />
+            <i class="fas icon-success fa-check-circle fa-lg hidden"></i>
+            <i class="fas icon-error fa-times-circle fa-lg hidden"></i>
+            <div class="error"></div>
+          </div>
+          <div class="sign-in-form-auto-find">
+            <div class="auto-login">
+              <input type="checkbox" id="auto__login" name="login" />
+              <label for="auto__login" class="sign-in-auto__login">자동 로그인</label>
+            </div>
+            <button type="button" class="find-password">비밀번호 찾기</button>
+            <div class="error no-user hidden">아이디 또는 비밀번호를 확인해주세요.</div>
+          </div>
+          <div class="sign-in-form-btns">
+            <button disabled type="submit" class="sign-in-btn">로그인</button>
+            <button type="button" class="sign-up-link">
+              <a href="javascript:void(0)">회원가입</a>
+            </button>
+            <button type="button" class="sign-in-kakao">
+              <a href="javascript:void(0)" class="sign-in-kakao__link"
+                ><img src="../assets/kakao_login_large_wide.png"
+              /></a>
+            </button>
+          </div>
+        </fieldset>
+      </form>
+      <div class="popup hidden">
+        <h2 class="title sr-only">비밀번호 찾기</h2>
+        <button class="login-exit button__reset"><i class="fas fa-times fa-2x"></i></button>
+        <p>임시 비밀번호를 발급 받을 이메일을 입력하세요.</p>
+        <form class="popup-form">
+          <div>
+            <label for="check-password" class="error"></label>
+            <input type="email" id="check-password" class="popup-find-password" placeholder="이메일을 입력하세요." />
+            <!-- <button type="submit" class="popup-button ok-button">OK</button> -->
+          </div>
+          <div class="find-error hidden">존재하지않는 계정입니다.</div>
+          <button type="button" class="popup-button delete-button" disabled>찾기</button>
+        </form>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="footer__info">
+        <span class="footer__contact">
+          contact us | <a href="https://github.com/MeongFind/meong-Find">https://github.com/MeongFind/meong-Find</a>
+        </span>
+        <small class="footer__copyright"> Copyright since &copy; meong-find </small>
+        <ul class="footer__list">
+          <li><a href="https://www.animal.go.kr/front/index.do">동물보호관리 시스템</a></li>
+          <li><a href="http://pawinhand.kr/">포인핸드</a></li>
+          <li><a href="https://dmanimal.co.kr/">도그마루</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
